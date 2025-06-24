@@ -1,0 +1,81 @@
+test-results
+node_modules
+
+# Output
+.output
+.vercel
+.netlify
+.wrangler
+/.svelte-kit
+/build
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Vite
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+*storybook.log
+
+# Paraglide
+src/lib/paraglide
+
+# Node
+node_modules/
+.pnpm-debug.log
+*.tsbuildinfo
+
+# SvelteKit
+.svelte-kit/
+build/
+
+# Docker
+docker-compose.*.yml
+!docker-compose.template.yml
+!.dockerignore
+
+# Generated Secrets and Configs
+**/.env*
+!.env.template
+redis.*.acl
+redis.*.conf
+db/init.*.sql
+db/users.*.sql
+
+# OS / Editor
+.DS_Store
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# Logs
+*.log
+logs/
+
+# Cache directories
+**/cache/
+**/cache
+**/.cache/
+**/.cache
+**/tmp/
+**/temp/
+
+# Node.js cache
+**/.npm/
+**/node_modules/.cache/
+
+# Build cache
+**/.next/cache/
+**/.nuxt/cache/
+**/.vite/cache/
+
+# OS cache
+**/.DS_Store
+**/Thumbs.db
+
+# Editor cache
+**/.vscode/
+**/.idea/

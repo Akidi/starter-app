@@ -1,0 +1,43 @@
+# Redis Configuration - Simple password-based auth
+
+# Bind to all interfaces (safe inside Docker network)
+bind 0.0.0.0
+
+# Use simple password authentication (comment out for ACL)
+requirepass {{REDIS_PASSWORD}}
+
+# Uncomment these lines when ready to use ACL:
+# aclfile /usr/local/etc/redis/users.acl
+
+# Security hardening - disable dangerous commands
+rename-command FLUSHALL ""
+rename-command FLUSHDB ""
+rename-command CONFIG ""
+rename-command DEBUG ""
+rename-command SHUTDOWN ""
+rename-command SAVE ""
+rename-command BGSAVE ""
+rename-command BGREWRITEAOF ""
+
+# Security settings
+protected-mode yes
+
+# Persistence settings (disabled for performance - reduces overcommit issues)
+appendonly no
+save ""
+
+# Memory management - prevent overcommit issues
+maxmemory-policy allkeys-lru
+maxmemory 100mb
+stop-writes-on-bgsave-error no
+
+# Disable background saves that trigger overcommit warnings
+save ""
+rdbcompression no
+rdbchecksum no
+
+# Logging
+loglevel notice
+
+# Reduce memory fragmentation
+activedefrag yes

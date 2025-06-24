@@ -1,0 +1,22 @@
+# Redis ACL users mapped to DB roles
+
+# Default user (disabled for security)
+user default off nopass
+
+# Admin user - full access
+user archon on >{{ADMIN_USER_REDIS_PASSWORD}} ~* &* +@all
+
+# Developer user - read/write app data only  
+user runesmith on >{{DEVELOPER_USER_REDIS_PASSWORD}} ~* &* +@read +@write -@admin
+
+# API user - limited access, no config/admin commands
+user tinkerer on >{{API_USER_REDIS_PASSWORD}} ~* &* +@read +@write -@admin -@dangerous
+
+# Read-only user
+user lorekeeper on >{{READONLY_USER_REDIS_PASSWORD}} ~* &* +@read -@write -@admin
+
+# Backup user - read-only, persistence restricted
+user stoneguard on >{{BACKUP_USER_REDIS_PASSWORD}} ~* &* +@read -@write -@admin
+
+# Auditor user - read only, no introspection
+user seer on >{{AUDITOR_USER_REDIS_PASSWORD}} ~* &* +@read -@write -@admin -@dangerous

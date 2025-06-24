@@ -1,0 +1,113 @@
+services:
+  {{APP_NAME}}.{{ENV}}:
+    container_name: {{APP_NAME}}.{{ENV}}
+    build:
+      context: ./app
+    ports:
+      - "{{PORT}}:3000"
+    env_file:
+      - .env.{{ENV}}
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    networks:
+      - {{APP_NAME}}.internal
+    depends_on:
+      {{APP_NAME}}.db.{{ENV}}:
+        condition: service_healthy
+      {{APP_NAME}}.redis.{{ENV}}:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 512M
+
+  {{APP_NAME}}.db.{{ENV}}:
+    image: postgres:16
+    container_name: {{APP_NAME}}.db.{{ENV}}
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: {{POSTGRES_SUPERUSER_PASSWORD}}
+      POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256"
+      # Pass role passwords to init script
+      ADMIN_PASSWORD: {{ADMIN_PASSWORD}}
+      DEVELOPER_PASSWORD: {{DEVELOPER_PASSWORD}}
+      API_PASSWORD: {{API_PASSWORD}}
+      READONLY_PASSWORD: {{READONLY_PASSWORD}}
+      BACKUP_PASSWORD: {{BACKUP_PASSWORD}}
+      AUDITOR_PASSWORD: {{AUDITOR_PASSWORD}}
+    volumes:
+      - ./db/init.{{ENV}}.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+      # Remove users.sql since all users are in init.sql
+      - {{APP_NAME}}_postgres_data_{{ENV}}:/var/lib/postgresql/data
+    networks:
+      - {{APP_NAME}}.internal
+    restart: unless-stopped
+    healthcheck:
+      # Use lorekeeper (read-only) instead of locked-out postgres user
+      test: ["CMD-SHELL", "PGPASSWORD={{READONLY_PASSWORD}} pg_isready -U lorekeeper -d {{APP_NAME}}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s  # Longer start time for custom initialization
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 256M
+    security_opt:
+      - no-new-privileges:true
+
+  {{APP_NAME}}.redis.{{ENV}}:
+    image: redis:7
+    container_name: {{APP_NAME}}.redis.{{ENV}}
+    command: redis-server /usr/local/etc/redis/redis.conf
+    environment:
+      # Pass Redis passwords for ACL setup
+      REDIS_PASSWORD: {{REDIS_PASSWORD}}
+      ADMIN_USER_REDIS_PASSWORD: {{ADMIN_USER_REDIS_PASSWORD}}
+      DEVELOPER_USER_REDIS_PASSWORD: {{DEVELOPER_USER_REDIS_PASSWORD}}
+      API_USER_REDIS_PASSWORD: {{API_USER_REDIS_PASSWORD}}
+      READONLY_USER_REDIS_PASSWORD: {{READONLY_USER_REDIS_PASSWORD}}
+      BACKUP_USER_REDIS_PASSWORD: {{BACKUP_USER_REDIS_PASSWORD}}
+      AUDITOR_USER_REDIS_PASSWORD: {{AUDITOR_USER_REDIS_PASSWORD}}
+    volumes:
+      - ./redis.{{ENV}}.conf:/usr/local/etc/redis/redis.conf:ro
+      - ./redis.{{ENV}}.acl:/usr/local/etc/redis/users.acl:ro
+      - {{APP_NAME}}_redis_data_{{ENV}}:/data
+    networks:
+      - {{APP_NAME}}.internal
+    restart: unless-stopped
+    healthcheck:
+      # Use password-based ping since default user is disabled
+      test: ["CMD", "redis-cli", "-a", "{{REDIS_PASSWORD}}", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          cpus: '0.10'
+          memory: 128M
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  # Fix volume name mismatch
+  {{APP_NAME}}_postgres_data_{{ENV}}:
+    driver: local
+  {{APP_NAME}}_redis_data_{{ENV}}:
+    driver: local
+
+networks:
+  {{APP_NAME}}.internal:
+    driver: bridge
+    name: {{APP_NAME}}.{{ENV}}.internal

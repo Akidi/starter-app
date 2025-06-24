@@ -1,0 +1,24 @@
+# Set default behavior to automatically normalize line endings
+* text=auto
+
+# Force Unix line endings for shell scripts (required for Docker)
+*.sh text eol=lf
+
+# Force Unix line endings for other Unix-specific files
+*.sql text eol=lf
+*.conf text eol=lf
+*.acl text eol=lf
+Dockerfile text eol=lf
+
+# Windows-specific files should have CRLF
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# Binary files should not be touched
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
