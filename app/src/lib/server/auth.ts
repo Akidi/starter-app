@@ -54,7 +54,6 @@ export async function createSession(token: string, userId: string) {
 }
 
 export async function validateSessionToken(token: string) {
-
 	try {
 		const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
 
@@ -90,7 +89,6 @@ export async function validateSessionToken(token: string) {
 		let finalUser: CachedUser;
 
 		if (cachedUser) {
-
 			// Increment login count
 			const newLoginCount = cachedUser.loginCount + 1;
 
@@ -116,7 +114,6 @@ export async function validateSessionToken(token: string) {
 				await cacheUser(finalUser);
 			}
 		} else {
-
 			// First time or cache expired - load from database
 			finalUser = {
 				...user,
@@ -192,7 +189,6 @@ async function cacheUser(user: CachedUser): Promise<void> {
 			redis.setex(userKey, REDIS_CONFIG.CACHE_TTL, JSON.stringify(userData)),
 			redis.setex(loginCountKey, REDIS_CONFIG.CACHE_TTL, user.loginCount.toString())
 		]);
-
 	} catch (error) {
 		throw error;
 	}
@@ -205,7 +201,6 @@ async function clearUserCache(userId: string): Promise<void> {
 		const loginCountKey = REDIS_CONFIG.LOGIN_COUNT_PREFIX + userId;
 
 		await Promise.all([redis.del(userKey), redis.del(loginCountKey)]);
-
 	} catch (error) {
 		throw error;
 	}
