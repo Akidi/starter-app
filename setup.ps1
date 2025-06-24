@@ -25,8 +25,8 @@ function Write-ColorOutput {
 function Show-Banner {
     Clear-Host
     Write-ColorOutput "╔════════════════════════════════════════╗" "Cyan"
-    Write-ColorOutput "║        SvelteKit Starter Setup        ║" "Cyan"
-    Write-ColorOutput "║     Project Management & Utilities    ║" "Cyan"
+    Write-ColorOutput "║        SvelteKit Starter Setup         ║" "Cyan"
+    Write-ColorOutput "║     Project Management & Utilities     ║" "Cyan"
     Write-ColorOutput "╚════════════════════════════════════════╝" "Cyan"
     Write-Host ""
 }
