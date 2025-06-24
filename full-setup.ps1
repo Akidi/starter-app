@@ -87,6 +87,27 @@ Write-Host ""
 # Function to generate a secure random password
 function New-Password {
     param([int]$Length = 32)
+    
+    # Try OpenSSL first for consistency with bash version
+    try {
+        $opensslAvailable = Get-Command openssl -ErrorAction SilentlyContinue
+        if ($opensslAvailable) {
+            # Calculate base64 length needed (4/3 ratio, plus padding)
+            $base64Length = [math]::Ceiling($Length * 4 / 3)
+            $opensslOutput = openssl rand -base64 $base64Length 2>$null
+            if ($opensslOutput -and $opensslOutput.Length -ge $Length) {
+                # Remove base64 padding and special chars, take only what we need
+                $cleanPassword = ($opensslOutput -replace '[=+/]', '').Substring(0, $Length)
+                if ($cleanPassword.Length -eq $Length) {
+                    return $cleanPassword
+                }
+            }
+        }
+    } catch {
+        # OpenSSL failed, will fall back to PowerShell method
+    }
+    
+    # Fallback to PowerShell method
     $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_'
     $password = ""
     for ($i = 0; $i -lt $Length; $i++) {
