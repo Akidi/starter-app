@@ -1,38 +1,42 @@
 services:
   {{APP_NAME}}.{{ENV}}:
-    container_name: {{APP_NAME}}.{{ENV}}
     build:
       context: ./app
+      target: production
+    init: true
+    restart: unless-stopped
+    stop_grace_period: 30s
     ports:
       - "{{PORT}}:3000"
     env_file:
       - .env.{{ENV}}
     environment:
-      - NODE_ENV=production
-      - PORT=3000
-    networks:
-      - {{APP_NAME}}.internal
+      NODE_ENV: production
+      PORT: 3000
     depends_on:
-      {{APP_NAME}}.db.{{ENV}}:
-        condition: service_healthy
-      {{APP_NAME}}.redis.{{ENV}}:
-        condition: service_healthy
-    restart: unless-stopped
+      - {{APP_NAME}}.db.{{ENV}}
+      - {{APP_NAME}}.redis.{{ENV}}
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=3", "--spider", "http://localhost:3000/health"]
+      test: ["CMD-SHELL", "curl -fsS http://localhost:3000/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 40s
-    deploy:
-      resources:
-        limits:
-          cpus: '0.50'
-          memory: 512M
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks:
+      - {{APP_NAME}}.internal
 
   {{APP_NAME}}.db.{{ENV}}:
     image: postgres:16
-    container_name: {{APP_NAME}}.db.{{ENV}}
+    init: true
+    restart: unless-stopped
+    stop_grace_period: 60s
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: {{POSTGRES_SUPERUSER_PASSWORD}}
@@ -45,12 +49,16 @@ services:
       BACKUP_PASSWORD: {{BACKUP_PASSWORD}}
       AUDITOR_PASSWORD: {{AUDITOR_PASSWORD}}
     volumes:
-      - ./db/init.{{ENV}}.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+      - type: bind
+        source: ./db/init.{{ENV}}.sql
+        target: /docker-entrypoint-initdb.d/01-init.sql
+        read_only: true
       # Remove users.sql since all users are in init.sql
-      - {{APP_NAME}}_postgres_data_{{ENV}}:/var/lib/postgresql/data
+      - type: volume
+        source: {{APP_NAME}}_postgres_data_{{ENV}}
+        target: /var/lib/postgresql/data
     networks:
       - {{APP_NAME}}.internal
-    restart: unless-stopped
     healthcheck:
       # Use lorekeeper (read-only) instead of locked-out postgres user
       test: ["CMD-SHELL", "PGPASSWORD={{READONLY_PASSWORD}} pg_isready -U lorekeeper -d {{APP_NAME}}"]
@@ -58,18 +66,23 @@ services:
       timeout: 5s
       retries: 5
       start_period: 30s  # Longer start time for custom initialization
-    deploy:
-      resources:
-        limits:
-          cpus: '0.25'
-          memory: 256M
     security_opt:
       - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    shm_size: 256m
+    tmpfs:
+      - /var/run/postgresql
 
   {{APP_NAME}}.redis.{{ENV}}:
     image: redis:7
-    container_name: {{APP_NAME}}.redis.{{ENV}}
-    command: redis-server /usr/local/etc/redis/redis.conf
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    init: true
+    restart: unless-stopped
+    stop_grace_period: 30s
     environment:
       # Pass Redis passwords for ACL setup
       REDIS_PASSWORD: {{REDIS_PASSWORD}}
@@ -80,25 +93,32 @@ services:
       BACKUP_USER_REDIS_PASSWORD: {{BACKUP_USER_REDIS_PASSWORD}}
       AUDITOR_USER_REDIS_PASSWORD: {{AUDITOR_USER_REDIS_PASSWORD}}
     volumes:
-      - ./redis.{{ENV}}.conf:/usr/local/etc/redis/redis.conf:ro
-      - ./redis.{{ENV}}.acl:/usr/local/etc/redis/users.acl:ro
-      - {{APP_NAME}}_redis_data_{{ENV}}:/data
+      - type: bind
+        source: ./redis.{{ENV}}.conf
+        target: /usr/local/etc/redis/redis.conf
+        read_only: true
+      - type: bind
+        source: ./redis.{{ENV}}.acl
+        target: /usr/local/etc/redis/users.acl
+        read_only: true
+      - type: volume
+        source: {{APP_NAME}}_redis_data_{{ENV}}
+        target: /data
     networks:
       - {{APP_NAME}}.internal
-    restart: unless-stopped
     healthcheck:
       # Use password-based ping since default user is disabled
-      test: ["CMD", "redis-cli", "-a", "{{REDIS_PASSWORD}}", "ping"]
+      test: ["CMD-SHELL", "redis-cli -a {{REDIS_PASSWORD}} --raw ping | grep -q PONG"]
       interval: 10s
       timeout: 5s
       retries: 5
-    deploy:
-      resources:
-        limits:
-          cpus: '0.10'
-          memory: 128M
     security_opt:
       - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
 
 volumes:
   # Fix volume name mismatch
