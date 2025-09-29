@@ -3,22 +3,22 @@
 
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
-CREATE DATABASE {{APP_NAME}};
-\c {{APP_NAME}};
+CREATE DATABASE "{{APP_NAME}}";
+\c "{{APP_NAME}}";
 
 -- Drop public schema for security
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
 DROP SCHEMA public CASCADE;
 
 -- Core schemas
-CREATE SCHEMA {{APP_NAME}};
+CREATE SCHEMA "{{APP_NAME}}";
 CREATE SCHEMA auth;
-CREATE SCHEMA analytics;  -- New schema
+CREATE SCHEMA analytics;
 CREATE SCHEMA migrations;
 
 CREATE TYPE auth.user_role AS ENUM ('admin', 'user', 'moderator');
 
-SET search_path TO {{APP_NAME}};
+SET search_path TO "{{APP_NAME}}";
 
 -- Install extensions
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
@@ -62,19 +62,19 @@ CREATE ROLE seer LOGIN PASSWORD '{{AUDITOR_PASSWORD}}';
 GRANT auditor TO seer;
 
 -- Schema ownership and permissions
-ALTER SCHEMA {{APP_NAME}} OWNER TO admin;
+ALTER SCHEMA "{{APP_NAME}}" OWNER TO admin;
 ALTER SCHEMA auth OWNER TO admin;
 ALTER SCHEMA analytics OWNER TO admin;
 ALTER SCHEMA migrations OWNER TO admin;
 
 -- Grant schema usage permissions
-GRANT USAGE ON SCHEMA {{APP_NAME}} TO admin, developer, api, read_only, backup, auditor;
+GRANT USAGE ON SCHEMA "{{APP_NAME}}" TO admin, developer, api, read_only, backup, auditor;
 GRANT USAGE ON SCHEMA auth TO admin, developer, api, read_only, backup, auditor;
 GRANT USAGE ON SCHEMA analytics TO admin, developer, api, read_only, backup, auditor;
 GRANT USAGE ON SCHEMA migrations TO admin, developer;
 
 -- Grant create permissions for migrations
-GRANT CREATE ON SCHEMA {{APP_NAME}} TO admin, developer;
+GRANT CREATE ON SCHEMA "{{APP_NAME}}" TO admin, developer;
 GRANT CREATE ON SCHEMA auth TO admin, developer;
 GRANT CREATE ON SCHEMA analytics TO admin, developer;
 GRANT CREATE ON SCHEMA migrations TO admin, developer;
@@ -84,10 +84,10 @@ GRANT USAGE, SELECT, UPDATE ON SEQUENCE cuid_counter_seq TO admin, developer, ap
 GRANT USAGE, SELECT, UPDATE ON SEQUENCE cuid_counter_seq TO archon, runesmith, tinkerer;
 
 -- Schema search path (update manually when adding new schemas)
-ALTER ROLE archon SET search_path TO {{APP_NAME}}, auth, analytics;
-ALTER ROLE tinkerer SET search_path TO {{APP_NAME}}, auth, analytics;
-ALTER ROLE lorekeeper SET search_path TO {{APP_NAME}}, auth, analytics;
-ALTER ROLE runesmith SET search_path TO {{APP_NAME}}, auth, analytics;
+ALTER ROLE archon SET search_path TO "{{APP_NAME}}", auth, analytics;
+ALTER ROLE tinkerer SET search_path TO "{{APP_NAME}}", auth, analytics;
+ALTER ROLE lorekeeper SET search_path TO "{{APP_NAME}}", auth, analytics;
+ALTER ROLE runesmith SET search_path TO "{{APP_NAME}}", auth, analytics;
 
 -- Default privileges for future tables/sequences created by Drizzle
 ALTER DEFAULT PRIVILEGES FOR ROLE archon IN SCHEMA auth GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO admin, developer, api;
@@ -99,4 +99,4 @@ ALTER DEFAULT PRIVILEGES FOR ROLE runesmith IN SCHEMA auth GRANT SELECT ON TABLE
 ALTER DEFAULT PRIVILEGES FOR ROLE runesmith IN SCHEMA auth GRANT USAGE, SELECT, UPDATE ON SEQUENCES TO admin, developer, api;
 
 -- Database ownership
-ALTER DATABASE {{APP_NAME}} OWNER TO admin;
+ALTER DATABASE "{{APP_NAME}}" OWNER TO admin;
