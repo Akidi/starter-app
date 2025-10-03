@@ -11,6 +11,7 @@ ENV PNPM_HOME="/pnpm" \
 RUN corepack enable \
   && corepack prepare pnpm@${PNPM_VERSION} --activate \
   && apt-get update \
+  && apt-get install -y redis-tools \
   && apt-get -y upgrade \
   && rm -rf /var/lib/apt/lists/*
 
@@ -39,7 +40,7 @@ RUN corepack enable \
 WORKDIR /app
 
 # Install system dependencies for Alpine including postgresql-client
-RUN apk add --no-cache bash curl postgresql-client
+RUN apk add --no-cache bash curl redis postgresql-client
 
 # Copy package files for runtime dependencies
 COPY package.json pnpm-lock.yaml ./
@@ -68,6 +69,7 @@ RUN --mount=type=cache,id=pnpm-store-dev,target=/pnpm/store \
 
 # Add development tools
 RUN apk add --no-cache git vim
+
 
 # Set development environment
 ENV NODE_ENV=development

@@ -1,13 +1,15 @@
 // src/lib/server/db/index.ts
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
-import Redis from 'ioredis';
+import { createClient } from 'redis';
 import * as schema from './auth/schema';
 import { env } from '$env/dynamic/private';
 
 let writeDb: ReturnType<typeof drizzle> | null = null;
 let readDb: ReturnType<typeof drizzle> | null = null;
-let redis: Redis | null = null;
+let redis: ReturnType<typeof createClient> | null = null;
+
+console.log(env);
 
 export const getWriteDb = () => {
 	if (!env.WRITE_DATABASE_URL) {
@@ -16,7 +18,7 @@ export const getWriteDb = () => {
 
 	if (!writeDb) {
 		// Use app_api for write operations (can read/write application data)
-		const writeUrl = env.WRITE_DATABASE_URL || env.DATABASE_URL;
+		const writeUrl = env.WRITE_DATABASE_URL;
 
 		const client = postgres(writeUrl, {
 			max: 10, // Smaller pool for writes
@@ -31,13 +33,13 @@ export const getWriteDb = () => {
 };
 
 export const getReadDb = () => {
-	if (!env.READ_DATABASE_URL) {
+	if (!env.READ_DATABASE_URL || !env.DATABASE_URL) {
 		throw new Error('READ_DATABASE_URL is not set');
 	}
 
 	if (!readDb) {
 		// Use app_readonly for read operations (read-only access)
-		const readUrl = env.READ_DATABASE_URL || env.DATABASE_URL;
+		const readUrl = env.READ_DATABASE_URL;
 
 		const client = postgres(readUrl, {
 			max: 20, // Larger pool for reads
@@ -52,19 +54,39 @@ export const getReadDb = () => {
 	return readDb;
 };
 
-export const getRedis = () => {
+export const getRedis = async () => {
 	if (!env.REDIS_URL) {
 		throw new Error('REDIS_URL is not set');
 	}
 
 	if (!redis) {
-		redis = new Redis(env.REDIS_URL, {
-			maxRetriesPerRequest: 3,
-			connectTimeout: 10000,
-			commandTimeout: 5000,
-			lazyConnect: true,
-			enableAutoPipelining: true
+		const url = new URL(env.REDIS_URL);
+		
+		console.log('Redis connection attempt:', {
+			host: url.hostname,
+			port: url.port,
+			username: url.username,
+			hasPassword: !!url.password
 		});
+
+		redis = createClient({
+			url: env.REDIS_URL,
+			username: url.username || 'default',
+			password: url.password || undefined,
+			socket: {
+				connectTimeout: 10000,
+				reconnectStrategy: (retries) => {
+					if (retries > 3) return new Error('Max retries reached');
+					return Math.min(retries * 100, 3000);
+				}
+			}
+		});
+
+		redis.on('error', (err) => console.error('Redis Client Error', err));
+		redis.on('connect', () => console.log('Redis client connected'));
+		redis.on('ready', () => console.log('Redis client ready'));
+
+		await redis.connect();
 	}
 
 	return redis;

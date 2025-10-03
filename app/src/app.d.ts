@@ -2,7 +2,12 @@
 declare global {
 	namespace App {
 		interface Locals {
-			user: auth.CachedUser | null;
+			user: {
+				id: string;
+				name: string;
+				email: string;
+				role: string;
+			} | null;
 			session: auth.SessionValidationResult['session'];
 		}
 	}
