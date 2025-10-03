@@ -1,22 +1,37 @@
-# Redis ACL users mapped to DB roles
+# Redis ACL Configuration
+# Comments are stripped from generated files (Redis ACL doesn't support them)
 
-# Default user (disabled for security)
-user default off nopass
+# Permission Categories:
+# ~* = all keys, &* = all channels
+# +@all = all commands
+# +@read = get, mget, hgetall, lrange, smembers, etc.
+# +@write = set, del, lpush, sadd, zadd, etc.
+# +@string, +@hash, +@list, +@set, +@sortedset, +@stream = specific data type commands
+# +@connection = ping, echo, select, client commands (required by ioredis)
+# +info = INFO command (used by ioredis health checks)
+# +client = CLIENT commands (used by ioredis for connection naming)
+# +select = SELECT command (database selection)
+# -@admin = blocks CONFIG, SHUTDOWN, REPLICAOF, etc.
+# -@dangerous = blocks FLUSHALL, FLUSHDB, KEYS, DEBUG, INFO, etc.
+# IMPORTANT: When using -@dangerous, add +info at the END to re-enable it
 
-# Admin user - full access
+# Default user - disabled for security
+user default on >{{REDIS_DEFAULT_USER_PASSWORD}}
+
+# Admin - full access
 user archon on >{{ADMIN_USER_REDIS_PASSWORD}} ~* &* +@all
 
-# Developer user - read/write app data only  
-user runesmith on >{{DEVELOPER_USER_REDIS_PASSWORD}} ~* &* +@read +@write -@admin
+# Developer - read/write with connection management
+user runesmith on >{{DEVELOPER_USER_REDIS_PASSWORD}} ~* &* -@all +@read +@write +@string +@hash +@list +@set +@sortedset +@stream +@connection +client +info
 
-# API user - limited access, no config/admin commands
-user tinkerer on >{{API_USER_REDIS_PASSWORD}} ~* &* +@read +@write -@admin -@dangerous
+# API user - runtime access (needs +info +client +select for ioredis)
+user tinkerer on >{{API_USER_REDIS_PASSWORD}} ~* &* -@all +@read +@write +@string +@hash +@list +@set +@sortedset +@connection +client +select +info +scan
 
-# Read-only user
-user lorekeeper on >{{READONLY_USER_REDIS_PASSWORD}} ~* &* +@read -@write -@admin
+# Read-only - reporting and monitoring
+user lorekeeper on >{{READONLY_USER_REDIS_PASSWORD}} ~* &* -@all +@read +@connection +info
 
-# Backup user - read-only, persistence restricted
-user stoneguard on >{{BACKUP_USER_REDIS_PASSWORD}} ~* &* +@read -@write -@admin
+# Backup - read-only with connection info
+user stoneguard on >{{BACKUP_USER_REDIS_PASSWORD}} ~* &* -@all +@read +@connection +info
 
-# Auditor user - read only, no introspection
-user seer on >{{AUDITOR_USER_REDIS_PASSWORD}} ~* &* +@read -@write -@admin -@dangerous
+# Auditor - security monitoring
+user seer on >{{AUDITOR_USER_REDIS_PASSWORD}} ~* &* -@all +@read +@connection +client +info

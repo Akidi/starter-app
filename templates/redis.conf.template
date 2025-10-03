@@ -1,43 +1,192 @@
-# Redis Configuration - Simple password-based auth
+# Redis Secure Configuration File
+# Recommended for production environments with heightened security
 
-# Bind to all interfaces (safe inside Docker network)
-bind 0.0.0.0
+################################## NETWORK #####################################
 
-# Use simple password authentication (comment out for ACL)
-requirepass {{REDIS_PASSWORD}}
+# Bind to specific interfaces only (localhost by default)
+# For external access, add specific IP addresses
+bind 172.28.0.30 127.0.0.1 ::1
 
-# Uncomment these lines when ready to use ACL:
-# aclfile /usr/local/etc/redis/users.acl
-
-# Security hardening - disable dangerous commands
-rename-command FLUSHALL ""
-rename-command FLUSHDB ""
-rename-command CONFIG ""
-rename-command DEBUG ""
-rename-command SHUTDOWN ""
-rename-command SAVE ""
-rename-command BGSAVE ""
-rename-command BGREWRITEAOF ""
-
-# Security settings
+# Protected mode - prevents external connections without authentication
 protected-mode yes
 
-# Persistence settings (disabled for performance - reduces overcommit issues)
-appendonly no
-save ""
+# Port configuration
+port 6379
 
-# Memory management - prevent overcommit issues
-maxmemory-policy allkeys-lru
-maxmemory 100mb
-stop-writes-on-bgsave-error no
+# TCP listen backlog
+tcp-backlog 511
 
-# Disable background saves that trigger overcommit warnings
-save ""
-rdbcompression no
-rdbchecksum no
+# Close connection after client idle for N seconds (0 to disable)
+timeout 300
 
-# Logging
+# TCP keepalive
+tcp-keepalive 300
+
+################################# GENERAL #####################################
+
+# Run as daemon (no for Docker/systemd, yes for traditional deployments)
+daemonize no
+
+# Log level: debug, verbose, notice, warning
 loglevel notice
 
-# Reduce memory fragmentation
+# Log file location (empty string for stdout)
+logfile ""
+
+# Number of databases
+databases 16
+
+################################ SNAPSHOTTING  ################################
+
+# Save the DB to disk (RDB snapshots)
+# After 900 sec (15 min) if at least 1 key changed
+save 900 1
+# After 300 sec (5 min) if at least 10 keys changed
+save 300 10 
+# After 60 sec if at least 10000 keys changed
+save 60 10000
+
+# Compress RDB files
+rdbcompression yes
+
+# Checksum RDB files
+rdbchecksum yes
+
+# RDB filename
+dbfilename dump.rdb
+
+# Working directory
+dir /data
+
+################################# REPLICATION #################################
+
+# Master authentication (if this is a replica)
+# masterauth <master-password>
+
+# Replica serves stale data when link with master is down
+replica-serve-stale-data yes
+
+# Replica is read-only
+replica-read-only yes
+
+################################## SECURITY ###################################
+
+# ACL configuration file
+aclfile /etc/redis/users.acl
+
+# Require password for legacy clients (use ACL instead when possible)
+# requirepass <strong-password-here>
+
+# Disable dangerous commands
+rename-command FLUSHDB ""
+rename-command FLUSHALL ""
+rename-command CONFIG ""
+rename-command SHUTDOWN SHUTDOWN_SECRET_12345
+rename-command DEBUG ""
+
+# TLS/SSL Configuration (uncomment to enable)
+# port 0
+# tls-port 6379
+# tls-cert-file /path/to/redis.crt
+# tls-key-file /path/to/redis.key
+# tls-ca-cert-file /path/to/ca.crt
+# tls-auth-clients no
+
+################################### CLIENTS ####################################
+
+# Max number of connected clients
+maxclients 10000
+
+############################## MEMORY MANAGEMENT ###############################
+
+# Max memory limit
+maxmemory 2gb
+
+# Memory eviction policy
+maxmemory-policy allkeys-lru
+
+# LRU and LFU precision
+maxmemory-samples 5
+
+############################# LAZY FREEING ####################################
+
+lazyfree-lazy-eviction no
+lazyfree-lazy-expire no
+lazyfree-lazy-server-del no
+replica-lazy-flush no
+
+################################ APPEND ONLY MODE #############################
+
+# Enable AOF persistence
+appendonly yes
+
+# AOF filename
+appendfilename "appendonly.aof"
+
+# fsync policy: always, everysec, no
+appendfsync everysec
+
+# Rewrite AOF file when it grows by specified percentage
+auto-aof-rewrite-percentage 100
+auto-aof-rewrite-min-size 64mb
+
+################################## SLOW LOG ###################################
+
+# Log queries slower than specified microseconds
+slowlog-log-slower-than 10000
+
+# Max length of slow log
+slowlog-max-len 128
+
+################################ LATENCY MONITOR ##############################
+
+# Enable latency monitoring
+latency-monitor-threshold 100
+
+############################# EVENT NOTIFICATION ##############################
+
+# Keyspace notifications (disabled by default for performance)
+# notify-keyspace-events ""
+
+############################### ADVANCED CONFIG ###############################
+
+# Hash settings for memory optimization
+hash-max-ziplist-entries 512
+hash-max-ziplist-value 64
+
+# List settings
+list-max-ziplist-size -2
+list-compress-depth 0
+
+# Set settings
+set-max-intset-entries 512
+
+# Sorted set settings
+zset-max-ziplist-entries 128
+zset-max-ziplist-value 64
+
+# HyperLogLog sparse representation
+hll-sparse-max-bytes 3000
+
+# Streams
+stream-node-max-bytes 4096
+stream-node-max-entries 100
+
+# Active rehashing
+activerehashing yes
+
+# Client output buffer limits
+client-output-buffer-limit normal 0 0 0
+client-output-buffer-limit replica 256mb 64mb 60
+client-output-buffer-limit pubsub 32mb 8mb 60
+
+# Frequency of background tasks
+hz 10
+
+# Enable active defragmentation
 activedefrag yes
+active-defrag-ignore-bytes 100mb
+active-defrag-threshold-lower 10
+active-defrag-threshold-upper 25
+active-defrag-cycle-min 5
+active-defrag-cycle-max 75

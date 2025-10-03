@@ -129,6 +129,7 @@ services:
       READONLY_USER_REDIS_PASSWORD: {{READONLY_USER_REDIS_PASSWORD}}
       BACKUP_USER_REDIS_PASSWORD: {{BACKUP_USER_REDIS_PASSWORD}}
       AUDITOR_USER_REDIS_PASSWORD: {{AUDITOR_USER_REDIS_PASSWORD}}
+      # REDIS_DEFAULT_USER_PASSWORD: {{REDIS_DEFAULT_USER_PASSWORD}}
     volumes:
       - type: bind
         source: ./redis.{{ENV}}.conf
@@ -136,7 +137,7 @@ services:
         read_only: true
       - type: bind
         source: ./redis.{{ENV}}.acl
-        target: /usr/local/etc/redis/users.acl
+        target: /etc/redis/users.acl
         read_only: true
       - type: volume
         source: {{APP_NAME}}_redis_data_{{ENV}}
@@ -148,8 +149,7 @@ services:
           - redis
           - cache
     healthcheck:
-      # Use password-based ping since default user is disabled
-      test: ["CMD-SHELL", "redis-cli -a {{REDIS_PASSWORD}} --raw ping | grep -q PONG"]
+      test: ["CMD-SHELL", "redis-cli --user archon --pass {{ADMIN_USER_REDIS_PASSWORD}} --raw ping | grep -q PONG"]
       interval: 10s
       timeout: 5s
       retries: 5

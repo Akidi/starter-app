@@ -8,7 +8,7 @@ param(
     [string]$Action,
 
     [Parameter(ParameterSetName='NonInteractive')]
-    [string]$AppName,
+    [string]$AppName = 'starter-app',
 
     [Parameter(ParameterSetName='NonInteractive')]
     [ValidateSet('dev','staging','prod')]
@@ -244,6 +244,7 @@ function New-SecretSet {
         READONLY_USER_PASSWORD        = New-Password
         BACKUP_USER_PASSWORD          = New-Password
         AUDITOR_USER_PASSWORD         = New-Password
+        REDIS_DEFAULT_USER_PASSWORD   = New-Password
     }
     return $set
 }
@@ -259,24 +260,57 @@ function Expand-Template {
         throw "Template '$TemplatePath' was not found."
     }
     $content = Get-Content -Path $TemplatePath -Raw
+    
+    # Perform variable substitution
     foreach ($key in $Variables.Keys) {
         $content = $content.Replace("{{${key}}}", [string]$Variables[$key])
     }
+    
+    # Remove comments and empty lines for specific file types
+    $extension = [System.IO.Path]::GetExtension($DestinationPath).ToLower()
+    if ($extension -in @('.acl', '.conf', '.sql')) {
+        $lines = $content -split "`r?`n"
+        $filteredLines = @()
+        
+        foreach ($line in $lines) {
+            $trimmed = $line.TrimStart()
+            
+            # Skip comment lines and empty lines
+            if ($trimmed.StartsWith('#') -or [string]::IsNullOrWhiteSpace($trimmed)) {
+                continue
+            }
+            
+            # For SQL files, also skip lines starting with --
+            if ($extension -eq '.sql' -and $trimmed.StartsWith('--')) {
+                continue
+            }
+            
+            $filteredLines += $line
+        }
+        
+        $content = ($filteredLines -join "`n")
+    }
+    
+    # Ensure file ends with newline
     if (-not $content.EndsWith("`n")) { $content += "`n" }
+    
     $status = 'created'
     if (Test-Path $DestinationPath) {
         $existing = Get-Content -Path $DestinationPath -Raw
         $status = if ($existing -eq $content) { 'unchanged' } else { 'updated' }
     }
+    
     if ($DryRun) {
         Write-Info "DRY-RUN: Would write $DestinationPath ($status)"
     } else {
         Set-Content -Path $DestinationPath -Value $content -Encoding utf8
     }
+    
     $resolvedPath = $DestinationPath
     if (-not $DryRun -and (Test-Path $DestinationPath)) {
         $resolvedPath = (Resolve-Path -Path $DestinationPath).Path
     }
+    
     return [pscustomobject]@{
         File   = $resolvedPath
         Status = $status
