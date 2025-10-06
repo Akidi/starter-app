@@ -5,7 +5,7 @@
 
 # Bind to specific interfaces only (localhost by default)
 # For external access, add specific IP addresses
-bind 172.28.0.30 127.0.0.1 ::1
+bind {{NETWORK_REDIS_IP}} 127.0.0.1 ::1
 
 # Protected mode - prevents external connections without authentication
 protected-mode yes

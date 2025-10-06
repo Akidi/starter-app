@@ -77,6 +77,7 @@ ENV VITE_DEV=true
 
 # Expose additional ports for dev tools
 EXPOSE 3000 5173 24678
+ENTRYPOINT []
 
 # Development command with hot reload
 CMD ["pnpm", "dev", "--host"]

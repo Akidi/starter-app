@@ -344,13 +344,55 @@ function Invoke-FullSetup {
     $variables.ENV = $Environment
     $variables.PORT = $port
 
+    $envFilePath = Join-Path $RepoRoot ".env.$Environment"
+    $existingEnv = $null
+    if (Test-Path $envFilePath) {
+        try {
+            $existingEnv = Read-EnvFileSecrets -EnvFile $envFilePath
+        } catch {
+            Write-Warn "Unable to read existing env file: $($_.Exception.Message)"
+        }
+    }
+
+    $networkOctet = $null
+    if ($existingEnv -and $existingEnv.ContainsKey('NETWORK_OCTET')) {
+        $value = $existingEnv['NETWORK_OCTET']
+        if ($value -match '^\d+$') {
+            $networkOctet = [int]$value
+        }
+    } elseif ($existingEnv -and $existingEnv.ContainsKey('NETWORK_SUBNET')) {
+        if ($existingEnv['NETWORK_SUBNET'] -match '^172\.(\d+)\.0\.0/16$') {
+            $networkOctet = [int]$matches[1]
+        }
+    }
+
+    if (-not $networkOctet) {
+        $candidates = 20..31
+        $networkOctet = Get-Random -InputObject $candidates
+    }
+
+    $networkValues = [ordered]@{
+        NETWORK_OCTET    = [string]$networkOctet
+        NETWORK_SUBNET   = "172.$networkOctet.0.0/16"
+        NETWORK_GATEWAY  = "172.$networkOctet.0.1"
+        NETWORK_APP_IP   = "172.$networkOctet.0.10"
+        NETWORK_DB_IP    = "172.$networkOctet.0.20"
+        NETWORK_REDIS_IP = "172.$networkOctet.0.30"
+    }
+
+    foreach ($key in $networkValues.Keys) {
+        $variables[$key] = $networkValues[$key]
+    }
+    Write-Info "Assigned network subnet: $($networkValues.NETWORK_SUBNET)"
+
     Ensure-Directory $DbPath
 
     Write-Step 'Materialising templates' 1 3
     $results = @()
+    $composeTemplateName = if ($Environment -eq 'dev') { 'docker-compose.dev.template.yml' } else { 'docker-compose.template.yml' }
     $templatePlan = @(
         @{ Template = Join-Path $TemplatesPath '.env.template'; Destination = Join-Path $RepoRoot ".env.$Environment" },
-        @{ Template = Join-Path $TemplatesPath 'docker-compose.template.yml'; Destination = Join-Path $RepoRoot "docker-compose.$Environment.yml" },
+        @{ Template = Join-Path $TemplatesPath $composeTemplateName; Destination = Join-Path $RepoRoot "docker-compose.$Environment.yml" },
         @{ Template = Join-Path $TemplatesPath 'init.template.sql'; Destination = Join-Path $DbPath "init.$Environment.sql" },
         @{ Template = Join-Path $TemplatesPath 'redis.conf.template'; Destination = Join-Path $RepoRoot "redis.$Environment.conf" },
         @{ Template = Join-Path $TemplatesPath 'redis.acl.template'; Destination = Join-Path $RepoRoot "redis.$Environment.acl" }
@@ -614,7 +656,7 @@ function Invoke-InteractiveMenu {
                 Show-HelpPanel
                 Pause
             }
-            '0' { break }
+            '0' { return }
             default { Write-Warn 'Unknown option.'; Start-Sleep 1 }
         }
     }
@@ -660,12 +702,4 @@ try {
 } finally {
     Pop-Location
 }
-
-
-
-
-
-
-
-
 

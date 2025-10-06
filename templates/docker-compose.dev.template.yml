@@ -2,26 +2,42 @@ services:
   {{APP_NAME}}.{{ENV}}:
     build:
       context: ./app
-      target: production
+      target: development
     init: true
     restart: unless-stopped
     stop_grace_period: 30s
     ports:
-      - "{{PORT}}:3000"
+      - "{{PORT}}:5173"
+      - "24678:24678"
     env_file:
       - .env.{{ENV}}
     environment:
-      NODE_ENV: production
-      PORT: 3000
+      NODE_ENV: development
+      PORT: "{{PORT}}"
+      VITE_DEV: "true"
+      VITE_HMR_HOST: "localhost"
+      VITE_HMR_PORT: "24678"
+      CHOKIDAR_USEPOLLING: "1"
+      WATCHPACK_POLLING: "1"
     depends_on:
       - {{APP_NAME}}.db.{{ENV}}
       - {{APP_NAME}}.redis.{{ENV}}
     healthcheck:
-      test: ["CMD-SHELL", "curl -fsS http://localhost:3000/health || exit 1"]
+      test: ["CMD-SHELL", "curl -fsS http://localhost:5173/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 40s
+    volumes:
+      - type: bind
+        source: ./app
+        target: /app
+      - type: volume
+        source: {{APP_NAME}}_node_modules_{{ENV}}
+        target: /app/node_modules
+      - type: volume
+        source: {{APP_NAME}}_pnpm_store_{{ENV}}
+        target: /pnpm/store
     security_opt:
       - no-new-privileges:true
     logging:
@@ -40,18 +56,6 @@ services:
         aliases:
           - app
           - api
-    deploy:
-      resources:
-        limits:
-          cpus: '2'
-          memory: 2G
-        reservations:
-          cpus: '0.5'
-          memory: 512M
-    labels:
-      com.{{APP_NAME}}.service: "app"
-      com.{{APP_NAME}}.environment: "{{ENV}}"
-      com.{{APP_NAME}}.version: "${VERSION:-latest}"
 
   {{APP_NAME}}.db.{{ENV}}:
     image: postgres:16
@@ -62,7 +66,6 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: {{POSTGRES_SUPERUSER_PASSWORD}}
       POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256"
-      # Pass role passwords to init script
       ADMIN_PASSWORD: {{ADMIN_PASSWORD}}
       DEVELOPER_PASSWORD: {{DEVELOPER_PASSWORD}}
       API_PASSWORD: {{API_PASSWORD}}
@@ -85,7 +88,6 @@ services:
           - db
           - database
     healthcheck:
-      # Use lorekeeper (read-only) instead of locked-out postgres user
       test: ["CMD-SHELL", "PGPASSWORD={{READONLY_PASSWORD}} pg_isready -U lorekeeper -d {{APP_NAME}}"]
       interval: 10s
       timeout: 5s
@@ -121,7 +123,6 @@ services:
     restart: unless-stopped
     stop_grace_period: 30s
     environment:
-      # Pass Redis passwords for ACL setup
       REDIS_PASSWORD: {{REDIS_PASSWORD}}
       ADMIN_USER_REDIS_PASSWORD: {{ADMIN_USER_REDIS_PASSWORD}}
       DEVELOPER_USER_REDIS_PASSWORD: {{DEVELOPER_USER_REDIS_PASSWORD}}
@@ -129,7 +130,6 @@ services:
       READONLY_USER_REDIS_PASSWORD: {{READONLY_USER_REDIS_PASSWORD}}
       BACKUP_USER_REDIS_PASSWORD: {{BACKUP_USER_REDIS_PASSWORD}}
       AUDITOR_USER_REDIS_PASSWORD: {{AUDITOR_USER_REDIS_PASSWORD}}
-      # REDIS_DEFAULT_USER_PASSWORD: {{REDIS_DEFAULT_USER_PASSWORD}}
     volumes:
       - type: bind
         source: ./redis.{{ENV}}.conf
@@ -183,6 +183,16 @@ volumes:
     driver: local
     labels:
       com.{{APP_NAME}}.volume.type: "cache"
+      com.{{APP_NAME}}.environment: "{{ENV}}"
+  {{APP_NAME}}_node_modules_{{ENV}}:
+    driver: local
+    labels:
+      com.{{APP_NAME}}.volume.type: "node_modules"
+      com.{{APP_NAME}}.environment: "{{ENV}}"
+  {{APP_NAME}}_pnpm_store_{{ENV}}:
+    driver: local
+    labels:
+      com.{{APP_NAME}}.volume.type: "pnpm-store"
       com.{{APP_NAME}}.environment: "{{ENV}}"
 
 networks:
