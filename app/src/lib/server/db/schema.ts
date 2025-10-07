@@ -2,7 +2,7 @@
 // Main schema index file that exports all schemas
 
 // Export everything from auth schema
-export * as auth from './auth/schema';
+export * as auth from './auth/schema/index';
 
 // Export everything from other schemas (when you create them)
 // export * as inventory from './inventory/schema';
@@ -16,4 +16,4 @@ export {
 	userRoles,
 	userRoleAssignments,
 	apiKeys
-} from './auth/schema';
+} from './auth/schema/index';

@@ -1,7 +1,7 @@
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 import { createClient } from 'redis';
-import * as schema from './auth/schema';
+import * as schema from './auth/schema/index';
 import { env } from '$env/dynamic/private';
 
 let writeDb: ReturnType<typeof drizzle> | null = null;
@@ -74,7 +74,7 @@ export const getRedis = async () => {
 			password: url.password || undefined,
 			socket: {
 				connectTimeout: 10000,
-				keepAlive: 30000,
+				keepAlive: true,
 				reconnectStrategy: (retries) => {
 					if (retries > 3) return new Error('Max retries reached');
 					return Math.min(retries * 100, 3000);
@@ -100,5 +100,4 @@ export const getRedis = async () => {
 export const getDb = () => getWriteDb();
 
 // Export schema and types
-export * from './auth/schema';
-export type { User, Session } from './auth/schema';
+export * from './auth/schema/index';
