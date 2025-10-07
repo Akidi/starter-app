@@ -22,10 +22,9 @@ export const user = authSchema.table(
 		createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
 		updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow()
 	},
-	(table) => ({
-		// Add constraint for password hash length
-		passwordMinLength: sql`CONSTRAINT password_min_length CHECK (length(${table.passwordHash}) > 30)`
-	})
+	(table) => ([
+		sql`CONSTRAINT password_min_length CHECK (length(${table.passwordHash}) > 30)`
+	])
 );
 
 export const userRoles = authSchema.table('user_roles', {
@@ -53,10 +52,9 @@ export const userRoleAssignments = authSchema.table(
 		assignedBy: text('assigned_by').references(() => user.id),
 		assignedAt: timestamp('assigned_at', { withTimezone: true }).defaultNow()
 	},
-	(table) => ({
-		// Unique constraint to prevent duplicate role assignments
-		uniqueUserRole: sql`UNIQUE(${table.userId}, ${table.roleId})`
-	})
+	(table) => ([
+		sql`UNIQUE(${table.userId}, ${table.roleId})`
+	])
 );
 
 export const session = authSchema.table('user_sessions', {
