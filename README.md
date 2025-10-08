@@ -1,8 +1,8 @@
-# Starter-App
+# htpb
 > A modern SvelteKit application with automated CI/CD pipeline
 
 ## 🚀 Live Demo
-[View Live Application](https://Akidi.github.io/starter-app/)
+Live demo: TBD
 
 Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
 
@@ -80,7 +80,7 @@ This project includes automated CI/CD with GitHub Actions:
 - **Continuous Deployment**: Automatically deploys to GitHub Pages on pushes to main branch
 - **Code Quality**: Enforces formatting, linting, and type safety
 
-The app is automatically deployed to GitHub Pages at: https://Akidi.github.io/starter-app/
+<!-- Deployment target TBD for this repository. -->
 
 > To deploy your app to other environments, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
 
@@ -94,9 +94,11 @@ The app is automatically deployed to GitHub Pages at: https://Akidi.github.io/st
 - **Deployment**: GitHub Pages
 - **Code Quality**: ESLint + Prettier
 
-[![CI/CD](https://github.com/Akidi/starter-app/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/Akidi/starter-app/actions/workflows/ci-cd.yml)
-[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live-brightgreen)](https://Akidi.github.io/starter-app/)
+[![CI](https://github.com/Akidi/htpb/actions/workflows/ci.yml/badge.svg)](https://github.com/Akidi/htpb/actions/workflows/ci.yml)
+[![CI/CD](https://github.com/Akidi/htpb/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/Akidi/htpb/actions/workflows/ci-cd.yml)
 [![Node.js](https://img.shields.io/badge/Node.js-20-green)](https://nodejs.org/)
 [![SvelteKit](https://img.shields.io/badge/SvelteKit-Latest-orange)](https://kit.svelte.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)](https://www.typescriptlang.org/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+See app-specific documentation: app/README.md
