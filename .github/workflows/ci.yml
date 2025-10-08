@@ -56,7 +56,8 @@ jobs:
           mkdir -p src/lib/paraglide
           cat > src/lib/paraglide/messages.js << 'EOF'
           export const m = {
-            hello_world: () => 'Hello World!'
+            /** Accept optional named args to satisfy TS in Svelte files */
+            hello_world: (_args = { name: '' }) => 'Hello World!'
           };
           EOF
           cat > src/lib/paraglide/runtime.ts << 'EOF'
@@ -64,7 +65,10 @@ jobs:
           export const deLocalizeUrl = (url: URL | string) => new URL(String(url), 'http://localhost');
           EOF
           cat > src/lib/paraglide/server.ts << 'EOF'
-          export const paraglideMiddleware = (req: Request, cb: (args: { request: Request; locale: string }) => unknown) => cb({ request: req, locale: 'en' });
+          /** Generic return to match SvelteKit Handle expectations */
+          export function paraglideMiddleware<R>(req: Request, cb: (args: { request: Request; locale: string }) => R): R {
+            return cb({ request: req, locale: 'en' });
+          }
           EOF
       - name: Type check
         working-directory: app
