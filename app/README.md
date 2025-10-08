@@ -2,7 +2,6 @@
 
 [![CI](https://github.com/Akidi/htpb/actions/workflows/ci.yml/badge.svg)](https://github.com/Akidi/htpb/actions/workflows/ci.yml)
 
-
 Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
 
 ## Creating a project

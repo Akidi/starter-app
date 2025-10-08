@@ -25,7 +25,6 @@ for (const root of searchRoots) {
 	}
 }
 
-
 export default defineConfig({
 	schema: './src/lib/server/db/schema.ts',
 	dialect: 'postgresql',
