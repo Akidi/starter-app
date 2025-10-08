@@ -1,7 +1,7 @@
 # htpb
 > A modern SvelteKit application with automated CI/CD pipeline
 
-## 🚀 Live Demo
+## Live Demo
 Live demo: TBD
 
 Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
