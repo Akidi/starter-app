@@ -1,27 +1,28 @@
 services:
-  {{APP_NAME}}.{{ENV}}:
+  app:
+    container_name: {{APP_NAME}}.{{ENV}}
     build:
       context: ./app
-      target: production
+      target: {{BUILD_TARGET}}
     init: true
     restart: unless-stopped
     stop_grace_period: 30s
     ports:
-      - "{{PORT}}:3000"
+      - "{{PORT}}:{{INTERNAL_PORT}}"{{HMR_PORT_MAPPING}}
     env_file:
       - .env.{{ENV}}
     environment:
-      NODE_ENV: production
-      PORT: 3000
+      NODE_ENV: {{NODE_ENV}}
+      PORT: {{INTERNAL_PORT}}{{VITE_ENV_VARS}}{{CHOKIDAR_VARS}}
     depends_on:
-      - {{APP_NAME}}.db.{{ENV}}
-      - {{APP_NAME}}.redis.{{ENV}}
+      - db
+      - redis
     healthcheck:
-      test: ["CMD-SHELL", "curl -fsS http://localhost:3000/health || exit 1"]
+      test: ["CMD-SHELL", "curl -fsS http://localhost:{{INTERNAL_PORT}}/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
-      start_period: 40s
+      start_period: 40s{{DEV_VOLUMES}}
     security_opt:
       - no-new-privileges:true
     logging:
@@ -35,11 +36,8 @@ services:
     dns_search:
       - {{APP_NAME}}.internal
     networks:
-      {{APP_NAME}}.internal:
+      default:
         ipv4_address: {{NETWORK_APP_IP}}
-        aliases:
-          - app
-          - api
     deploy:
       resources:
         limits:
@@ -53,7 +51,8 @@ services:
       com.{{APP_NAME}}.environment: "{{ENV}}"
       com.{{APP_NAME}}.version: "${VERSION:-latest}"
 
-  {{APP_NAME}}.db.{{ENV}}:
+  db:
+    container_name: {{APP_NAME}}.db.{{ENV}}
     image: postgres:16
     init: true
     restart: unless-stopped
@@ -62,7 +61,6 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: {{POSTGRES_SUPERUSER_PASSWORD}}
       POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256"
-      # Pass role passwords to init script
       ADMIN_PASSWORD: {{ADMIN_PASSWORD}}
       DEVELOPER_PASSWORD: {{DEVELOPER_PASSWORD}}
       API_PASSWORD: {{API_PASSWORD}}
@@ -75,17 +73,12 @@ services:
         target: /docker-entrypoint-initdb.d/01-init.sql
         read_only: true
       - type: volume
-        source: {{APP_NAME}}_postgres_data_{{ENV}}
+        source: postgres_data
         target: /var/lib/postgresql/data
     networks:
-      {{APP_NAME}}.internal:
+      default:
         ipv4_address: {{NETWORK_DB_IP}}
-        aliases:
-          - postgres
-          - db
-          - database
     healthcheck:
-      # Use lorekeeper (read-only) instead of locked-out postgres user
       test: ["CMD-SHELL", "PGPASSWORD={{READONLY_PASSWORD}} pg_isready -U lorekeeper -d {{APP_NAME}}"]
       interval: 10s
       timeout: 5s
@@ -114,14 +107,14 @@ services:
       com.{{APP_NAME}}.environment: "{{ENV}}"
       com.{{APP_NAME}}.version: "${VERSION:-latest}"
 
-  {{APP_NAME}}.redis.{{ENV}}:
+  redis:
+    container_name: {{APP_NAME}}.redis.{{ENV}}
     image: redis:7
     command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
     init: true
     restart: unless-stopped
     stop_grace_period: 30s
     environment:
-      # Pass Redis passwords for ACL setup
       REDIS_PASSWORD: {{REDIS_PASSWORD}}
       ADMIN_USER_REDIS_PASSWORD: {{ADMIN_USER_REDIS_PASSWORD}}
       DEVELOPER_USER_REDIS_PASSWORD: {{DEVELOPER_USER_REDIS_PASSWORD}}
@@ -129,7 +122,6 @@ services:
       READONLY_USER_REDIS_PASSWORD: {{READONLY_USER_REDIS_PASSWORD}}
       BACKUP_USER_REDIS_PASSWORD: {{BACKUP_USER_REDIS_PASSWORD}}
       AUDITOR_USER_REDIS_PASSWORD: {{AUDITOR_USER_REDIS_PASSWORD}}
-      # REDIS_DEFAULT_USER_PASSWORD: {{REDIS_DEFAULT_USER_PASSWORD}}
     volumes:
       - type: bind
         source: ./redis.{{ENV}}.conf
@@ -140,14 +132,11 @@ services:
         target: /etc/redis/users.acl
         read_only: true
       - type: volume
-        source: {{APP_NAME}}_redis_data_{{ENV}}
+        source: redis_data
         target: /data
     networks:
-      {{APP_NAME}}.internal:
+      default:
         ipv4_address: {{NETWORK_REDIS_IP}}
-        aliases:
-          - redis
-          - cache
     healthcheck:
       test: ["CMD-SHELL", "redis-cli --user archon --pass {{ADMIN_USER_REDIS_PASSWORD}} --raw ping | grep -q PONG"]
       interval: 10s
@@ -174,21 +163,23 @@ services:
       com.{{APP_NAME}}.version: "${VERSION:-latest}"
 
 volumes:
-  {{APP_NAME}}_postgres_data_{{ENV}}:
+  postgres_data:
+    name: {{APP_NAME}}_postgres_data_{{ENV}}
     driver: local
     labels:
       com.{{APP_NAME}}.volume.type: "database"
       com.{{APP_NAME}}.environment: "{{ENV}}"
-  {{APP_NAME}}_redis_data_{{ENV}}:
+  redis_data:
+    name: {{APP_NAME}}_redis_data_{{ENV}}
     driver: local
     labels:
       com.{{APP_NAME}}.volume.type: "cache"
-      com.{{APP_NAME}}.environment: "{{ENV}}"
+      com.{{APP_NAME}}.environment: "{{ENV}}"{{DEV_VOLUME_DEFINITIONS}}
 
 networks:
-  {{APP_NAME}}.internal:
-    driver: bridge
+  default:
     name: {{APP_NAME}}.{{ENV}}.internal
+    driver: bridge
     ipam:
       driver: default
       config:
