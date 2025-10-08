@@ -85,9 +85,7 @@ export const getRedis = async () => {
 		redis.on('error', (err) => console.error('Redis Client Error', err));
 		redis.on('connect', () => console.log('Redis client connected'));
 		redis.on('ready', () => console.log('Redis client ready'));
-		redis.on('reconnecting', (params) =>
-			console.warn('Redis client reconnecting', params)
-		);
+		redis.on('reconnecting', (params) => console.warn('Redis client reconnecting', params));
 		redis.on('end', () => console.warn('Redis connection closed'));
 
 		await redis.connect();

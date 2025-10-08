@@ -1,0 +1,6 @@
+# Default owners for the repository
+* @Akidi
+
+# Example: Require reviews from Akidi for server code
+app/src/lib/server/ @Akidi
+

@@ -1,0 +1,119 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+          cache-dependency-path: app/pnpm-lock.yaml
+      - name: Install deps
+        working-directory: app
+        run: pnpm install --no-frozen-lockfile
+      - name: Lint
+        working-directory: app
+        run: pnpm run lint
+
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+          cache-dependency-path: app/pnpm-lock.yaml
+      - name: Install deps
+        working-directory: app
+        run: pnpm install --no-frozen-lockfile
+      - name: Create Paraglide stubs (for svelte-check)
+        working-directory: app
+        run: |
+          mkdir -p src/lib/paraglide
+          cat > src/lib/paraglide/messages.js << 'EOF'
+          export const m = {
+            /** Accept optional named args to satisfy TS in Svelte files */
+            hello_world: (_args = { name: '' }) => 'Hello World!'
+          };
+          EOF
+          cat > src/lib/paraglide/runtime.ts << 'EOF'
+          export const setLocale = (_l?: string) => {};
+          export const deLocalizeUrl = (url: URL | string) => new URL(String(url), 'http://localhost');
+          EOF
+          cat > src/lib/paraglide/server.ts << 'EOF'
+          /** Generic return to match SvelteKit Handle expectations */
+          export function paraglideMiddleware<R>(req: Request, cb: (args: { request: Request; locale: string }) => R): R {
+            return cb({ request: req, locale: 'en' });
+          }
+          EOF
+      - name: Type check
+        working-directory: app
+        run: pnpm run check
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+          cache-dependency-path: app/pnpm-lock.yaml
+      - name: Install deps
+        working-directory: app
+        run: pnpm install --no-frozen-lockfile
+      - name: Run unit tests
+        working-directory: app
+        run: pnpm run test:unit -- --run
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+          cache-dependency-path: app/pnpm-lock.yaml
+      - name: Install deps
+        working-directory: app
+        run: pnpm install --no-frozen-lockfile
+      - name: Build
+        working-directory: app
+        run: pnpm run build
