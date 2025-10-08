@@ -50,6 +50,22 @@ jobs:
       - name: Install deps
         working-directory: app
         run: pnpm install --no-frozen-lockfile
+      - name: Create Paraglide stubs (for svelte-check)
+        working-directory: app
+        run: |
+          mkdir -p src/lib/paraglide
+          cat > src/lib/paraglide/messages.js << 'EOF'
+          export const m = {
+            hello_world: () => 'Hello World!'
+          };
+          EOF
+          cat > src/lib/paraglide/runtime.ts << 'EOF'
+          export const setLocale = (_l?: string) => {};
+          export const deLocalizeUrl = (url: URL | string) => new URL(String(url), 'http://localhost');
+          EOF
+          cat > src/lib/paraglide/server.ts << 'EOF'
+          export const paraglideMiddleware = (req: Request, cb: (args: { request: Request; locale: string }) => unknown) => cb({ request: req, locale: 'en' });
+          EOF
       - name: Type check
         working-directory: app
         run: pnpm run check
@@ -97,4 +113,3 @@ jobs:
       - name: Build
         working-directory: app
         run: pnpm run build
-
