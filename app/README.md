@@ -1,5 +1,8 @@
 # sv
 
+[![CI](https://github.com/Akidi/htpb/actions/workflows/ci.yml/badge.svg)](https://github.com/Akidi/htpb/actions/workflows/ci.yml)
+
+
 Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
 
 ## Creating a project
@@ -36,3 +39,8 @@ npm run build
 You can preview the production build with `npm run preview`.
 
 > To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+
+## Project Workflow
+
+- Upstream mirror model with `upstream-main` (mirror), `develop` (integration), `main` (stable releases).
+- See `docs/UPSTREAM.md` for how to pull from upstream and release.
