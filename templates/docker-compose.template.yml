@@ -38,6 +38,9 @@ services:
     networks:
       default:
         ipv4_address: {{NETWORK_APP_IP}}
+        aliases:
+          - app
+          - api
     deploy:
       resources:
         limits:
@@ -78,6 +81,9 @@ services:
     networks:
       default:
         ipv4_address: {{NETWORK_DB_IP}}
+        aliases:
+          - postgres
+          - db
     healthcheck:
       test: ["CMD-SHELL", "PGPASSWORD={{READONLY_PASSWORD}} pg_isready -U lorekeeper -d {{APP_NAME}}"]
       interval: 10s
@@ -137,6 +143,9 @@ services:
     networks:
       default:
         ipv4_address: {{NETWORK_REDIS_IP}}
+        aliases:
+          - cache
+          - redis
     healthcheck:
       test: ["CMD-SHELL", "redis-cli --user archon --pass {{ADMIN_USER_REDIS_PASSWORD}} --raw ping | grep -q PONG"]
       interval: 10s
