@@ -1,4 +1,4 @@
-# htpb
+# Starter Template App
 > A modern SvelteKit application with automated CI/CD pipeline
 
 ## Live Demo
