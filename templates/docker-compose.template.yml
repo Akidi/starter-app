@@ -145,8 +145,8 @@ services:
       default:
         ipv4_address: {{NETWORK_REDIS_IP}}
         aliases:
-          - redis
           - cache
+          - redis
     healthcheck:
       test: ["CMD-SHELL", "redis-cli --user archon --pass {{ADMIN_USER_REDIS_PASSWORD}} --raw ping | grep -q PONG"]
       interval: 10s
