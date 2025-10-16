@@ -84,6 +84,7 @@ services:
         aliases:
           - postgres
           - db
+          - database
     healthcheck:
       test: ["CMD-SHELL", "PGPASSWORD={{READONLY_PASSWORD}} pg_isready -U lorekeeper -d {{APP_NAME}}"]
       interval: 10s
