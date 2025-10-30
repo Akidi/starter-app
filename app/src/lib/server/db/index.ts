@@ -1,7 +1,7 @@
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 import { createClient } from 'redis';
-import * as schema from './auth/schema/index';
+import * as schema from './auth';
 import { env } from '$env/dynamic/private';
 
 let writeDb: ReturnType<typeof drizzle> | null = null;
@@ -98,4 +98,4 @@ export const getRedis = async () => {
 export const getDb = () => getWriteDb();
 
 // Export schema and types
-export * from './auth/schema/index';
+export * from './auth';

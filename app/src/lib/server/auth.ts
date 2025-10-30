@@ -4,7 +4,7 @@ import { eq } from 'drizzle-orm';
 import { sha256 } from '@oslojs/crypto/sha2';
 import { encodeBase64url, encodeHexLowerCase } from '@oslojs/encoding';
 import { getWriteDb, getReadDb } from '$lib/server/db';
-import * as authSchema from '$lib/server/db/auth/schema/index';
+import * as authSchema from '$lib/server/db/auth';
 
 const DAY_IN_MS = 1000 * 60 * 60 * 24;
 

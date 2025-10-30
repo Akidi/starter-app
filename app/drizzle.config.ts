@@ -33,5 +33,5 @@ export default defineConfig({
 	},
 	verbose: true,
 	strict: true,
-	schemaFilter: ['auth', 'bp']
+	schemaFilter: ['auth']
 });

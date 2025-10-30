@@ -1,142 +1,169 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import type { ActionData } from './$types';
+	import { Center, Stack, Container, Divider } from '$lib/components/layout';
+	import { Button, Alert, TextInput } from '$lib/components/ui';
 
 	let { form }: { form: ActionData } = $props();
+
+	// Form state for login
+	let loginEmail = $state('');
+	let loginPassword = $state('');
+
+	// Form state for register
+	let registerName = $state('');
+	let registerEmail = $state('');
+	let registerPassword = $state('');
 </script>
 
-<div class="flex min-h-screen flex-col justify-center bg-gray-50 py-12 sm:px-6 lg:px-8">
-	<div class="sm:mx-auto sm:w-full sm:max-w-md">
-		<h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
-		<p class="mt-2 text-center text-sm text-gray-600">Or create a new account</p>
+<Center>
+	<div class="auth-page">
+		<Container size="sm">
+			<Stack gap="xl">
+				<!-- Header -->
+				<Stack gap="xs" align="center">
+					<h2 class="page-title">Sign in to your account</h2>
+					<p class="page-subtitle">Or create a new account</p>
+				</Stack>
+
+				<!-- Forms Card -->
+				<div class="forms-card">
+					<Stack gap="xl">
+						<!-- Login Form -->
+						<form method="post" action="?/login" use:enhance>
+							<Stack gap="lg">
+								<h3 class="form-title">Sign In</h3>
+								
+								<TextInput
+									id="login-email"
+									name="email"
+									label="Email address"
+									type="email"
+									autocomplete="email"
+									required
+									placeholder="your@email.com"
+									bind:value={loginEmail}
+								/>
+
+								<TextInput
+									id="login-password"
+									name="password"
+									label="Password"
+									type="password"
+									autocomplete="current-password"
+									required
+									bind:value={loginPassword}
+								/>
+
+								<Button type="submit" variant="primary" fullWidth size="lg">
+									Sign in
+								</Button>
+							</Stack>
+						</form>
+
+						<!-- Divider -->
+						<Divider label="Or register" spacing="lg" />
+
+						<!-- Register Form -->
+						<form method="post" action="?/register" use:enhance>
+							<Stack gap="lg">
+								<h3 class="form-title">Create Account</h3>
+
+								<TextInput
+									id="register-name"
+									name="name"
+									label="Full name"
+									type="text"
+									autocomplete="name"
+									required
+									placeholder="John Doe"
+									bind:value={registerName}
+								/>
+
+								<TextInput
+									id="register-email"
+									name="email"
+									label="Email address"
+									type="email"
+									autocomplete="email"
+									required
+									placeholder="your@email.com"
+									bind:value={registerEmail}
+								/>
+
+								<TextInput
+									id="register-password"
+									name="password"
+									label="Password"
+									type="password"
+									autocomplete="new-password"
+									required
+									helpText="Minimum 6 characters"
+									bind:value={registerPassword}
+								/>
+
+								<Button type="submit" variant="success" fullWidth size="lg">
+									Create account
+								</Button>
+							</Stack>
+						</form>
+
+						<!-- Error Message -->
+						{#if form?.message}
+							<Alert type="error">
+								{form.message}
+							</Alert>
+						{/if}
+					</Stack>
+				</div>
+			</Stack>
+		</Container>
 	</div>
+</Center>
 
-	<div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-		<div class="bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10">
-			<!-- Login Form -->
-			<form method="post" action="?/login" use:enhance class="space-y-6">
-				<div>
-					<label for="login-email" class="block text-sm font-medium text-gray-700">
-						Email address
-					</label>
-					<div class="mt-1">
-						<input
-							id="login-email"
-							name="email"
-							type="email"
-							autocomplete="email"
-							required
-							class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500 focus:outline-none"
-							placeholder="your@email.com"
-						/>
-					</div>
-				</div>
+<style>
+	.auth-page {
+		min-height: 100vh;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		padding: var(--space-3xl) 0;
+		width: 100%;
+	}
 
-				<div>
-					<label for="login-password" class="block text-sm font-medium text-gray-700">
-						Password
-					</label>
-					<div class="mt-1">
-						<input
-							id="login-password"
-							name="password"
-							type="password"
-							autocomplete="current-password"
-							required
-							class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500 focus:outline-none"
-						/>
-					</div>
-				</div>
+	.page-title {
+		font-size: var(--font-size-3xl);
+		font-weight: var(--font-weight-extrabold);
+		color: var(--text-primary);
+		text-align: center;
+		margin: 0;
+	}
 
-				<div>
-					<button
-						type="submit"
-						class="flex w-full justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none"
-					>
-						Sign in
-					</button>
-				</div>
-			</form>
+	.page-subtitle {
+		font-size: var(--font-size-sm);
+		color: var(--text-secondary);
+		text-align: center;
+		margin: 0;
+	}
 
-			<div class="mt-6">
-				<div class="relative">
-					<div class="absolute inset-0 flex items-center">
-						<div class="w-full border-t border-gray-300"></div>
-					</div>
-					<div class="relative flex justify-center text-sm">
-						<span class="bg-white px-2 text-gray-500">Or register</span>
-					</div>
-				</div>
-			</div>
+	.forms-card {
+		background-color: var(--bg-primary);
+		padding: var(--space-2xl);
+		border-radius: var(--radius-lg);
+		box-shadow: var(--shadow-lg);
+		border: 1px solid var(--border-primary);
+	}
 
-			<!-- Register Form -->
-			<form method="post" action="?/register" use:enhance class="mt-6 space-y-6">
-				<div>
-					<label for="register-name" class="block text-sm font-medium text-gray-700">
-						Full name
-					</label>
-					<div class="mt-1">
-						<input
-							id="register-name"
-							name="name"
-							type="text"
-							autocomplete="name"
-							required
-							class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 focus:border-green-500 focus:ring-green-500 focus:outline-none"
-							placeholder="John Doe"
-						/>
-					</div>
-				</div>
+	.form-title {
+		font-size: var(--font-size-lg);
+		font-weight: var(--font-weight-semibold);
+		color: var(--text-primary);
+		margin: 0;
+	}
 
-				<div>
-					<label for="register-email" class="block text-sm font-medium text-gray-700">
-						Email address
-					</label>
-					<div class="mt-1">
-						<input
-							id="register-email"
-							name="email"
-							type="email"
-							autocomplete="email"
-							required
-							class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 focus:border-green-500 focus:ring-green-500 focus:outline-none"
-							placeholder="your@email.com"
-						/>
-					</div>
-				</div>
-
-				<div>
-					<label for="register-password" class="block text-sm font-medium text-gray-700">
-						Password
-					</label>
-					<div class="mt-1">
-						<input
-							id="register-password"
-							name="password"
-							type="password"
-							autocomplete="new-password"
-							required
-							class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 focus:border-green-500 focus:ring-green-500 focus:outline-none"
-						/>
-					</div>
-					<p class="mt-1 text-xs text-gray-500">Minimum 6 characters</p>
-				</div>
-
-				<div>
-					<button
-						type="submit"
-						class="flex w-full justify-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:outline-none"
-					>
-						Create account
-					</button>
-				</div>
-			</form>
-
-			{#if form?.message}
-				<div class="mt-4 rounded-md border border-red-200 bg-red-50 p-3">
-					<p class="text-sm text-red-600">{form.message}</p>
-				</div>
-			{/if}
-		</div>
-	</div>
-</div>
+	@media (min-width: 640px) {
+		.forms-card {
+			padding: var(--space-3xl);
+		}
+	}
+</style>
