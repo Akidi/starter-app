@@ -1,3 +1,6 @@
+@import "tailwindcss";
+@plugin "tailwindcss/forms"
+
 /* Theme System - CSS Variables Approach */
 
 :root {
@@ -54,6 +57,11 @@
   --border-primary: var(--color-neutral-200);
   --border-secondary: var(--color-neutral-300);
   --border-focus: var(--color-primary-500);
+
+  /* Code Block Colors */
+  --code-bg: var(--color-neutral-900);
+  --code-border: var(--color-neutral-800);
+  --code-text: oklch(80% 0.1 155);
 
   --space-xs: 0.25rem;
   --space-sm: 0.5rem;
@@ -116,6 +124,11 @@
   --border-primary: var(--color-neutral-700);
   --border-secondary: var(--color-neutral-600);
 
+  /* Code Block Colors - lighter in dark mode */
+  --code-bg: var(--color-neutral-800);
+  --code-border: var(--color-neutral-700);
+  --code-text: oklch(85% 0.1 155);
+
   --shadow-sm: 0 1px 2px 0 oklch(0% 0 0 / 0.3);
   --shadow-md: 0 4px 6px -1px oklch(0% 0 0 / 0.3), 0 2px 4px -2px oklch(0% 0 0 / 0.3);
   --shadow-lg: 0 10px 15px -3px oklch(0% 0 0 / 0.3), 0 4px 6px -4px oklch(0% 0 0 / 0.3);
@@ -152,6 +165,153 @@
   --color-primary-600: oklch(54% 0.24 295);
   --color-primary-700: oklch(48% 0.22 295);
   --color-primary: var(--color-primary-600);
+}
+
+/* Customize the view transition animation */
+::view-transition-old(root),
+::view-transition-new(root) {
+	animation-duration: 0.3s;
+	animation-timing-function: ease-in-out;
+}
+
+/* Fade transition (default) */
+::view-transition-old(root) {
+	animation-name: theme-fade-out;
+}
+
+::view-transition-new(root) {
+	animation-name: theme-fade-in;
+}
+
+@keyframes theme-fade-out {
+	to {
+		opacity: 0;
+	}
+}
+
+@keyframes theme-fade-in {
+	from {
+		opacity: 0;
+	}
+}
+
+/**
+ * Alternative: Slide transition
+ * Uncomment to use slide instead of fade
+
+
+::view-transition-old(root) {
+	animation-name: theme-slide-out;
+}
+
+::view-transition-new(root) {
+	animation-name: theme-slide-in;
+}
+
+
+@keyframes theme-slide-out {
+	to {
+		transform: translateX(-100%);
+		opacity: 0;
+	}
+}
+
+@keyframes theme-slide-in {
+	from {
+		transform: translateX(100%);
+		opacity: 0;
+	}
+}
+ */
+/**
+ * Alternative: Scale transition
+ * Uncomment to use scale instead of fade
+ 
+
+::view-transition-old(root) {
+	animation-name: theme-scale-out;
+}
+
+::view-transition-new(root) {
+	animation-name: theme-scale-in;
+}
+
+@keyframes theme-scale-out {
+	to {
+		transform: scale(0.95);
+		opacity: 0;
+	}
+}
+
+@keyframes theme-scale-in {
+	from {
+		transform: scale(1.05);
+		opacity: 0;
+	}
+}
+*/
+
+/**
+ * Alternative: Circular wipe transition
+ * Creates a circular reveal effect from the toggle button
+ 
+
+@keyframes theme-circle-out {
+	to {
+		clip-path: circle(0% at 50% 50%);
+	}
+}
+
+@keyframes theme-circle-in {
+	from {
+		clip-path: circle(0% at 50% 50%);
+	}
+	to {
+		clip-path: circle(150% at 50% 50%);
+	}
+}
+
+::view-transition-old(root) {
+	animation: theme-circle-out 0.4s ease-in-out;
+}
+
+::view-transition-new(root) {
+	animation: theme-circle-in 0.4s ease-in-out;
+}
+*/
+
+/**
+ * Fallback CSS Transitions
+ * For browsers that don't support View Transitions API
+ */
+
+/* Apply smooth transitions to CSS variables */
+html.theme-transitioning,
+html.theme-transitioning * {
+	transition: 
+		background-color 0.3s ease-in-out,
+		color 0.3s ease-in-out,
+		border-color 0.3s ease-in-out,
+		box-shadow 0.3s ease-in-out !important;
+}
+
+/* Prevent transition on specific elements if needed */
+html.theme-transitioning .no-theme-transition,
+html.theme-transitioning .no-theme-transition * {
+	transition: none !important;
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+	::view-transition-old(root),
+	::view-transition-new(root) {
+		animation-duration: 0.1s !important;
+	}
+
+	html.theme-transitioning,
+	html.theme-transitioning * {
+		transition-duration: 0.1s !important;
+	}
 }
 
 body {

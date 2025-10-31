@@ -6,6 +6,7 @@
 		title?: string;
 		subtitle?: string;
 		padding?: 'none' | 'sm' | 'md' | 'lg';
+		style?: string;
 		hoverable?: boolean;
 		clickable?: boolean;
 		onclick?: () => void;
@@ -21,6 +22,7 @@
 		padding = 'md',
 		hoverable = false,
 		clickable = false,
+		style,
 		onclick,
 		class: className = '',
 		header,
@@ -78,6 +80,7 @@
 		data-padding={padding}
 		data-hoverable={hoverable ? 'true' : undefined}
 		class={className}
+		{style}
 	>
 		{#if header || title}
 			<div data-card-section="header">

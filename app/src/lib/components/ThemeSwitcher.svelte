@@ -9,7 +9,8 @@
 		class?: string;
 		showLabel?: boolean;
 		label?: string;
-		labelPosition?: 'left' | 'right';
+		transition?: 'fade' | 'slide' | 'scale' | 'none' | 'view-transition';
+		duration?: number;
 	}
 
 	let {
@@ -18,7 +19,8 @@
 		class: className = '',
 		showLabel = true,
 		label = 'Dark Mode',
-		labelPosition = 'right'
+		transition = 'view-transition',
+		duration = 300
 	}: Props = $props();
 
 	const themeStore = createLocalStorageStore<'light' | 'dark'>('theme', 'light', {
@@ -31,6 +33,7 @@
 		if (typeof document !== 'undefined') {
 			document.documentElement.setAttribute('data-theme', theme);
 			
+			// Also add class for additional CSS targeting if needed
 			if (theme === 'dark') {
 				document.documentElement.classList.add('dark');
 			} else {
@@ -38,10 +41,6 @@
 			}
 		}
 	};
-
-	$effect(() => {
-		applyTheme(themeStore.value);
-	});
 
 	onMount(() => {
 		applyTheme(themeStore.value);
@@ -53,6 +52,51 @@
 
 	const handleButtonClick = () => {
 		themeStore.value = themeStore.value === 'dark' ? 'light' : 'dark';
+	};
+
+	let isInitialRender = $state(true);
+
+// Watch for theme changes and apply them with transition
+$effect(() => {
+	if (isInitialRender) {
+		// Don't transition on initial load
+		isInitialRender = false;
+		applyTheme(themeStore.value);
+	} else {
+		// Transition when user changes theme
+		applyThemeWithTransition(themeStore.value);
+	}
+});
+
+	const supportsViewTransitions = $derived(
+		typeof document !== 'undefined' && 
+		'startViewTransition' in document
+	);
+
+	const applyThemeWithTransition = (theme: 'light' | 'dark') => {
+		if (typeof document === 'undefined') return;
+
+		if (transition === 'view-transition' && supportsViewTransitions) {
+			document.startViewTransition(() => {
+				applyTheme(theme);
+			});
+		} else if (transition !== 'none') {
+			// Use CSS transition fallback
+			document.documentElement.classList.add('theme-transitioning');
+			
+			// Apply theme after a brief delay to ensure transition
+			requestAnimationFrame(() => {
+				applyTheme(theme);
+				
+				// Remove transition class after animation completes
+				setTimeout(() => {
+					document.documentElement.classList.remove('theme-transitioning');
+				}, duration);
+			});
+		} else {
+			// No transition
+			applyTheme(theme);
+		}
 	};
 </script>
 

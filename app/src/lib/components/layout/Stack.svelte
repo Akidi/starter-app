@@ -11,6 +11,7 @@
 		gap?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 		align?: 'start' | 'center' | 'end' | 'stretch';
 		class?: string
+		style?: string
 		children: Snippet;
 	}
 
@@ -18,11 +19,12 @@
 		gap = 'md',
 		align = 'stretch',
 		class: className = "",
+		style,
 		children 
 	}: Props = $props();
 </script>
 
-<div class="stack {className}" data-gap={gap} data-align={align}>
+<div class="stack {className}" {style} data-gap={gap} data-align={align}>
 	{@render children()}
 </div>
 
