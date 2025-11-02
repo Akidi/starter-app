@@ -195,6 +195,8 @@ pwsh setup/bootstrap.ps1 -Environment prod -Action schema -Schema "newschema"
 - Rate limiting
 - Static asset caching
 
+**Quick Start for Nginx Proxy Manager Users**: See **[NPM-SETUP.md](NPM-SETUP.md)** for a streamlined 5-minute setup guide.
+
 ### Option 1: Caddy (Recommended - Automatic HTTPS)
 
 Caddy automatically obtains and renews SSL certificates from Let's Encrypt.
@@ -244,6 +246,118 @@ sudo nginx -t
 # Reload nginx
 sudo systemctl reload nginx
 ```
+
+### Option 3: Nginx Proxy Manager (Recommended for Docker Environments)
+
+**Nginx Proxy Manager (NPM)** is a Docker-based reverse proxy with a web UI that makes SSL certificate management trivial.
+
+#### Prerequisites
+
+- NPM is already installed and running on your server
+- You know the NPM container name (usually `nginx-proxy-manager` or similar)
+
+#### Setup Steps
+
+1. **Start your application** (this creates the isolated network):
+   ```bash
+   cd /opt/starter-app
+   docker compose -f docker-compose.prod.yml up -d
+   ```
+
+2. **Connect NPM to your app's network**:
+
+   First, find your NPM container name:
+   ```bash
+   docker ps | grep nginx-proxy-manager
+   # Or: docker ps
+   ```
+
+   Then connect NPM to your app's network:
+   ```bash
+   # Replace 'nginx-proxy-manager' with your actual NPM container name
+   # Replace 'myapp' with your actual app name
+   docker network connect myapp nginx-proxy-manager
+   ```
+
+   Verify the connection:
+   ```bash
+   docker network inspect myapp
+   # You should see both your app and NPM container listed
+   ```
+
+3. **Configure Proxy Host in NPM Web UI**:
+
+   - Open NPM web interface (usually `http://your-server-ip:81`)
+   - Go to **Proxy Hosts** → **Add Proxy Host**
+   - **Details tab**:
+     - Domain Names: `your-domain.com`
+     - Scheme: `http`
+     - Forward Hostname/IP: `myapp` (your container name)
+     - Forward Port: `3000` (production internal port)
+     - ✅ Enable "Cache Assets"
+     - ✅ Enable "Block Common Exploits"
+     - ✅ Enable "Websockets Support" (if needed)
+
+   - **SSL tab**:
+     - ✅ Enable "SSL"
+     - SSL Certificate: "Request a new SSL Certificate"
+     - ✅ "Force SSL"
+     - ✅ "HTTP/2 Support"
+     - Email: your-email@example.com
+     - ✅ "I Agree to the Let's Encrypt Terms of Service"
+
+   - Click **Save**
+
+4. **Verify it works**:
+   ```bash
+   curl https://your-domain.com/health
+   # Should return: {"status":"ok"}
+   ```
+
+#### NPM Network Architecture
+
+```
+Internet
+    ↓
+[Nginx Proxy Manager] ← On its own network + connected to app network
+    ↓
+[myapp network] ← Isolated internal network
+    ├─ myapp (container) ← Port 3000 (internal only, no host exposure)
+    ├─ db (PostgreSQL) ← Port 5432 (internal only)
+    └─ redis ← Port 6379 (internal only)
+```
+
+#### Important Notes
+
+- **No external ports**: The app doesn't expose any ports to the host (`localhost:5175` won't work)
+- **Network isolation**: Database and Redis are only accessible within the Docker network
+- **Container name**: NPM reaches your app as `http://myapp:3000`
+- **Automatic SSL**: NPM handles Let's Encrypt certificates automatically
+- **Multiple apps**: You can run multiple starter-app instances (with different names) and NPM can route to all of them
+
+#### Troubleshooting NPM Setup
+
+**App not reachable from NPM:**
+```bash
+# Check if NPM is connected to app network
+docker network inspect myapp | grep nginx-proxy-manager
+
+# If not listed, connect it:
+docker network connect myapp nginx-proxy-manager
+
+# Restart NPM to refresh network connections
+docker restart nginx-proxy-manager
+```
+
+**Connection refused errors:**
+- Verify container name matches: `docker ps --format '{{.Names}}'`
+- Check app is running: `docker compose -f docker-compose.prod.yml ps`
+- Verify internal port is 3000 (production): `docker compose -f docker-compose.prod.yml exec app env | grep PORT`
+
+**SSL certificate issues:**
+- Ensure domain points to your server's IP
+- Check port 80 and 443 are open and accessible
+- NPM needs ports 80 and 443 on the host to get Let's Encrypt certificates
 
 ---
 

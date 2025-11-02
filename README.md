@@ -37,14 +37,16 @@ pwsh setup/bootstrap.ps1 -Environment prod -AppName "myapp"
 # See docs/DEPLOYMENT.md for complete deployment guide
 ```
 
-**For detailed production deployment instructions**, including:
-- Server prerequisites
-- SSL/HTTPS setup with Caddy or Nginx
-- Domain configuration
-- Backup and restore procedures
-- Monitoring and maintenance
+**Deployment Guides**:
+- **[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)** - Complete production deployment guide
+- **[docs/NPM-SETUP.md](docs/NPM-SETUP.md)** - Quick setup for Nginx Proxy Manager (recommended for Docker)
 
-See **[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)** - Complete production deployment guide
+**Includes**:
+- Server prerequisites and automated setup
+- SSL/HTTPS with Caddy, Nginx, or Nginx Proxy Manager
+- Docker network isolation (production has no exposed ports)
+- Backup and restore procedures
+- Monitoring and troubleshooting
 
 ## Development
 
