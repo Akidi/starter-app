@@ -6,26 +6,60 @@ Live demo: TBD
 
 Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
 
-## Creating a project
+## Quick Start
 
-If you're seeing this, you've probably already done this step. Congrats!
+### Development (Simple Bootstrap)
 
 ```bash
-# create a new project in the current directory
-npx sv create
+# Install PowerShell 7.2+ (if not already installed)
+# Linux: https://learn.microsoft.com/powershell/scripting/install/installing-powershell-on-linux
+# macOS: brew install powershell
 
-# create a new project in my-app
-npx sv create my-app
+# Run bootstrap script
+pwsh setup/bootstrap.ps1 -Environment dev -AppName "myapp"
+
+# That's it! Your dev environment is running at http://localhost:5173
 ```
+
+The bootstrap script automatically:
+- Generates secure secrets
+- Creates environment-specific configuration files
+- Starts Docker containers (PostgreSQL, Redis, App)
+- Runs database migrations and seeds test data
+
+### Production Deployment
+
+```bash
+# On your production server
+pwsh setup/bootstrap.ps1 -Environment prod -AppName "myapp"
+
+# Follow the interactive prompts for production-specific setup
+# See docs/DEPLOYMENT.md for complete deployment guide
+```
+
+**For detailed production deployment instructions**, including:
+- Server prerequisites
+- SSL/HTTPS setup with Caddy or Nginx
+- Domain configuration
+- Backup and restore procedures
+- Monitoring and maintenance
+
+See **[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)** - Complete production deployment guide
 
 ## Development
 
-Once you've created a project and installed dependencies with `pnpm install` (or `npm install` or `yarn`), start a development server:
+### Manual Setup (Without Bootstrap)
+
+If you prefer manual setup:
 
 ```bash
+# Install dependencies
+pnpm install
+
+# Start dev server
 pnpm run dev
 
-# or start the server and open the app in a new browser tab
+# or open in browser
 pnpm run dev -- --open
 ```
 
@@ -74,25 +108,54 @@ pnpm run check
 
 ## Deployment
 
+### Production Deployment
+
+Deploy to your own server with a single command:
+
+```bash
+pwsh setup/bootstrap.ps1 -Environment prod -AppName "myapp"
+```
+
+**Complete deployment guide**: [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)
+
+The guide covers:
+- Server setup and prerequisites
+- Automated bootstrap process
+- Reverse proxy configuration (Caddy/Nginx)
+- SSL certificate setup
+- Production validation
+- Backup and restore procedures
+- Monitoring and maintenance
+
+### CI/CD
+
 This project includes automated CI/CD with GitHub Actions:
 
 - **Continuous Integration**: Runs tests, linting, and type checking on every push and PR
-- **Continuous Deployment**: Automatically deploys to GitHub Pages on pushes to main branch
 - **Code Quality**: Enforces formatting, linting, and type safety
-
-<!-- Deployment target TBD for this repository. -->
+- **Build Verification**: Ensures production builds succeed
 
 > To deploy your app to other environments, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
 
 ## Tech Stack
 
-- **Framework**: SvelteKit
-- **Language**: TypeScript
+### Frontend & Application
+- **Framework**: SvelteKit 2
+- **Language**: TypeScript 5
+- **UI**: TailwindCSS + Storybook
 - **Package Manager**: pnpm
+
+### Backend & Infrastructure
+- **Database**: PostgreSQL 16 with Drizzle ORM
+- **Cache**: Redis 7 with ACL
+- **Authentication**: Custom session-based auth (Lucia-inspired)
+- **Container**: Docker + Docker Compose
+
+### Development & Quality
 - **Testing**: Vitest + Playwright
 - **CI/CD**: GitHub Actions
-- **Deployment**: GitHub Pages
 - **Code Quality**: ESLint + Prettier
+- **Automation**: PowerShell 7.2+ bootstrap scripts
 
 [![CI](https://github.com/Akidi/htpb/actions/workflows/ci.yml/badge.svg)](https://github.com/Akidi/htpb/actions/workflows/ci.yml)
 [![CI/CD](https://github.com/Akidi/htpb/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/Akidi/htpb/actions/workflows/ci-cd.yml)

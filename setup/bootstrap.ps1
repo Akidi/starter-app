@@ -109,6 +109,38 @@ function Invoke-FullSetup {
     Write-Info "Project: $app"
     Write-Info "Environment: $Environment"
 
+    # Production mode warnings
+    if ($Environment -eq 'prod') {
+        Write-Host ""
+        Write-Host "$($PSStyle.Foreground.BrightYellow)$($PSStyle.Bold)⚠️  PRODUCTION MODE DETECTED$($PSStyle.Reset)"
+        Write-Host "$($PSStyle.Foreground.Yellow)━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━$($PSStyle.Reset)"
+        Write-Host ""
+        Write-Host "$($PSStyle.Foreground.BrightCyan)Before deploying to production, ensure:$($PSStyle.Reset)"
+        Write-Host "  $($PSStyle.Foreground.BrightBlack)•$($PSStyle.Reset) Domain is configured and pointed to this server"
+        Write-Host "  $($PSStyle.Foreground.BrightBlack)•$($PSStyle.Reset) Reverse proxy (Caddy/nginx) is set up for HTTPS"
+        Write-Host "  $($PSStyle.Foreground.BrightBlack)•$($PSStyle.Reset) SSL certificates are obtained (Let's Encrypt recommended)"
+        Write-Host "  $($PSStyle.Foreground.BrightBlack)•$($PSStyle.Reset) Firewall allows ports 80 (HTTP) and 443 (HTTPS)"
+        Write-Host "  $($PSStyle.Foreground.BrightBlack)•$($PSStyle.Reset) Backups are configured (see scripts/backup.ps1)"
+        Write-Host "  $($PSStyle.Foreground.BrightBlack)•$($PSStyle.Reset) Monitoring/alerting is set up"
+        Write-Host ""
+        Write-Host "$($PSStyle.Foreground.BrightCyan)After bootstrap completes:$($PSStyle.Reset)"
+        Write-Host "  1. Review .env.prod and update ORIGIN to your domain"
+        Write-Host "  2. Setup reverse proxy using templates/Caddyfile.template or templates/nginx.conf.template"
+        Write-Host "  3. Run validation: pwsh scripts/validate-production.ps1 -Environment prod"
+        Write-Host "  4. Start services: docker compose -f docker-compose.prod.yml up -d"
+        Write-Host ""
+        Write-Host "$($PSStyle.Foreground.Yellow)━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━$($PSStyle.Reset)"
+        Write-Host ""
+
+        if (-not $DryRun) {
+            $confirm = Read-Host "Continue with production setup? (yes/no)"
+            if ($confirm -ne 'yes') {
+                Write-Info "Setup cancelled by user"
+                return
+            }
+        }
+    }
+
     # Generate secrets
     $secrets = New-SecretSet
     Write-Success "Generated $($secrets.Keys.Count) secrets"
@@ -193,6 +225,32 @@ function Invoke-FullSetup {
     Write-Host "$($PSStyle.Foreground.BrightGreen)[OK]$($PSStyle.Reset) Application URL: http://localhost:$port"
     if (-not $NoStart -and -not $DryRun) {
         Write-Host "$($PSStyle.Foreground.BrightBlue)[i]$($PSStyle.Reset) It may take ~30 seconds for health checks to pass."
+    }
+
+    # Production-specific post-setup reminders
+    if ($Environment -eq 'prod' -and -not $DryRun) {
+        Write-Host ""
+        Write-Host "$($PSStyle.Foreground.BrightYellow)$($PSStyle.Bold)⚠️  PRODUCTION SETUP NEXT STEPS$($PSStyle.Reset)"
+        Write-Host "$($PSStyle.Foreground.Yellow)━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━$($PSStyle.Reset)"
+        Write-Host ""
+        Write-Host "$($PSStyle.Foreground.BrightRed)⚠  CRITICAL: Update ORIGIN in .env.prod before starting services!$($PSStyle.Reset)"
+        Write-Host "  Current: http://localhost:$port"
+        Write-Host "  Should be: https://your-domain.com"
+        Write-Host ""
+        Write-Host "$($PSStyle.Foreground.BrightCyan)Next steps:$($PSStyle.Reset)"
+        Write-Host "  1. Edit .env.prod and set ORIGIN to your production domain"
+        Write-Host "  2. Setup reverse proxy (see docs/DEPLOYMENT.md)"
+        Write-Host "  3. Obtain SSL certificate (Let's Encrypt recommended)"
+        Write-Host "  4. Run validation: pwsh scripts/validate-production.ps1 -Environment prod -Domain your-domain.com"
+        Write-Host "  5. Start services: docker compose -f docker-compose.prod.yml up -d"
+        Write-Host ""
+        Write-Host "$($PSStyle.Foreground.BrightCyan)Documentation:$($PSStyle.Reset)"
+        Write-Host "  • Full deployment guide: docs/DEPLOYMENT.md"
+        Write-Host "  • Caddy config: templates/Caddyfile.template"
+        Write-Host "  • Nginx config: templates/nginx.conf.template"
+        Write-Host "  • Backup script: scripts/backup.ps1"
+        Write-Host ""
+        Write-Host "$($PSStyle.Foreground.Yellow)━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━$($PSStyle.Reset)"
     }
 
     if ($ShowSecrets) {
