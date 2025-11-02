@@ -54,6 +54,7 @@ function Get-EnvironmentSpecificVariables {
         $vars.BUILD_TARGET = 'development'
         $vars.NODE_ENV = 'development'
         $vars.INTERNAL_PORT = '5173'
+        $vars.PORT_MAPPING = "`n    ports:`n      - `"5173:5173`"`n      - `"24678:24678`""
         $vars.HMR_PORT_MAPPING = "`n      - `"24678:24678`""
         $vars.VITE_ENV_VARS = @"
 
@@ -98,6 +99,8 @@ function Get-EnvironmentSpecificVariables {
         $vars.BUILD_TARGET = 'production'
         $vars.NODE_ENV = 'production'
         $vars.INTERNAL_PORT = '3000'
+        # Production: No port mapping - only accessible via Docker network
+        $vars.PORT_MAPPING = ''
         $vars.HMR_PORT_MAPPING = ''
         $vars.VITE_ENV_VARS = ''
         $vars.CHOKIDAR_VARS = ''
