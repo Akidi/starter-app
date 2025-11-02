@@ -1,0 +1,35 @@
+{
+  "recommendations": [
+    // Svelte
+    "svelte.svelte-vscode",
+
+    // Code quality
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+
+    // Tailwind CSS
+    "bradlc.vscode-tailwindcss",
+
+    // Testing
+    "ms-playwright.playwright",
+    "vitest.explorer",
+
+    // Git
+    "eamodio.gitlens",
+
+    // Docker
+    "ms-azuretools.vscode-docker",
+
+    // PowerShell (for bootstrap scripts)
+    "ms-vscode.powershell",
+
+    // Database
+    "cweijan.vscode-postgresql-client2",
+
+    // General productivity
+    "usernamehw.errorlens",
+    "streetsidesoftware.code-spell-checker",
+    "wayou.vscode-todo-highlight"
+  ],
+  "unwantedRecommendations": []
+}
