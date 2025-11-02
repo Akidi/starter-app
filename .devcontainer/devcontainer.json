@@ -1,0 +1,49 @@
+{
+  "name": "starter-app (podman dev)",
+  "dockerComposeFile": [
+    "docker-compose.devcontainer.yml"
+  ],
+  "service": "app",
+  "workspaceFolder": "/workspaces/starter-app",
+  "overrideCommand": false,
+  "runServices": [
+    "db",
+    "redis"
+  ],
+  "postCreateCommand": "cd app && pnpm install --frozen-lockfile && pnpm exec svelte-kit sync",
+  "containerEnv": {
+    "CHOKIDAR_USEPOLLING": "1"
+  },
+  "forwardPorts": [
+    5173,
+    24678
+  ],
+  "portsAttributes": {
+    "5173": {
+      "label": "Vite Dev Server"
+    },
+    "24678": {
+      "label": "Vite HMR"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.cwd": "/workspaces/starter-app/app"
+      },
+      "extensions": [
+        "svelte.svelte-vscode",
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "bradlc.vscode-tailwindcss"
+      ]
+    }
+  },
+  "remoteEnv": {
+    "PNPM_HOME": "/pnpm",
+    "PATH": "/pnpm:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+  },
+  "mounts": [
+    "type=volume,source=starter-app-pnpm-store,target=/pnpm/store"
+  ]
+}
