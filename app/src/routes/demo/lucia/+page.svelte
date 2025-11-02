@@ -2,211 +2,242 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import type { PageServerData } from './$types';
+	import type { User } from '$lib/server/db/auth';
+	import { 
+		Container, 
+		Stack, 
+		Flex, 
+		CardGrid 
+	} from '$lib/components/layout';
+	import { 
+		Alert,
+		Badge, 
+		Button, 
+		Card, 
+	} from '$lib/components/ui';
 
-	let { data }: { data: PageServerData } = $props();
+	// Extended user type with cache properties
+	interface ExtendedUser extends User {
+		loginCount: number;
+		cacheSource: 'redis' | 'database';
+	}
+
+	interface ExtendedPageData extends PageServerData {
+		user: ExtendedUser;
+	}
+
+	let { data }: { data: ExtendedPageData } = $props();
 </script>
 
-<div class="min-h-screen bg-gray-50">
-	<div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-		<div class="overflow-hidden rounded-lg bg-white shadow">
-			<div class="px-4 py-5 sm:p-6">
-				<div class="sm:flex sm:items-center sm:justify-between">
-					<div>
-						<h1 class="text-2xl font-bold text-gray-900">
+<Container>
+	<Stack gap="xl">
+		<Card padding="lg">
+			{#snippet header()}
+				<Flex justify="between" align="start" gap="md">
+					<Stack gap="xs">
+						<h1 class="page-title">
 							Welcome, {data.user.name}!
 						</h1>
-						<p class="mt-1 text-sm text-gray-600">
+						<p class="page-subtitle">
 							You are successfully authenticated with Lucia + Redis caching
 						</p>
-					</div>
-					<div class="flex space-x-3">
+					</Stack>
+					<Flex gap="sm" wrap={true}>
 						<form method="post" action="?/clearCache" use:enhance>
-							<button
-								type="submit"
-								class="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none"
-							>
+							<Button type="submit" variant="secondary" size="md">
 								Clear Cache
-							</button>
+							</Button>
 						</form>
 						<form method="post" action="?/logout" use:enhance>
-							<button
-								type="submit"
-								class="inline-flex items-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-none"
-							>
+							<Button type="submit" variant="danger" size="md">
 								Sign out
-							</button>
+							</Button>
 						</form>
-					</div>
-				</div>
+					</Flex>
+				</Flex>
+			{/snippet}
 
-				<div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-					<!-- User Info Card -->
-					<div class="rounded-lg bg-gray-50 p-6">
-						<h3 class="mb-4 text-lg font-medium text-gray-900">User Information</h3>
-						<dl class="space-y-2">
-							<div>
-								<dt class="text-sm font-medium text-gray-500">User ID</dt>
-								<dd class="font-mono text-sm text-gray-900">{data.user.id}</dd>
-							</div>
-							<div>
-								<dt class="text-sm font-medium text-gray-500">Email</dt>
-								<dd class="text-sm text-gray-900">{data.user.email}</dd>
-							</div>
-							<div>
-								<dt class="text-sm font-medium text-gray-500">Name</dt>
-								<dd class="text-sm text-gray-900">{data.user.name}</dd>
-							</div>
-							<div>
-								<dt class="text-sm font-medium text-gray-500">Role</dt>
-								<dd class="text-sm text-gray-900">
-									<span
-										class="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800"
-									>
-										{data.user.role}
-									</span>
-								</dd>
-							</div>
-						</dl>
-					</div>
+			<CardGrid minWidth="280px" gap="lg">
+				<!-- User Info Card -->
+				<Card title="User Information" padding="md">
+					<Stack gap="md">
+						<div class="info-item">
+							<dt class="info-label">User ID</dt>
+							<dd class="info-value font-mono">{data.user.id}</dd>
+						</div>
+						<div class="info-item">
+							<dt class="info-label">Email</dt>
+							<dd class="info-value">{data.user.email}</dd>
+						</div>
+						<div class="info-item">
+							<dt class="info-label">Name</dt>
+							<dd class="info-value">{data.user.name}</dd>
+						</div>
+						<div class="info-item">
+							<dt class="info-label">Role</dt>
+							<dd class="info-value">
+								<Badge text={data.user.role} variant="primary" />
+							</dd>
+						</div>
+					</Stack>
+				</Card>
 
-					<!-- Redis Cache Info Card -->
-					<div class="rounded-lg bg-gray-50 p-6">
-						<h3 class="mb-4 text-lg font-medium text-gray-900">Cache Information</h3>
-						<dl class="space-y-2">
-							<div>
-								<dt class="text-sm font-medium text-gray-500">Cache Source</dt>
-								<dd class="text-sm text-gray-900">
-									{#if data.user.cacheSource}
-										<span
-											class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium {data
-												.user.cacheSource === 'redis'
-												? 'bg-green-100 text-green-800'
-												: 'bg-yellow-100 text-yellow-800'}"
-										>
-											{data.user.cacheSource === 'redis' ? '🚀 Redis Cache' : '🗄️ Database'}
-										</span>
-									{:else}
-										<span
-											class="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800"
-										>
-											🗄️ Database (Legacy)
-										</span>
-									{/if}
-								</dd>
-							</div>
-							<div>
-								<dt class="text-sm font-medium text-gray-500">Login Count</dt>
-								<dd class="text-sm text-gray-900">
-									{#if data.user.loginCount}
+				<!-- Redis Cache Info Card -->
+				<Card title="Cache Information" padding="md">
+					<Stack gap="md">
+						<div class="info-item">
+							<dt class="info-label">Cache Source</dt>
+							<dd class="info-value">
+								{#if data.user.cacheSource}
+									<Badge 
+										text={data.user.cacheSource === 'redis' ? '🚀 Redis Cache' : '🗄️ Database'}
+										variant={data.user.cacheSource === 'redis' ? 'success' : 'warning'}
+									/>
+								{:else}
+									<Badge text="🗄️ Database (Legacy)" variant="secondary" />
+								{/if}
+							</dd>
+						</div>
+						<div class="info-item">
+							<dt class="info-label">Login Count</dt>
+							<dd class="info-value">
+								{#if data.user.loginCount}
+									<Flex gap="sm" align="center">
 										<span class="font-mono">{data.user.loginCount}/5</span>
 										{#if data.user.loginCount >= 4}
-											<span class="ml-2 text-xs text-orange-600"
-												>(Cache will refresh next login)</span
-											>
+											<span class="cache-warning">
+												(Cache will refresh next login)
+											</span>
 										{/if}
-									{:else}
-										<span class="text-xs text-gray-500">Not tracked (Legacy mode)</span>
-									{/if}
-								</dd>
-							</div>
-							<div>
-								<dt class="text-sm font-medium text-gray-500">Redis Status</dt>
-								<dd class="text-sm text-gray-900">
-									<span
-										class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800"
-									>
-										✓ Connected
-									</span>
-								</dd>
-							</div>
-						</dl>
-					</div>
+									</Flex>
+								{:else}
+									<span class="not-tracked">Not tracked (Legacy mode)</span>
+								{/if}
+							</dd>
+						</div>
+						<div class="info-item">
+							<dt class="info-label">Redis Status</dt>
+							<dd class="info-value">
+								<Badge text="✓ Connected" variant="success" />
+							</dd>
+						</div>
+					</Stack>
+				</Card>
 
-					<!-- Session Info Card -->
-					<div class="rounded-lg bg-gray-50 p-6">
-						<h3 class="mb-4 text-lg font-medium text-gray-900">Session Information</h3>
-						<p class="text-sm text-gray-600">
+				<!-- Session Info Card -->
+				<Card title="Session Information" padding="md">
+					<Stack gap="md">
+						<p class="session-text">
 							Your session is active and secure. Redis caching improves performance by reducing
 							database queries.
 						</p>
-						<div class="mt-4">
-							<span
-								class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800"
-							>
-								✓ Authenticated
-							</span>
-						</div>
-					</div>
-				</div>
+						<Badge text="✓ Authenticated" variant="success" />
+					</Stack>
+				</Card>
+			</CardGrid>
 
-				<!-- Cache Testing Section -->
-				<div class="mt-8 rounded-lg border border-blue-200 bg-blue-50 p-4">
-					<div class="flex">
-						<div class="flex-shrink-0">
-							<svg class="h-5 w-5 text-blue-400" viewBox="0 0 20 20" fill="currentColor">
-								<path
-									fill-rule="evenodd"
-									d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-									clip-rule="evenodd"
-								/>
-							</svg>
-						</div>
-						<div class="ml-3">
-							<h3 class="text-sm font-medium text-blue-800">Redis Cache Testing</h3>
-							<p class="mt-1 text-sm text-blue-700">
-								This demo shows Redis caching in action! Try refreshing the page multiple times to
-								see the login count increase. After 5 logins, the cache automatically refreshes from
-								the database. You can also manually clear the cache using the "Clear Cache" button.
-							</p>
-							<div class="mt-3 flex flex-wrap gap-2">
-								<button
-									onclick={() => window.location.reload()}
-									class="rounded bg-blue-100 px-2 py-1 text-xs text-blue-800 transition-colors hover:bg-blue-200"
-								>
-									🔄 Refresh Page (Simulate Login)
-								</button>
-								<a
-									href="/demo/lucia/login"
-									class="rounded bg-blue-100 px-2 py-1 text-xs text-blue-800 transition-colors hover:bg-blue-200"
-								>
-									🔑 Re-login
-								</a>
-								<button
-									onclick={() =>
-										console.log('User cache info:', JSON.stringify(data.user, null, 2))}
-									class="rounded bg-gray-100 px-2 py-1 text-xs text-gray-800 transition-colors hover:bg-gray-200"
-								>
-									🔍 Debug Info
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
+			<!-- Cache Testing Section -->
+			<Alert type="info" title="Redis Cache Testing">
+				<Stack gap="md">
+					<p>
+						This demo shows Redis caching in action! Try refreshing the page multiple times to
+						see the login count increase. After 5 logins, the cache automatically refreshes from
+						the database. You can also manually clear the cache using the "Clear Cache" button.
+					</p>
+					<Flex gap="sm" wrap={true}>
+						<Button 
+							variant="ghost" 
+							size="sm"
+							onclick={() => window.location.reload()}
+						>
+							🔄 Refresh Page (Simulate Login)
+						</Button>
+						<Button 
+							variant="ghost" 
+							size="sm"
+							onclick={() => window.location.href = '/demo/lucia/login'}
+						>
+							🔑 Re-login
+						</Button>
+						<Button 
+							variant="ghost" 
+							size="sm"
+							onclick={() => console.log('User cache info:', JSON.stringify(data.user, null, 2))}
+						>
+							🔍 Debug Info
+						</Button>
+					</Flex>
+				</Stack>
+			</Alert>
 
-				<!-- Original Lucia Demo Info -->
-				<div class="mt-6 rounded-lg border border-green-200 bg-green-50 p-4">
-					<div class="flex">
-						<div class="flex-shrink-0">
-							<svg class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
-								<path
-									fill-rule="evenodd"
-									d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-									clip-rule="evenodd"
-								/>
-							</svg>
-						</div>
-						<div class="ml-3">
-							<h3 class="text-sm font-medium text-green-800">Lucia Authentication Demo Enhanced</h3>
-							<p class="mt-1 text-sm text-green-700">
-								This demo shows Lucia authentication working with your PostgreSQL database schema,
-								now enhanced with Redis caching. The user data is stored in the <code
-									class="rounded bg-green-100 px-1 font-mono">auth.users</code
-								> table and cached in Redis for performance.
-							</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+			<!-- Original Lucia Demo Info -->
+			<Alert type="success" title="Lucia Authentication Demo Enhanced">
+				<p>
+					This demo shows Lucia authentication working with your PostgreSQL database schema,
+					now enhanced with Redis caching. The user data is stored in the <code class="inline-code">auth.users</code> 
+					table and cached in Redis for performance.
+				</p>
+			</Alert>
+		</Card>
+	</Stack>
+</Container>
+
+<style>
+	.page-title {
+		font-size: var(--font-size-2xl);
+		font-weight: var(--font-weight-bold);
+		color: var(--text-primary);
+		margin: 0;
+	}
+
+	.page-subtitle {
+		font-size: var(--font-size-sm);
+		color: var(--text-secondary);
+		margin: 0;
+	}
+
+	.info-item {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-xs);
+	}
+
+	.info-label {
+		font-size: var(--font-size-sm);
+		font-weight: var(--font-weight-medium);
+		color: var(--text-secondary);
+	}
+
+	.info-value {
+		font-size: var(--font-size-sm);
+		color: var(--text-primary);
+	}
+
+	.font-mono {
+		font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+	}
+
+	.cache-warning {
+		font-size: var(--font-size-xs);
+		color: var(--color-warning);
+	}
+
+	.not-tracked {
+		font-size: var(--font-size-xs);
+		color: var(--text-tertiary);
+	}
+
+	.session-text {
+		font-size: var(--font-size-sm);
+		color: var(--text-secondary);
+		margin: 0;
+	}
+
+	.inline-code {
+		padding: 0.125rem var(--space-xs);
+		font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+		font-size: var(--font-size-xs);
+		background-color: var(--bg-secondary);
+		border-radius: var(--radius-sm);
+	}
+</style>

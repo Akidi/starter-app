@@ -1,10 +1,9 @@
 import { hash, verify } from '@node-rs/argon2';
 import { fail, redirect } from '@sveltejs/kit';
 import { eq } from 'drizzle-orm';
-import * as auth from '$lib/server/auth';
-import { getReadDb, getWriteDb } from '$lib/server/db';
-import * as authSchema from '$lib/server/db/auth/schema';
+import { getReadDb, getWriteDb, user } from '$lib/server/db';
 import type { Actions, PageServerLoad } from './$types';
+import { generateSessionToken, createSession, setSessionTokenCookie } from '$lib/server/auth';
 
 export const load: PageServerLoad = async (event) => {
 	console.log('[DEBUG] Load function called');
@@ -43,11 +42,11 @@ export const actions: Actions = {
 
 			console.log('[DEBUG] Validation passed, querying database for user:', email);
 
-			// Query the auth.users table using email
+			// Query the users table using email
 			const results = await getReadDb()
 				.select()
-				.from(authSchema.user)
-				.where(eq(authSchema.user.email, email));
+				.from(user)
+				.where(eq(user.email, email));
 
 			console.log('[DEBUG] Database query completed, results count:', results.length);
 
@@ -76,13 +75,13 @@ export const actions: Actions = {
 
 			console.log('[DEBUG] Password verified, creating session');
 
-			const sessionToken = auth.generateSessionToken();
+			const sessionToken = generateSessionToken();
 			console.log('[DEBUG] Session token generated');
 
-			const session = await auth.createSession(sessionToken, existingUser.id);
+			const session = await createSession(sessionToken, existingUser.id);
 			console.log('[DEBUG] Session created:', { sessionId: session.id, userId: existingUser.id });
 
-			auth.setSessionTokenCookie(event, sessionToken, session.expiresAt);
+			setSessionTokenCookie(event, sessionToken, session.expiresAt);
 			console.log('[DEBUG] Session cookie set, redirecting');
 		} catch (error) {
 			console.error('[ERROR] Login action failed:', error);
@@ -129,8 +128,8 @@ export const actions: Actions = {
 			// Check if user already exists
 			const existingUsers = await getReadDb()
 				.select()
-				.from(authSchema.user)
-				.where(eq(authSchema.user.email, email));
+				.from(user)
+				.where(eq(user.email, email));
 
 			console.log('[DEBUG] Existing user check completed, count:', existingUsers.length);
 
@@ -150,16 +149,16 @@ export const actions: Actions = {
 
 			console.log('[DEBUG] Password hashed, inserting user');
 
-			// Insert into auth.users table with proper columns
+			// Insert into users table with proper columns
 			const insertResult = await getWriteDb()
-				.insert(authSchema.user)
+				.insert(user)
 				.values({
 					email,
 					name,
 					passwordHash,
 					role: 'user' // Default role
 				})
-				.returning({ id: authSchema.user.id });
+				.returning({ id: user.id });
 
 			console.log('[DEBUG] User inserted, result:', insertResult);
 
@@ -168,12 +167,12 @@ export const actions: Actions = {
 
 			console.log('[DEBUG] Creating session for new user');
 
-			const sessionToken = auth.generateSessionToken();
-			const session = await auth.createSession(sessionToken, userId);
+			const sessionToken = generateSessionToken();
+			const session = await createSession(sessionToken, userId);
 
 			console.log('[DEBUG] Session created for new user:', { sessionId: session.id, userId });
 
-			auth.setSessionTokenCookie(event, sessionToken, session.expiresAt);
+			setSessionTokenCookie(event, sessionToken, session.expiresAt);
 			console.log('[DEBUG] Registration complete, redirecting');
 		} catch (error) {
 			console.error('[ERROR] Registration failed:', error);

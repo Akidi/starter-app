@@ -1,8 +1,8 @@
-import * as auth from '$lib/server/auth';
 import { fail, redirect } from '@sveltejs/kit';
 import { getRequestEvent } from '$app/server';
 import { getRedis } from '$lib/server/db';
 import type { Actions, PageServerLoad } from './$types';
+import { invalidateSession, deleteSessionTokenCookie } from '$lib/server/auth';
 
 const REDIS_CONFIG = {
 	PAGE_VIEW_PREFIX: 'page_view:',
@@ -12,18 +12,18 @@ const REDIS_CONFIG = {
 
 export const load: PageServerLoad = async () => {
 	const user = requireLogin();
-	
+
 	// Get current page view count from Redis
 	const redis = await getRedis();
 	const viewKey = REDIS_CONFIG.PAGE_VIEW_PREFIX + user.id;
-	
+
 	const currentViews = await redis.get(viewKey);
 	const viewCount = currentViews ? parseInt(currentViews) : 0;
-	
+
 	// Check if adding 1 would exceed the limit
 	let finalViewCount: number;
 	let cacheSource: 'redis' | 'database';
-	
+
 	if (viewCount + 1 > REDIS_CONFIG.MAX_VIEWS) {
 		// Reset counter and simulate database refresh
 		finalViewCount = 1;
@@ -35,8 +35,8 @@ export const load: PageServerLoad = async () => {
 		cacheSource = 'redis';
 		await redis.set(viewKey, finalViewCount.toString(), { EX: REDIS_CONFIG.CACHE_TTL });
 	}
-	
-	return { 
+
+	return {
 		user: {
 			...user,
 			loginCount: finalViewCount,
@@ -50,17 +50,17 @@ export const actions: Actions = {
 		if (!event.locals.session) {
 			return fail(401);
 		}
-		await auth.invalidateSession(event.locals.session.id);
-		auth.deleteSessionTokenCookie(event);
+		await invalidateSession(event.locals.session.id);
+		deleteSessionTokenCookie(event);
 
 		return redirect(302, '/demo/lucia/login');
 	},
-	
+
 	clearCache: async (event) => {
 		if (!event.locals.user) {
 			return fail(401);
 		}
-		
+
 		try {
 			const redis = await getRedis();
 			const viewKey = REDIS_CONFIG.PAGE_VIEW_PREFIX + event.locals.user.id;

@@ -4,3 +4,12 @@ pnpm-lock.yaml
 yarn.lock
 bun.lock
 bun.lockb
+
+# Generated and build outputs
+.svelte-kit
+build
+dist
+coverage
+drizzle/meta
+src/lib/paraglide
+project.inlang/settings.json

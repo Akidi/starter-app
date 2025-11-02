@@ -1,7 +1,8 @@
-# .dockerignore - Place this file in /app/.dockerignore (same directory as Dockerfile)
+# .dockerignore - Place in project root (same directory as docker-compose.yml)
 
-# CRITICAL: Exclude node_modules to prevent overwriting installed dependencies
-node_modules
+# CRITICAL: Exclude node_modules to prevent copying large dependencies
+node_modules/
+.pnpm-store/
 
 # Build outputs and artifacts  
 build/
@@ -11,6 +12,7 @@ dist/
 .netlify/
 .adapter-*/
 .svelte-kit/
+.vite/
 
 # Environment files
 .env*
@@ -21,20 +23,24 @@ logs/
 *.log
 .cache/
 .parcel-cache/
+.turbo/
 
 # IDE files
 .vscode/
 .idea/
 *.swp
 *.swo
+*.sublime-*
 
 # OS files
 .DS_Store
 Thumbs.db
+desktop.ini
 
 # Git
 .git/
 .gitignore
+.gitattributes
 
 # Docker files (avoid recursion)
 Dockerfile*
@@ -44,9 +50,23 @@ docker-compose*.yml
 # Documentation
 *.md
 !README.md
+docs/
 
 # Testing
 coverage/
 .nyc_output/
 test-results/
 playwright-report/
+**/__tests__/
+**/*.test.ts
+**/*.spec.ts
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+.travis.yml
+
+# Temporary files
+tmp/
+temp/
+*.tmp

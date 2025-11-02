@@ -60,7 +60,8 @@ jobs:
   deploy:
     needs: test-and-build
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    # Temporarily disabled unless repo variable DEPLOY_PAGES is set to 'true'
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push' && vars.DEPLOY_PAGES == 'true'
     
     permissions:
       contents: read
