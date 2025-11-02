@@ -1,0 +1,72 @@
+# Systemd service file for {{APP_NAME}}
+#
+# Installation:
+#   1. Copy this file: sudo cp starter-app.service /etc/systemd/system/{{APP_NAME}}.service
+#   2. Edit WorkingDirectory and Environment variables below
+#   3. Reload systemd: sudo systemctl daemon-reload
+#   4. Enable service: sudo systemctl enable {{APP_NAME}}
+#   5. Start service: sudo systemctl start {{APP_NAME}}
+#   6. Check status: sudo systemctl status {{APP_NAME}}
+#
+# Replace {{APP_DIRECTORY}} with your app directory (e.g., /opt/starter-app)
+# Replace {{APP_USER}} with the system user to run as (e.g., your username)
+# Replace {{APP_GROUP}} with the system group (e.g., your username)
+# Replace {{ENV}} with environment (dev, staging, prod)
+
+[Unit]
+Description={{APP_NAME}} SvelteKit Application ({{ENV}})
+Documentation=https://github.com/yourusername/{{APP_NAME}}
+After=docker.service
+Requires=docker.service
+PartOf=docker.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+
+# Working directory
+WorkingDirectory={{APP_DIRECTORY}}
+
+# User and group
+User={{APP_USER}}
+Group={{APP_GROUP}}
+
+# Environment
+Environment="COMPOSE_FILE=docker-compose.{{ENV}}.yml"
+Environment="COMPOSE_PROJECT_NAME={{APP_NAME}}"
+
+# Start command
+ExecStart=/usr/bin/docker compose -f docker-compose.{{ENV}}.yml up -d
+
+# Stop command
+ExecStop=/usr/bin/docker compose -f docker-compose.{{ENV}}.yml down
+
+# Reload command (graceful restart)
+ExecReload=/usr/bin/docker compose -f docker-compose.{{ENV}}.yml restart
+
+# Restart policy
+Restart=on-failure
+RestartSec=10s
+
+# Timeout settings
+TimeoutStartSec=300
+TimeoutStopSec=120
+
+# Kill mode
+KillMode=none
+
+# Standard output and error logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier={{APP_NAME}}
+
+# Security hardening
+NoNewPrivileges=true
+PrivateTmp=true
+
+# Resource limits (optional - adjust as needed)
+# LimitNOFILE=65536
+# LimitNPROC=4096
+
+[Install]
+WantedBy=multi-user.target
