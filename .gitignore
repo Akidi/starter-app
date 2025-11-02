@@ -50,7 +50,13 @@ db/users.*.sql
 *.swp
 *.swo
 .idea/
-.vscode/
+
+# VSCode - Allow shared team settings, ignore personal config
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
 
 # Logs
 *.log
@@ -78,6 +84,5 @@ logs/
 **/Thumbs.db
 
 # Editor cache
-**/.vscode/
 **/.idea/
 data/

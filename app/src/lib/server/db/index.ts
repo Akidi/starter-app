@@ -3,6 +3,7 @@ import postgres from 'postgres';
 import { createClient } from 'redis';
 import * as schema from './auth';
 import { env } from '$env/dynamic/private';
+import { logger } from './logger';
 
 let writeDb: ReturnType<typeof drizzle> | null = null;
 let readDb: ReturnType<typeof drizzle> | null = null;
@@ -14,7 +15,7 @@ export const getWriteDb = () => {
 	}
 
 	if (!writeDb) {
-		console.log('Connecting to write database as tinkerer user');
+		logger.info('Connecting to write database', { user: 'tinkerer' });
 
 		// Use app_api for write operations (can read/write application data)
 		const writeUrl = env.WRITE_DATABASE_URL;
@@ -36,7 +37,7 @@ export const getReadDb = () => {
 	}
 
 	if (!readDb) {
-		console.log('Connecting to read database as lorekeeper user');
+		logger.info('Connecting to read database', { user: 'lorekeeper' });
 
 		// Use app_readonly for read operations (read-only access)
 		const readUrl = env.READ_DATABASE_URL;
@@ -61,7 +62,7 @@ export const getRedis = async () => {
 	if (!redis) {
 		const url = new URL(env.REDIS_URL);
 
-		console.log('Redis connection attempt:', {
+		logger.info('Connecting to Redis', {
 			host: url.hostname,
 			port: url.port,
 			username: url.username,
@@ -82,11 +83,11 @@ export const getRedis = async () => {
 			}
 		});
 
-		redis.on('error', (err) => console.error('Redis Client Error', err));
-		redis.on('connect', () => console.log('Redis client connected'));
-		redis.on('ready', () => console.log('Redis client ready'));
-		redis.on('reconnecting', (params) => console.warn('Redis client reconnecting', params));
-		redis.on('end', () => console.warn('Redis connection closed'));
+		redis.on('error', (err) => logger.error('Redis client error', err));
+		redis.on('connect', () => logger.info('Redis client connected'));
+		redis.on('ready', () => logger.info('Redis client ready'));
+		redis.on('reconnecting', (params) => logger.warn('Redis client reconnecting', params));
+		redis.on('end', () => logger.warn('Redis connection closed'));
 
 		await redis.connect();
 	}

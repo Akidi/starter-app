@@ -2,45 +2,46 @@ import { hash, verify } from '@node-rs/argon2';
 import { fail, redirect } from '@sveltejs/kit';
 import { eq } from 'drizzle-orm';
 import { getReadDb, getWriteDb, user } from '$lib/server/db';
+import { logger } from '$lib/server/logger';
 import type { Actions, PageServerLoad } from './$types';
 import { generateSessionToken, createSession, setSessionTokenCookie } from '$lib/server/auth';
 
 export const load: PageServerLoad = async (event) => {
-	console.log('[DEBUG] Load function called');
+	logger.debug('Login page load function called');
 	if (event.locals.user) {
-		console.log('[DEBUG] User already authenticated, redirecting');
+		logger.debug('User already authenticated, redirecting', { userId: event.locals.user.id });
 		return redirect(302, '/demo/lucia');
 	}
-	console.log('[DEBUG] No authenticated user, showing login page');
+	logger.debug('No authenticated user, showing login page');
 	return {};
 };
 
 export const actions: Actions = {
 	login: async (event) => {
-		console.log('[DEBUG] Login action started');
+		logger.debug('Login action started');
 
 		try {
 			const formData = await event.request.formData();
 			const email = formData.get('email');
 			const password = formData.get('password');
 
-			console.log('[DEBUG] Form data received:', {
+			logger.debug('Form data received', {
 				email: email ? 'provided' : 'missing',
 				password: password ? 'provided' : 'missing'
 			});
 
 			if (!validateEmail(email)) {
-				console.log('[DEBUG] Email validation failed:', email);
+				logger.debug('Email validation failed', { email });
 				return fail(400, {
 					message: 'Invalid email address'
 				});
 			}
 			if (!validatePassword(password)) {
-				console.log('[DEBUG] Password validation failed');
+				logger.debug('Password validation failed');
 				return fail(400, { message: 'Invalid password (min 6, max 255 characters)' });
 			}
 
-			console.log('[DEBUG] Validation passed, querying database for user:', email);
+			logger.debug('Validation passed, querying database', { email });
 
 			// Query the users table using email
 			const results = await getReadDb()
@@ -48,15 +49,15 @@ export const actions: Actions = {
 				.from(user)
 				.where(eq(user.email, email));
 
-			console.log('[DEBUG] Database query completed, results count:', results.length);
+			logger.debug('Database query completed', { resultsCount: results.length });
 
 			const existingUser = results.at(0);
 			if (!existingUser) {
-				console.log('[DEBUG] User not found in database');
+				logger.debug('User not found in database');
 				return fail(400, { message: 'Incorrect email or password' });
 			}
 
-			console.log('[DEBUG] User found, verifying password');
+			logger.debug('User found, verifying password', { userId: existingUser.id });
 
 			// Verify password against password_hash column
 			const validPassword = await verify(existingUser.passwordHash, password, {
@@ -66,37 +67,31 @@ export const actions: Actions = {
 				parallelism: 1
 			});
 
-			console.log('[DEBUG] Password verification result:', validPassword);
+			logger.debug('Password verification completed', { valid: validPassword });
 
 			if (!validPassword) {
-				console.log('[DEBUG] Password verification failed');
+				logger.debug('Password verification failed');
 				return fail(400, { message: 'Incorrect email or password' });
 			}
 
-			console.log('[DEBUG] Password verified, creating session');
+			logger.debug('Password verified, creating session');
 
 			const sessionToken = generateSessionToken();
-			console.log('[DEBUG] Session token generated');
+			logger.debug('Session token generated');
 
 			const session = await createSession(sessionToken, existingUser.id);
-			console.log('[DEBUG] Session created:', { sessionId: session.id, userId: existingUser.id });
+			logger.debug('Session created', { sessionId: session.id, userId: existingUser.id });
 
 			setSessionTokenCookie(event, sessionToken, session.expiresAt);
-			console.log('[DEBUG] Session cookie set, redirecting');
+			logger.debug('Session cookie set, redirecting');
 		} catch (error) {
-			console.error('[ERROR] Login action failed:', error);
-			if (error instanceof Error) {
-				console.error('[ERROR] Error message:', error.message);
-				console.error('[ERROR] Stack trace:', error.stack);
-			} else {
-				console.error('[ERROR] Unknown error type:', typeof error);
-			}
+			logger.error('Login action failed', error);
 			return fail(500, { message: 'Internal server error during login' });
 		}
 		return redirect(302, '/demo/lucia');
 	},
 	register: async (event) => {
-		console.log('[DEBUG] Register action started');
+		logger.debug('Register action started');
 
 		try {
 			const formData = await event.request.formData();
@@ -104,26 +99,26 @@ export const actions: Actions = {
 			const name = formData.get('name');
 			const password = formData.get('password');
 
-			console.log('[DEBUG] Registration form data received:', {
+			logger.debug('Registration form data received', {
 				email: email ? 'provided' : 'missing',
 				name: name ? 'provided' : 'missing',
 				password: password ? 'provided' : 'missing'
 			});
 
 			if (!validateEmail(email)) {
-				console.log('[DEBUG] Email validation failed:', email);
+				logger.debug('Email validation failed', { email });
 				return fail(400, { message: 'Invalid email address' });
 			}
 			if (!validateName(name)) {
-				console.log('[DEBUG] Name validation failed:', name);
+				logger.debug('Name validation failed', { name });
 				return fail(400, { message: 'Invalid name (min 2, max 50 characters)' });
 			}
 			if (!validatePassword(password)) {
-				console.log('[DEBUG] Password validation failed');
+				logger.debug('Password validation failed');
 				return fail(400, { message: 'Invalid password (min 6, max 255 characters)' });
 			}
 
-			console.log('[DEBUG] Validation passed, checking for existing user');
+			logger.debug('Validation passed, checking for existing user');
 
 			// Check if user already exists
 			const existingUsers = await getReadDb()
@@ -131,14 +126,14 @@ export const actions: Actions = {
 				.from(user)
 				.where(eq(user.email, email));
 
-			console.log('[DEBUG] Existing user check completed, count:', existingUsers.length);
+			logger.debug('Existing user check completed', { count: existingUsers.length });
 
 			if (existingUsers.length > 0) {
-				console.log('[DEBUG] User already exists');
+				logger.debug('User already exists');
 				return fail(400, { message: 'Email already registered' });
 			}
 
-			console.log('[DEBUG] Hashing password');
+			logger.debug('Hashing password');
 
 			const passwordHash = await hash(password, {
 				memoryCost: 19456,
@@ -147,7 +142,7 @@ export const actions: Actions = {
 				parallelism: 1
 			});
 
-			console.log('[DEBUG] Password hashed, inserting user');
+			logger.debug('Password hashed, inserting user');
 
 			// Insert into users table with proper columns
 			const insertResult = await getWriteDb()
@@ -160,28 +155,20 @@ export const actions: Actions = {
 				})
 				.returning({ id: user.id });
 
-			console.log('[DEBUG] User inserted, result:', insertResult);
-
 			const userId = insertResult[0].id;
-			console.log('[DEBUG] New user ID:', userId);
+			logger.debug('User inserted', { userId });
 
-			console.log('[DEBUG] Creating session for new user');
+			logger.debug('Creating session for new user');
 
 			const sessionToken = generateSessionToken();
 			const session = await createSession(sessionToken, userId);
 
-			console.log('[DEBUG] Session created for new user:', { sessionId: session.id, userId });
+			logger.debug('Session created for new user', { sessionId: session.id, userId });
 
 			setSessionTokenCookie(event, sessionToken, session.expiresAt);
-			console.log('[DEBUG] Registration complete, redirecting');
+			logger.debug('Registration complete, redirecting');
 		} catch (error) {
-			console.error('[ERROR] Registration failed:', error);
-			if (error instanceof Error) {
-				console.error('[ERROR] Error message:', error.message);
-				console.error('[ERROR] Stack trace:', error.stack);
-			} else {
-				console.error('[ERROR] Unknown error type:', typeof error);
-			}
+			logger.error('Registration failed', error);
 			return fail(500, { message: 'An error has occurred during registration' });
 		}
 		return redirect(302, '/demo/lucia');
