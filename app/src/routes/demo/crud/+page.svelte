@@ -3,18 +3,9 @@
 	import { enhance } from '$app/forms';
 	import { goto, invalidateAll } from '$app/navigation';
 	import { page } from '$app/stores';
-	import Container from '$lib/components/layout/Container.svelte';
-	import Stack from '$lib/components/layout/Stack.svelte';
-	import Card from '$lib/components/ui/Card/Card.svelte';
-	import Button from '$lib/components/ui/Button/Button.svelte';
-	import TextInput from '$lib/components/ui/TextInput/TextInput.svelte';
-	import Select from '$lib/components/ui/Select/Select.svelte';
-	import Textarea from '$lib/components/ui/Textarea/Textarea.svelte';
-	import Badge from '$lib/components/ui/Badge/Badge.svelte';
-	import Modal from '$lib/components/ui/Modal/Modal.svelte';
-	import Table from '$lib/components/ui/Table/Table.svelte';
-	import Pagination from '$lib/components/ui/Pagination/Pagination.svelte';
-	import { addToast } from '$lib/stores/toasts';
+	import { Container, Stack } from '$lib/components/layout';
+	import { Card, Button, TextInput, Select, Textarea, Badge, Modal, Table, Pagination } from '$lib/components/ui';
+	import { toasts } from '$lib/stores/toasts';
 
 	interface Props {
 		data: PageData;
@@ -265,7 +256,7 @@
 								</td>
 								<td>{author?.name || 'Unknown'}</td>
 								<td>
-									<Badge variant={getStatusVariant(post.status)}>{post.status}</Badge>
+									<Badge variant={getStatusVariant(post.status)} text={post.status} />
 								</td>
 								<td>{formatDate(post.createdAt)}</td>
 								<td>
@@ -308,9 +299,10 @@
 
 <!-- Create Post Modal -->
 <Modal
-	bind:isOpen={isCreateModalOpen}
+	isOpen={isCreateModalOpen}
+	onClose={() => isCreateModalOpen = false}
 	title="Create New Post"
-	size="lg"
+	maxWidth="lg"
 >
 	<form
 		method="post"
@@ -321,10 +313,10 @@
 				isSubmitting = false;
 				if (result.type === 'success') {
 					isCreateModalOpen = false;
-					addToast({ type: 'success', message: 'Post created successfully!' });
+					toasts.add({ type: 'success', message: 'Post created successfully!' });
 					await update();
 				} else if (result.type === 'failure') {
-					addToast({ type: 'error', message: result.data?.message || 'Failed to create post' });
+					toasts.add({ type: 'error', message: result.data?.message || 'Failed to create post' });
 				}
 			};
 		}}
@@ -397,7 +389,7 @@
 </Modal>
 
 <!-- Edit Post Modal -->
-<Modal bind:isOpen={isEditModalOpen} title="Edit Post" size="lg">
+<Modal isOpen={isEditModalOpen} onClose={() => isEditModalOpen = false} title="Edit Post" maxWidth="lg">
 	{#if selectedPost}
 		<form
 			method="post"
@@ -409,10 +401,10 @@
 					if (result.type === 'success') {
 						isEditModalOpen = false;
 						selectedPost = null;
-						addToast({ type: 'success', message: 'Post updated successfully!' });
+						toasts.add({ type: 'success', message: 'Post updated successfully!' });
 						await update();
 					} else if (result.type === 'failure') {
-						addToast({
+						toasts.add({
 							type: 'error',
 							message: result.data?.message || 'Failed to update post'
 						});
@@ -485,7 +477,7 @@
 </Modal>
 
 <!-- Delete Confirmation Modal -->
-<Modal bind:isOpen={isDeleteModalOpen} title="Delete Post" size="sm">
+<Modal isOpen={isDeleteModalOpen} onClose={() => isDeleteModalOpen = false} title="Delete Post" maxWidth="sm">
 	{#if selectedPost}
 		<form
 			method="post"
@@ -497,10 +489,10 @@
 					if (result.type === 'success') {
 						isDeleteModalOpen = false;
 						selectedPost = null;
-						addToast({ type: 'success', message: 'Post deleted successfully!' });
+						toasts.add({ type: 'success', message: 'Post deleted successfully!' });
 						await update();
 					} else if (result.type === 'failure') {
-						addToast({
+						toasts.add({
 							type: 'error',
 							message: result.data?.message || 'Failed to delete post'
 						});

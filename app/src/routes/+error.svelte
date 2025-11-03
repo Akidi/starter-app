@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import Button from '$lib/components/ui/Button/Button.svelte';
-	import Container from '$lib/components/layout/Container.svelte';
-	import Stack from '$lib/components/layout/Stack.svelte';
+	import { Container, Stack } from '$lib/components/layout';
+	import { Button } from '$lib/components/ui';
 
 	// Get error details
 	const status = $page.status;

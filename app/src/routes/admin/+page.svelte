@@ -1,9 +1,7 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import Stack from '$lib/components/layout/Stack.svelte';
-	import Card from '$lib/components/ui/Card/Card.svelte';
-	import Badge from '$lib/components/ui/Badge/Badge.svelte';
-	import Table from '$lib/components/ui/Table/Table.svelte';
+	import { Stack } from '$lib/components/layout';
+	import { Card, Badge, Table } from '$lib/components/ui';
 
 	interface Props {
 		data: PageData;
@@ -140,7 +138,7 @@
 										</Stack>
 									</td>
 									<td>
-										<Badge variant={getRoleBadgeVariant(user.role)}>{user.role}</Badge>
+										<Badge variant={getRoleBadgeVariant(user.role)} text={user.role} />
 									</td>
 									<td style="font-size: 0.875rem; color: var(--text-secondary);">
 										{formatDate(user.createdAt)}
@@ -181,7 +179,7 @@
 										</Stack>
 									</td>
 									<td>
-										<Badge variant={getStatusBadgeVariant(post.status)}>{post.status}</Badge>
+										<Badge variant={getStatusBadgeVariant(post.status)} text={post.status} />
 									</td>
 									<td style="font-size: 0.875rem; color: var(--text-secondary);">
 										{formatDate(post.createdAt)}

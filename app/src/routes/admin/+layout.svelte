@@ -1,14 +1,15 @@
 <script lang="ts">
+	import type { Snippet } from 'svelte';
 	import type { LayoutData } from './$types';
 	import { page } from '$app/stores';
-	import Container from '$lib/components/layout/Container.svelte';
-	import Stack from '$lib/components/layout/Stack.svelte';
+	import { Container, Stack } from '$lib/components/layout';
 
 	interface Props {
 		data: LayoutData;
+		children: Snippet;
 	}
 
-	let { data }: Props = $props();
+	let { data, children }: Props = $props();
 
 	const navItems = [
 		{ href: '/admin', label: 'Dashboard', icon: '📊' },
@@ -52,6 +53,6 @@
 
 <Container>
 	<div style="margin-top: 2rem; margin-bottom: 3rem;">
-		<slot />
+		{@render children()}
 	</div>
 </Container>

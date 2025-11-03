@@ -1,11 +1,9 @@
 <script lang="ts">
 	import type { PageData, ActionData } from './$types';
 	import { enhance } from '$app/forms';
-	import Container from '$lib/components/layout/Container.svelte';
-	import Stack from '$lib/components/layout/Stack.svelte';
-	import Card from '$lib/components/ui/Card/Card.svelte';
-	import Button from '$lib/components/ui/Button/Button.svelte';
-	import { addToast } from '$lib/stores/toasts';
+	import { Container, Stack } from '$lib/components/layout';
+	import { Card, Button } from '$lib/components/ui';
+	import { toasts } from '$lib/stores/toasts';
 
 	interface Props {
 		data: PageData;
@@ -55,7 +53,7 @@
 	function handleFileSelect(file: File) {
 		// Validate file type
 		if (!ALLOWED_TYPES.includes(file.type)) {
-			addToast({
+			toasts.add({
 				type: 'error',
 				message: `Invalid file type. Please select an image file (JPEG, PNG, GIF, or WebP).`
 			});
@@ -64,7 +62,7 @@
 
 		// Validate file size
 		if (file.size > MAX_FILE_SIZE) {
-			addToast({
+			toasts.add({
 				type: 'error',
 				message: `File too large. Maximum size is ${MAX_FILE_SIZE / 1024 / 1024}MB.`
 			});
@@ -128,10 +126,10 @@
 							isUploading = false;
 							if (result.type === 'success' && result.data?.success) {
 								uploadedFile = result.data.file;
-								addToast({ type: 'success', message: 'File uploaded successfully!' });
+								toasts.add({ type: 'success', message: 'File uploaded successfully!' });
 								clearSelection();
 							} else if (result.type === 'failure') {
-								addToast({
+								toasts.add({
 									type: 'error',
 									message: result.data?.message || 'Failed to upload file'
 								});
