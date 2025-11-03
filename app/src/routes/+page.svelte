@@ -1,13 +1,6 @@
 <script lang="ts">
-	import Container from '$lib/components/layout/Container.svelte';
-	import Stack from '$lib/components/layout/Stack.svelte';
-	import Grid from '$lib/components/layout/Grid.svelte';
-	import CardGrid from '$lib/components/layout/CardGrid.svelte';
-	import Flex from '$lib/components/layout/Flex.svelte';
-	import Card from '$lib/components/ui/Card/Card.svelte';
-	import Button from '$lib/components/ui/Button/Button.svelte';
-	import Badge from '$lib/components/ui/Badge/Badge.svelte';
-	import Alert from '$lib/components/ui/Alert/Alert.svelte';
+	import { Container, Stack, Grid, CardGrid, Flex } from '$lib/components/layout';
+	import { Card, Button, Badge, Alert } from '$lib/components/ui';
 	import Hero from '$lib/components/Hero.svelte';
 
 	// Feature cards data
