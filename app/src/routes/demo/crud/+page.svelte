@@ -126,7 +126,9 @@
 		</div>
 
 		<!-- Stats Cards -->
-		<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+		<div
+			style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;"
+		>
 			<Card>
 				<Stack gap="xs">
 					<div style="color: var(--text-secondary); font-size: 0.875rem;">Total Posts</div>
@@ -162,7 +164,9 @@
 		<!-- Filters and Actions -->
 		<Card>
 			<Stack gap="md">
-				<div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+				<div
+					style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;"
+				>
 					<h2 style="font-size: 1.25rem; font-weight: 600; margin: 0;">All Posts</h2>
 					<Button
 						variant="primary"
@@ -186,12 +190,7 @@
 						/>
 					</div>
 					<div style="min-width: 150px;">
-						<Select
-							id="status"
-							name="status"
-							bind:value={statusValue}
-							onchange={updateFilters}
-						>
+						<Select id="status" name="status" bind:value={statusValue} onchange={updateFilters}>
 							<option value="all">All Status</option>
 							<option value="draft">Draft</option>
 							<option value="published">Published</option>
@@ -303,11 +302,7 @@
 </Container>
 
 <!-- Create Post Modal -->
-<Modal
-	bind:isOpen={isCreateModalOpen}
-	title="Create New Post"
-	size="lg"
->
+<Modal bind:isOpen={isCreateModalOpen} title="Create New Post" size="lg">
 	<form
 		method="post"
 		action="?/create"
@@ -384,9 +379,7 @@
 				>
 					Cancel
 				</Button>
-				<Button type="submit" variant="primary" loading={isSubmitting}>
-					Create Post
-				</Button>
+				<Button type="submit" variant="primary" loading={isSubmitting}>Create Post</Button>
 			</div>
 		</Stack>
 	</form>
@@ -471,9 +464,7 @@
 					>
 						Cancel
 					</Button>
-					<Button type="submit" variant="primary" loading={isSubmitting}>
-						Save Changes
-					</Button>
+					<Button type="submit" variant="primary" loading={isSubmitting}>Save Changes</Button>
 				</div>
 			</Stack>
 		</form>
@@ -524,9 +515,7 @@
 					>
 						Cancel
 					</Button>
-					<Button type="submit" variant="danger" loading={isSubmitting}>
-						Delete Post
-					</Button>
+					<Button type="submit" variant="danger" loading={isSubmitting}>Delete Post</Button>
 				</div>
 			</Stack>
 		</form>

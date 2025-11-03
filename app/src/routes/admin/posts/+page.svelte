@@ -13,18 +13,14 @@
 <Stack gap="lg">
 	<div>
 		<h2 style="font-size: 1.75rem; font-weight: 700; margin: 0 0 0.5rem 0;">Post Management</h2>
-		<p style="color: var(--text-secondary); margin: 0;">
-			Manage all posts across the application
-		</p>
+		<p style="color: var(--text-secondary); margin: 0;">Manage all posts across the application</p>
 	</div>
 
 	<Card>
 		<Stack gap="md" style="text-align: center; padding: 2rem;">
 			<div style="font-size: 4rem;">📝</div>
 			<div>
-				<h3 style="font-size: 1.5rem; font-weight: 600; margin: 0 0 0.5rem 0;">
-					Post Management
-				</h3>
+				<h3 style="font-size: 1.5rem; font-weight: 600; margin: 0 0 0.5rem 0;">Post Management</h3>
 				<p style="color: var(--text-secondary); margin: 0 0 1.5rem 0;">
 					As an admin, you can manage all posts in the CRUD demo. You'll see posts from all users
 					and have full edit/delete permissions.

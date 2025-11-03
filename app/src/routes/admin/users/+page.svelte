@@ -86,9 +86,7 @@
 <Stack gap="lg">
 	<div>
 		<h2 style="font-size: 1.75rem; font-weight: 700; margin: 0 0 0.5rem 0;">User Management</h2>
-		<p style="color: var(--text-secondary); margin: 0;">
-			Manage user accounts and permissions
-		</p>
+		<p style="color: var(--text-secondary); margin: 0;">Manage user accounts and permissions</p>
 	</div>
 
 	<!-- Filters -->
@@ -183,7 +181,9 @@
 				</div>
 			{/if}
 
-			<div style="margin-top: 1rem; font-size: 0.875rem; color: var(--text-secondary); text-align: center;">
+			<div
+				style="margin-top: 1rem; font-size: 0.875rem; color: var(--text-secondary); text-align: center;"
+			>
 				Showing {(data.pagination.page - 1) * data.pagination.limit + 1}-{Math.min(
 					data.pagination.page * data.pagination.limit,
 					data.pagination.total
@@ -252,9 +252,7 @@
 					>
 						Cancel
 					</Button>
-					<Button type="submit" variant="primary" loading={isSubmitting}>
-						Update Role
-					</Button>
+					<Button type="submit" variant="primary" loading={isSubmitting}>Update Role</Button>
 				</div>
 			</Stack>
 		</form>
@@ -316,9 +314,7 @@
 					>
 						Cancel
 					</Button>
-					<Button type="submit" variant="danger" loading={isSubmitting}>
-						Delete User
-					</Button>
+					<Button type="submit" variant="danger" loading={isSubmitting}>Delete User</Button>
 				</div>
 			</Stack>
 		</form>

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import {Container, Stack} from '$lib/components/layout';
-	import {Card, Button, TextInput, Select, Checkbox, Form} from '$lib/components/ui';
+	import { Container, Stack } from '$lib/components/layout';
+	import { Card, Button, TextInput, Select, Checkbox, Form } from '$lib/components/ui';
 	import { toasts } from '$lib/stores/toasts';
 	let { form } = $props();
 
@@ -236,9 +236,7 @@
 					<!-- Step 1: Company Information -->
 					{#if currentStep === 1}
 						<Stack gap="md">
-							<h3 style="font-size: 1.25rem; font-weight: 600; margin: 0;">
-								Company Information
-							</h3>
+							<h3 style="font-size: 1.25rem; font-weight: 600; margin: 0;">Company Information</h3>
 
 							<TextInput
 								id="company"
@@ -344,9 +342,8 @@
 										bind:group={billingCycle}
 										style="margin-right: 0.5rem;"
 									/>
-									Annual <span style="color: var(--color-success); margin-left: 0.5rem;"
-										>(Save 20%)</span
-									>
+									Annual
+									<span style="color: var(--color-success); margin-left: 0.5rem;">(Save 20%)</span>
 								</label>
 							</div>
 
@@ -371,10 +368,14 @@
 											style="margin-bottom: 1rem;"
 										/>
 										<Stack gap="xs">
-											<div style="font-weight: 700; text-transform: capitalize; font-size: 1.125rem;">
+											<div
+												style="font-weight: 700; text-transform: capitalize; font-size: 1.125rem;"
+											>
 												{planOption}
 											</div>
-											<div style="font-size: 1.5rem; font-weight: 700; color: var(--color-primary);">
+											<div
+												style="font-size: 1.5rem; font-weight: 700; color: var(--color-primary);"
+											>
 												{getPlanPrice(planOption, billingCycle)}
 											</div>
 										</Stack>
@@ -410,9 +411,7 @@
 								Next →
 							</Button>
 						{:else}
-							<Button type="submit" variant="primary" loading={isSubmitting}>
-								Complete Setup
-							</Button>
+							<Button type="submit" variant="primary" loading={isSubmitting}>Complete Setup</Button>
 						{/if}
 					</div>
 				</Form>
@@ -423,7 +422,9 @@
 				<Stack gap="md" style="text-align: center; padding: 3rem 2rem;">
 					<div style="font-size: 4rem;">🎉</div>
 					<h2 style="font-size: 2rem; font-weight: 700; margin: 0;">Setup Complete!</h2>
-					<p style="color: var(--text-secondary); margin: 0; max-width: 500px; margin-left: auto; margin-right: auto;">
+					<p
+						style="color: var(--text-secondary); margin: 0; max-width: 500px; margin-left: auto; margin-right: auto;"
+					>
 						Thank you for completing the onboarding wizard. Your account has been configured
 						successfully.
 					</p>

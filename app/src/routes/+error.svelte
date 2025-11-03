@@ -56,7 +56,9 @@
 			<div
 				style="background: var(--bg-secondary); padding: 1rem; border-radius: var(--radius-md); max-width: 40rem; margin: 0 auto;"
 			>
-				<p style="font-family: monospace; font-size: 0.875rem; color: var(--text-secondary); margin: 0; word-break: break-word;">
+				<p
+					style="font-family: monospace; font-size: 0.875rem; color: var(--text-secondary); margin: 0; word-break: break-word;"
+				>
 					{message}
 				</p>
 			</div>
@@ -99,17 +101,18 @@
 				<summary style="cursor: pointer; font-weight: 600; margin-bottom: 0.5rem;">
 					Debug Info (Development Only)
 				</summary>
-				<pre
-					style="overflow: auto; font-size: 0.875rem; margin: 0;"><code>{JSON.stringify(
-						{
-							status,
-							message,
-							url: $page.url.pathname,
-							error: $page.error
-						},
-						null,
-						2
-					)}</code></pre>
+				<pre style="overflow: auto; font-size: 0.875rem; margin: 0;"><code
+						>{JSON.stringify(
+							{
+								status,
+								message,
+								url: $page.url.pathname,
+								error: $page.error
+							},
+							null,
+							2
+						)}</code
+					></pre>
 			</details>
 		{/if}
 	</Stack>

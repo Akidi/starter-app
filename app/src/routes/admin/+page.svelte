@@ -54,7 +54,9 @@
 	</div>
 
 	<!-- Statistics Grid -->
-	<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+	<div
+		style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;"
+	>
 		<!-- User Stats -->
 		<Card>
 			<Stack gap="sm">
@@ -66,7 +68,9 @@
 				<div style="display: flex; gap: 0.5rem; font-size: 0.875rem; color: var(--text-secondary);">
 					<span>{data.stats.users.admins} Admin{data.stats.users.admins !== 1 ? 's' : ''}</span>
 					<span>•</span>
-					<span>{data.stats.users.moderators} Mod{data.stats.users.moderators !== 1 ? 's' : ''}</span>
+					<span
+						>{data.stats.users.moderators} Mod{data.stats.users.moderators !== 1 ? 's' : ''}</span
+					>
 					<span>•</span>
 					<span>{data.stats.users.users} User{data.stats.users.users !== 1 ? 's' : ''}</span>
 				</div>
@@ -107,7 +111,9 @@
 	</div>
 
 	<!-- Recent Activity -->
-	<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1rem;">
+	<div
+		style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1rem;"
+	>
 		<!-- Recent Users -->
 		<Card>
 			<Stack gap="md">

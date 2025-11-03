@@ -315,8 +315,8 @@
 					<div>
 						<strong>Text Highlighting:</strong>
 						<p style="margin: 0.25rem 0 0 0; color: var(--text-secondary); font-size: 0.875rem;">
-							Matching text is highlighted using a regex replace that wraps matches in a &lt;mark&gt;
-							tag. This provides visual feedback on why each result matched.
+							Matching text is highlighted using a regex replace that wraps matches in a
+							&lt;mark&gt; tag. This provides visual feedback on why each result matched.
 						</p>
 					</div>
 				</Stack>

@@ -17,9 +17,13 @@
 	}
 </script>
 
-<div style="background: var(--bg-secondary); border-bottom: 1px solid var(--border-primary); padding: 1rem 0;">
+<div
+	style="background: var(--bg-secondary); border-bottom: 1px solid var(--border-primary); padding: 1rem 0;"
+>
 	<Container>
-		<div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+		<div
+			style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;"
+		>
 			<div>
 				<h1 style="font-size: 1.5rem; font-weight: 700; margin: 0;">Admin Panel</h1>
 				<p style="margin: 0; color: var(--text-secondary); font-size: 0.875rem;">
