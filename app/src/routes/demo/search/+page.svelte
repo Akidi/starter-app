@@ -1,6 +1,14 @@
 <script lang="ts">
+	import type { PageData } from './$types';
 	import { Container, Stack } from '$lib/components/layout';
 	import { Card, Badge, Loading } from '$lib/components/ui';
+
+	interface Props {
+		data: PageData;
+	}
+
+	let { data }: Props = $props();
+
 	let searchQuery = $state('');
 	let results = $state<any[]>([]);
 	let isLoading = $state(false);
@@ -186,7 +194,7 @@
 									No results found for "{searchQuery}"
 								</div>
 							{:else}
-								{#each results as result, index}
+								{#each results as result, index (index)}
 									<button
 										type="button"
 										onclick={() => selectResult(result)}
@@ -203,9 +211,11 @@
 												style="font-weight: 600; display: flex; justify-content: space-between; align-items: center; gap: 0.5rem;"
 											>
 												<span>{@html highlightMatch(result.title, searchQuery)}</span>
-												<Badge variant={getStatusVariant(result.status)} ="sm">
-													{result.status}
-												</Badge>
+												<Badge
+													variant={getStatusVariant(result.status)}
+													size="sm"
+													text={result.status}
+												/>
 											</div>
 											{#if result.excerpt}
 												<div
