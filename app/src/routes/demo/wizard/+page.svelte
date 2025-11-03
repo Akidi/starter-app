@@ -1,14 +1,9 @@
 <script lang="ts">
 	import type { PageData, ActionData } from './$types';
 	import { enhance } from '$app/forms';
-	import Container from '$lib/components/layout/Container.svelte';
-	import Stack from '$lib/components/layout/Stack.svelte';
-	import Card from '$lib/components/ui/Card/Card.svelte';
-	import Button from '$lib/components/ui/Button/Button.svelte';
-	import TextInput from '$lib/components/ui/TextInput/TextInput.svelte';
-	import Select from '$lib/components/ui/Select/Select.svelte';
-	import Checkbox from '$lib/components/ui/Checkbox/Checkbox.svelte';
-	import { addToast } from '$lib/stores/toasts';
+	import { Container, Stack } from '$lib/components/layout';
+	import { Card, Button, TextInput, Select, Checkbox } from '$lib/components/ui';
+	import { toasts } from '$lib/stores/toasts';
 
 	interface Props {
 		data: PageData;
@@ -44,49 +39,49 @@
 		switch (step) {
 			case 1:
 				if (!company || company.length < 2) {
-					addToast({ type: 'error', message: 'Please enter a valid company name' });
+					toasts.add({ type: 'error', message: 'Please enter a valid company name' });
 					return false;
 				}
 				if (website && !isValidUrl(website)) {
-					addToast({ type: 'error', message: 'Please enter a valid URL' });
+					toasts.add({ type: 'error', message: 'Please enter a valid URL' });
 					return false;
 				}
 				if (!industry) {
-					addToast({ type: 'error', message: 'Please select an industry' });
+					toasts.add({ type: 'error', message: 'Please select an industry' });
 					return false;
 				}
 				return true;
 
 			case 2:
 				if (!firstName || firstName.length < 2) {
-					addToast({ type: 'error', message: 'Please enter a valid first name' });
+					toasts.add({ type: 'error', message: 'Please enter a valid first name' });
 					return false;
 				}
 				if (!lastName || lastName.length < 2) {
-					addToast({ type: 'error', message: 'Please enter a valid last name' });
+					toasts.add({ type: 'error', message: 'Please enter a valid last name' });
 					return false;
 				}
 				if (!email || !isValidEmail(email)) {
-					addToast({ type: 'error', message: 'Please enter a valid email' });
+					toasts.add({ type: 'error', message: 'Please enter a valid email' });
 					return false;
 				}
 				if (!phone || !isValidPhone(phone)) {
-					addToast({ type: 'error', message: 'Please enter a valid phone number' });
+					toasts.add({ type: 'error', message: 'Please enter a valid phone number' });
 					return false;
 				}
 				return true;
 
 			case 3:
 				if (!plan) {
-					addToast({ type: 'error', message: 'Please select a plan' });
+					toasts.add({ type: 'error', message: 'Please select a plan' });
 					return false;
 				}
 				if (!billingCycle) {
-					addToast({ type: 'error', message: 'Please select a billing cycle' });
+					toasts.add({ type: 'error', message: 'Please select a billing cycle' });
 					return false;
 				}
 				if (!agreeToTerms) {
-					addToast({ type: 'error', message: 'You must agree to the terms and conditions' });
+					toasts.add({ type: 'error', message: 'You must agree to the terms and conditions' });
 					return false;
 				}
 				return true;
@@ -235,10 +230,10 @@
 							isSubmitting = false;
 							if (result.type === 'success' && result.data?.success) {
 								isComplete = true;
-								addToast({ type: 'success', message: 'Form submitted successfully!' });
+								toasts.add({ type: 'success', message: 'Form submitted successfully!' });
 								await update();
 							} else if (result.type === 'failure') {
-								addToast({
+								toasts.add({
 									type: 'error',
 									message: result.data?.message || 'Failed to submit form'
 								});
