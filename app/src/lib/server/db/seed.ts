@@ -30,7 +30,7 @@ async function seed() {
 		});
 
 		// Insert users
-		await db
+		const [adminUser, devUser] = await db
 			.insert(schema.authUsers)
 			.values([
 				{
@@ -46,7 +46,8 @@ async function seed() {
 					role: 'user'
 				}
 			])
-			.onConflictDoNothing();
+			.onConflictDoNothing()
+			.returning();
 
 		// Insert user roles
 		await db
@@ -84,6 +85,120 @@ async function seed() {
 				}
 			])
 			.onConflictDoNothing();
+
+		// Insert demo posts (only if we have users)
+		if (adminUser || devUser) {
+			const authorId = adminUser?.id || devUser?.id;
+
+			if (authorId) {
+				await db
+					.insert(schema.posts)
+					.values([
+						{
+							title: 'Getting Started with the Starter App',
+							slug: 'getting-started',
+							content:
+								'Welcome to the starter app! This is a comprehensive SvelteKit template with authentication, CRUD operations, and more. Explore the demos to see what\'s possible.',
+							excerpt: 'Learn the basics of using this starter application',
+							status: 'published',
+							featured: true,
+							authorId,
+							publishedAt: new Date()
+						},
+						{
+							title: 'Understanding the Database Architecture',
+							slug: 'database-architecture',
+							content:
+								'This app uses PostgreSQL with Drizzle ORM. We have separate read and write connections for optimal performance. The database includes specialized roles for different operations.',
+							excerpt: 'Deep dive into the database setup and connection strategy',
+							status: 'published',
+							authorId,
+							publishedAt: new Date(Date.now() - 86400000) // 1 day ago
+						},
+						{
+							title: 'Authentication and Session Management',
+							slug: 'auth-sessions',
+							content:
+								'Session-based authentication is implemented using httpOnly cookies. Sessions are stored in PostgreSQL with automatic expiration and refresh.',
+							excerpt: 'How authentication works in this application',
+							status: 'published',
+							authorId,
+							publishedAt: new Date(Date.now() - 172800000) // 2 days ago
+						},
+						{
+							title: 'Working with the CRUD Demo',
+							slug: 'crud-demo-guide',
+							content:
+								'The CRUD demo showcases pagination, filtering, sorting, and full create/read/update/delete operations. It demonstrates best practices for data tables.',
+							excerpt: 'Complete guide to the CRUD demonstration',
+							status: 'published',
+							authorId,
+							publishedAt: new Date(Date.now() - 259200000) // 3 days ago
+						},
+						{
+							title: 'File Upload Best Practices',
+							slug: 'file-upload-practices',
+							content:
+								'Learn how to implement secure file uploads with validation, previews, and proper server-side handling. This demo shows drag-and-drop functionality.',
+							excerpt: 'Implementing file uploads the right way',
+							status: 'published',
+							authorId,
+							publishedAt: new Date(Date.now() - 345600000) // 4 days ago
+						},
+						{
+							title: 'Building Multi-Step Forms',
+							slug: 'multi-step-forms',
+							content:
+								'Multi-step forms require careful state management and validation. This demo shows progress tracking, back/forward navigation, and per-step validation.',
+							excerpt: 'Creating wizard-style forms with progressive disclosure',
+							status: 'draft',
+							authorId
+						},
+						{
+							title: 'Search and Autocomplete Implementation',
+							slug: 'search-autocomplete',
+							content:
+								'Implement debounced search with keyboard navigation and result highlighting. Learn about performance optimization and UX best practices.',
+							excerpt: 'Building a responsive search experience',
+							status: 'draft',
+							authorId
+						},
+						{
+							title: 'Admin Panel Design Patterns',
+							slug: 'admin-panel-patterns',
+							content:
+								'The admin panel demonstrates role-based access control, user management, and statistics dashboards. Learn how to protect routes and manage permissions.',
+							excerpt: 'Creating admin interfaces with RBAC',
+							status: 'published',
+							authorId,
+							publishedAt: new Date(Date.now() - 432000000) // 5 days ago
+						},
+						{
+							title: 'Testing Strategies for SvelteKit',
+							slug: 'testing-strategies',
+							content:
+								'Comprehensive testing includes component tests, E2E tests, and API tests. Learn about Vitest, Playwright, and Testing Library.',
+							excerpt: 'How to test your SvelteKit application effectively',
+							status: 'archived',
+							authorId
+						},
+						{
+							title: 'Deploying to Production',
+							slug: 'production-deployment',
+							content:
+								'Production deployment involves Docker, environment configuration, database migrations, and monitoring. Follow the deployment guide for best practices.',
+							excerpt: 'Steps to deploy your application to production',
+							status: 'published',
+							featured: true,
+							authorId,
+							publishedAt: new Date(Date.now() - 518400000) // 6 days ago
+						}
+					])
+					.onConflictDoNothing();
+
+				console.log('✅ Demo posts seeded successfully!');
+			}
+		}
 
 		console.log('✅ Database seeded successfully!');
 	} catch (error) {

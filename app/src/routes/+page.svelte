@@ -43,17 +43,70 @@
 		}
 	];
 
-	const quickLinks = [
+	const demos = [
 		{
-			title: 'Lucia Authentication Demo',
-			description: 'Test the authentication system with login and registration.',
+			title: '🔐 Authentication',
+			description: 'Session-based auth with login, registration, and secure cookie management.',
 			href: '/demo/lucia',
-			external: false
+			external: false,
+			badge: 'Auth'
 		},
 		{
-			title: 'Paraglide Demo',
-			description: 'Test multi-lingual support.',
-			href: '/demo/lucia',
+			title: '📝 CRUD Operations',
+			description: 'Complete data table with pagination, sorting, filtering, and full CRUD.',
+			href: '/demo/crud',
+			external: false,
+			badge: 'Data'
+		},
+		{
+			title: '📤 File Upload',
+			description: 'Drag-and-drop file upload with validation, preview, and server handling.',
+			href: '/demo/upload',
+			external: false,
+			badge: 'Files'
+		},
+		{
+			title: '🪄 Multi-Step Wizard',
+			description: 'Progressive form with step tracking, validation, and state management.',
+			href: '/demo/wizard',
+			external: false,
+			badge: 'Forms'
+		},
+		{
+			title: '🔍 Search Autocomplete',
+			description: 'Debounced search with keyboard navigation and highlighted results.',
+			href: '/demo/search',
+			external: false,
+			badge: 'Search'
+		},
+		{
+			title: '🌐 Internationalization',
+			description: 'Multi-language support with Paraglide (English/Spanish).',
+			href: '/demo/paraglide',
+			external: false,
+			badge: 'i18n'
+		},
+		{
+			title: '🔔 Toast Notifications',
+			description: 'Toast notification system with auto-dismiss and queuing.',
+			href: '/demo/toasts',
+			external: false,
+			badge: 'UI'
+		},
+		{
+			title: '👑 Admin Panel',
+			description: 'Role-based admin interface with user management and statistics.',
+			href: '/admin',
+			external: false,
+			badge: 'Admin'
+		}
+	];
+
+	const quickLinks = [
+		{
+			title: 'API Documentation',
+			description: 'Explore the REST API endpoints with examples.',
+			href: '/api/posts',
 			external: false
 		},
 		{
@@ -86,8 +139,8 @@
 	description="A modern, production-ready SvelteKit template with TypeScript, authentication, database setup, and containerized development environment."
 >
 	{#snippet actions()}
-		<Button size="lg" onclick={() => window.location.href = '/demo/lucia'}>
-			Try Authentication Demo
+		<Button size="lg" onclick={() => window.location.href = '/demo/crud'}>
+			Explore Live Demos
 			<svg class="button-icon" fill="currentColor" viewBox="0 0 20 20">
 				<path
 					fill-rule="evenodd"
@@ -96,18 +149,17 @@
 				/>
 			</svg>
 		</Button>
-		<Button 
-			size="lg" 
-			variant="secondary" 
-			onclick={() => window.open('https://svelte.dev/docs/kit', '_blank')}
+		<Button
+			size="lg"
+			variant="secondary"
+			onclick={() => window.location.href = '/demo/lucia'}
 		>
-			View Documentation
-			<svg class="button-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+			Try Authentication
+			<svg class="button-icon" fill="currentColor" viewBox="0 0 20 20">
 				<path
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					stroke-width="2"
-					d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+					fill-rule="evenodd"
+					d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+					clip-rule="evenodd"
 				/>
 			</svg>
 		</Button>
@@ -153,24 +205,63 @@
 	</Container>
 </section>
 
-<!-- Quick Links Section -->
+<!-- Interactive Demos Section -->
 <section class="section section-secondary">
 	<Container size="lg">
 		<Stack gap="xl">
 			<Stack gap="md" align="center" class="section-header">
 				<h2 class="section-title">
-					Quick Links
+					Interactive Demos
 				</h2>
 				<p class="section-description">
-					Explore the features and get started with development.
+					Explore production-ready patterns and implementations you can use immediately.
+				</p>
+			</Stack>
+
+			<CardGrid minWidth="320px" gap="lg">
+				{#each demos as demo (demo.title)}
+					<Card
+						hoverable
+						clickable
+						onclick={() => window.location.href = demo.href}
+						padding="lg"
+					>
+						<Stack gap="md">
+							<Flex justify="between" align="start">
+								<h3 class="demo-title">
+									{demo.title}
+								</h3>
+								<Badge text={demo.badge} variant="primary" size="sm" />
+							</Flex>
+							<p class="demo-description">
+								{demo.description}
+							</p>
+						</Stack>
+					</Card>
+				{/each}
+			</CardGrid>
+		</Stack>
+	</Container>
+</section>
+
+<!-- Quick Links Section -->
+<section class="section">
+	<Container size="lg">
+		<Stack gap="xl">
+			<Stack gap="md" align="center" class="section-header">
+				<h2 class="section-title">
+					Resources
+				</h2>
+				<p class="section-description">
+					Documentation and additional resources to help you get started.
 				</p>
 			</Stack>
 
 			<Grid columns={3} gap="lg">
 				{#each quickLinks as link (link.title)}
-					<Card 
-						hoverable 
-						clickable 
+					<Card
+						hoverable
+						clickable
 						onclick={() => link.external ? window.open(link.href, '_blank') : window.location.href = link.href}
 						padding="lg"
 					>
@@ -202,7 +293,7 @@
 </section>
 
 <!-- Getting Started Section -->
-<section class="section">
+<section class="section section-secondary">
 	<Container size="default">
 		<Stack gap="xl">
 			<Stack gap="md" align="center" class="section-header">
@@ -218,21 +309,29 @@
 				<pre class="code-pre"><code># Clone the repository
 git clone https://github.com/Akidi/starter-app.git
 
-# Install dependencies
-cd starter-app/app
-pnpm install
+# Navigate to setup directory
+cd starter-app/setup
 
-# Set up the development environment
-./setup.ps1 -AppName myapp -Env dev
+# Run bootstrap script (PowerShell 7.2+)
+./bootstrap.ps1 -AppName myapp -Environment dev
 
 # Start development
-docker-compose -f docker-compose.dev.yml up -d</code></pre>
+cd ../
+docker-compose up -d
+
+# Access the app
+# http://localhost:5173</code></pre>
 			</div>
 
-			<Alert type="info" title="Development Ready">
-				This template includes Docker containers for PostgreSQL, Redis, and the SvelteKit
-				application. Everything is configured and ready for development.
-			</Alert>
+			<Grid columns={2} gap="lg">
+				<Alert type="success" title="Production Ready">
+					Includes Docker, PostgreSQL, Redis, authentication, testing, and deployment guides.
+					Everything configured for immediate development.
+				</Alert>
+				<Alert type="info" title="Comprehensive Tests">
+					60+ tests covering components, E2E flows, and API endpoints. Run with `pnpm test`.
+				</Alert>
+			</Grid>
 		</Stack>
 	</Container>
 </section>
@@ -298,6 +397,20 @@ docker-compose -f docker-compose.dev.yml up -d</code></pre>
 	.link-description {
 		color: var(--text-secondary);
 		margin: 0;
+	}
+
+	.demo-title {
+		font-size: var(--font-size-lg);
+		font-weight: var(--font-weight-semibold);
+		color: var(--text-primary);
+		margin: 0;
+	}
+
+	.demo-description {
+		color: var(--text-secondary);
+		font-size: 0.875rem;
+		margin: 0;
+		line-height: 1.5;
 	}
 
 	.external-icon {
