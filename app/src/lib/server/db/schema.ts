@@ -6,3 +6,5 @@ export {
 	userRoleAssignments,
 	apiKeys
 } from './auth';
+
+export { post as posts, type Post, type NewPost } from './content';
