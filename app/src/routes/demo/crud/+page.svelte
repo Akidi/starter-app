@@ -3,18 +3,19 @@
 	import { enhance } from '$app/forms';
 	import { goto, invalidateAll } from '$app/navigation';
 	import { page } from '$app/stores';
-	import Container from '$lib/components/layout/Container/Container.svelte';
-	import Stack from '$lib/components/layout/Stack/Stack.svelte';
-	import Card from '$lib/components/ui/Card/Card.svelte';
-	import Button from '$lib/components/ui/Button/Button.svelte';
-	import TextInput from '$lib/components/ui/TextInput/TextInput.svelte';
-	import Select from '$lib/components/ui/Select/Select.svelte';
-	import Textarea from '$lib/components/ui/Textarea/Textarea.svelte';
-	import Badge from '$lib/components/ui/Badge/Badge.svelte';
-	import Modal from '$lib/components/ui/Modal/Modal.svelte';
-	import Table from '$lib/components/ui/Table/Table.svelte';
-	import Pagination from '$lib/components/ui/Pagination/Pagination.svelte';
-	import { addToast } from '$lib/stores/toasts';
+	import { Container, Stack } from '$lib/components/layout';
+	import {
+		Card,
+		Button,
+		TextInput,
+		Select,
+		Textarea,
+		Badge,
+		Modal,
+		Table,
+		Pagination
+	} from '$lib/components/ui';
+	import { toasts } from '$lib/stores/toasts';
 
 	export let data: PageData;
 
@@ -181,6 +182,7 @@
 				<div style="display: flex; gap: 1rem; flex-wrap: wrap;">
 					<div style="flex: 1; min-width: 200px;">
 						<TextInput
+							label="Search"
 							id="search"
 							name="search"
 							type="search"
@@ -190,7 +192,13 @@
 						/>
 					</div>
 					<div style="min-width: 150px;">
-						<Select id="status" name="status" bind:value={statusValue} onchange={updateFilters}>
+						<Select
+							label="Status"
+							id="status"
+							name="status"
+							bind:value={statusValue}
+							onchange={updateFilters}
+						>
 							<option value="all">All Status</option>
 							<option value="draft">Draft</option>
 							<option value="published">Published</option>
@@ -244,7 +252,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						{#each data.posts as { post, author }}
+						{#each data.posts as { post, author } (post.id)}
 							<tr>
 								<td>
 									<Stack gap="xs">
@@ -260,7 +268,7 @@
 								</td>
 								<td>{author?.name || 'Unknown'}</td>
 								<td>
-									<Badge variant={getStatusVariant(post.status)}>{post.status}</Badge>
+									<Badge variant={getStatusVariant(post.status)} text={post.status} />
 								</td>
 								<td>{formatDate(post.createdAt)}</td>
 								<td>
@@ -302,7 +310,12 @@
 </Container>
 
 <!-- Create Post Modal -->
-<Modal bind:isOpen={isCreateModalOpen} title="Create New Post" size="lg">
+<Modal
+	isOpen={isCreateModalOpen}
+	onClose={() => (isCreateModalOpen = false)}
+	title="Create New Post"
+	maxWidth="lg"
+>
 	<form
 		method="post"
 		action="?/create"
@@ -312,10 +325,13 @@
 				isSubmitting = false;
 				if (result.type === 'success') {
 					isCreateModalOpen = false;
-					addToast({ type: 'success', message: 'Post created successfully!' });
+					toasts.add({ type: 'success', message: 'Post created successfully!' });
 					await update();
 				} else if (result.type === 'failure') {
-					addToast({ type: 'error', message: result.data?.message || 'Failed to create post' });
+					toasts.add({
+						type: 'error',
+						message: (result.data?.message as string) || 'Failed to create post'
+					});
 				}
 			};
 		}}
@@ -328,6 +344,7 @@
 				required
 				placeholder="Enter post title"
 				onblur={(e) => {
+					if (!(e.currentTarget instanceof HTMLInputElement)) return;
 					const slugInput = document.getElementById('create-slug') as HTMLInputElement;
 					if (slugInput && !slugInput.value) {
 						slugInput.value = generateSlug(e.currentTarget.value);
@@ -386,7 +403,12 @@
 </Modal>
 
 <!-- Edit Post Modal -->
-<Modal bind:isOpen={isEditModalOpen} title="Edit Post" size="lg">
+<Modal
+	isOpen={isEditModalOpen}
+	onClose={() => (isEditModalOpen = false)}
+	title="Edit Post"
+	maxWidth="lg"
+>
 	{#if selectedPost}
 		<form
 			method="post"
@@ -398,12 +420,12 @@
 					if (result.type === 'success') {
 						isEditModalOpen = false;
 						selectedPost = null;
-						addToast({ type: 'success', message: 'Post updated successfully!' });
+						toasts.add({ type: 'success', message: 'Post updated successfully!' });
 						await update();
 					} else if (result.type === 'failure') {
-						addToast({
+						toasts.add({
 							type: 'error',
-							message: result.data?.message || 'Failed to update post'
+							message: (result.data?.message as string) || 'Failed to update post'
 						});
 					}
 				};
@@ -472,7 +494,12 @@
 </Modal>
 
 <!-- Delete Confirmation Modal -->
-<Modal bind:isOpen={isDeleteModalOpen} title="Delete Post" size="sm">
+<Modal
+	isOpen={isDeleteModalOpen}
+	onClose={() => (isDeleteModalOpen = false)}
+	title="Delete Post"
+	maxWidth="sm"
+>
 	{#if selectedPost}
 		<form
 			method="post"
@@ -484,12 +511,12 @@
 					if (result.type === 'success') {
 						isDeleteModalOpen = false;
 						selectedPost = null;
-						addToast({ type: 'success', message: 'Post deleted successfully!' });
+						toasts.add({ type: 'success', message: 'Post deleted successfully!' });
 						await update();
 					} else if (result.type === 'failure') {
-						addToast({
+						toasts.add({
 							type: 'error',
-							message: result.data?.message || 'Failed to delete post'
+							message: (result.data?.message as string) || 'Failed to delete post'
 						});
 					}
 				};

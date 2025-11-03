@@ -2,19 +2,12 @@
 	import type { PageData } from './$types';
 	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
-	import Stack from '$lib/components/layout/Stack/Stack.svelte';
-	import Card from '$lib/components/ui/Card/Card.svelte';
-	import Button from '$lib/components/ui/Button/Button.svelte';
-	import TextInput from '$lib/components/ui/TextInput/TextInput.svelte';
-	import Select from '$lib/components/ui/Select/Select.svelte';
-	import Badge from '$lib/components/ui/Badge/Badge.svelte';
-	import Modal from '$lib/components/ui/Modal/Modal.svelte';
-	import Table from '$lib/components/ui/Table/Table.svelte';
-	import Pagination from '$lib/components/ui/Pagination/Pagination.svelte';
-	import { addToast } from '$lib/stores/toasts';
+	import { page } from '$app/state';
+	import { Stack } from '$lib/components/layout';
+	import { Card, Button, TextInput, Select, Badge, Modal, Table, Pagination } from '$lib/components/ui';
+	import { toasts } from '$lib/stores/toasts';
 
-	export let data: PageData;
+	let { data }: PageData = $props();
 
 	// Modal state
 	let isEditRoleModalOpen = $state(false);
@@ -28,7 +21,7 @@
 
 	// Handle filter changes
 	function updateFilters() {
-		const url = new URL($page.url);
+		const url = new URL(page.url);
 		url.searchParams.set('page', '1');
 		if (searchValue) url.searchParams.set('search', searchValue);
 		else url.searchParams.delete('search');
@@ -39,7 +32,7 @@
 
 	// Handle pagination
 	function goToPage(pageNum: number) {
-		const url = new URL($page.url);
+		const url = new URL(page.url);
 		url.searchParams.set('page', pageNum.toString());
 		goto(url.toString(), { invalidateAll: true });
 	}
@@ -106,7 +99,7 @@
 					/>
 				</div>
 				<div style="min-width: 150px;">
-					<Select id="role" name="role" bind:value={roleValue} onchange={updateFilters}>
+					<Select id="role" label="Role" name="role" bind:value={roleValue} onchange={updateFilters}>
 						<option value="all">All Roles</option>
 						<option value="admin">Admin</option>
 						<option value="moderator">Moderator</option>
@@ -140,7 +133,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					{#each data.users as user}
+					{#each data.users as user (user.id)}
 						<tr>
 							<td>
 								<Stack gap="xs">
@@ -151,7 +144,7 @@
 								</Stack>
 							</td>
 							<td>
-								<Badge variant={getRoleBadgeVariant(user.role)}>{user.role}</Badge>
+								<Badge variant={getRoleBadgeVariant(user.role)} text={user.role} />
 							</td>
 							<td>{formatDate(user.createdAt)}</td>
 							<td>{formatDate(user.updatedAt)}</td>
@@ -194,7 +187,7 @@
 </Stack>
 
 <!-- Edit Role Modal -->
-<Modal bind:isOpen={isEditRoleModalOpen} title="Edit User Role" size="sm">
+<Modal isOpen={isEditRoleModalOpen} onClose={() => isEditRoleModalOpen = false} title="Edit User Role" maxWidth="sm">
 	{#if selectedUser}
 		<form
 			method="post"
@@ -206,10 +199,10 @@
 					if (result.type === 'success') {
 						isEditRoleModalOpen = false;
 						selectedUser = null;
-						addToast({ type: 'success', message: 'User role updated successfully!' });
+						toasts.add({ type: 'success', message: 'User role updated successfully!' });
 						await update();
 					} else if (result.type === 'failure') {
-						addToast({
+						toasts.add({
 							type: 'error',
 							message: result.data?.message || 'Failed to update role'
 						});
@@ -260,7 +253,7 @@
 </Modal>
 
 <!-- Delete User Modal -->
-<Modal bind:isOpen={isDeleteModalOpen} title="Delete User" size="sm">
+<Modal isOpen={isDeleteModalOpen} onClose={() => isDeleteModalOpen = false} title="Delete User" maxWidth="sm">
 	{#if selectedUser}
 		<form
 			method="post"
@@ -272,10 +265,10 @@
 					if (result.type === 'success') {
 						isDeleteModalOpen = false;
 						selectedUser = null;
-						addToast({ type: 'success', message: 'User deleted successfully!' });
+						toasts.add({ type: 'success', message: 'User deleted successfully!' });
 						await update();
 					} else if (result.type === 'failure') {
-						addToast({
+						toasts.add({
 							type: 'error',
 							message: result.data?.message || 'Failed to delete user'
 						});

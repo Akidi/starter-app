@@ -104,5 +104,9 @@
     "**/node_modules/**": true,
     "**/.svelte-kit/**": true,
     "**/build/**": true
-  }
+  },
+  "cSpell.words": [
+    "onvalid",
+    "pgcrypto"
+  ]
 }

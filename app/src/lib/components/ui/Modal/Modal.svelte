@@ -42,7 +42,6 @@ Uses dialog role with proper ARIA attributes. Implements focus trapping and retu
 
 <script lang="ts">
 	import type { Snippet } from 'svelte';
-	import { onMount } from 'svelte';
 	import { Stack } from '$lib/components/layout';
 
 	interface Props {

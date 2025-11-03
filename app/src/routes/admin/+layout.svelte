@@ -1,10 +1,15 @@
 <script lang="ts">
+	import type { Snippet } from 'svelte';
 	import type { LayoutData } from './$types';
-	import { page } from '$app/stores';
-	import Container from '$lib/components/layout/Container/Container.svelte';
-	import Stack from '$lib/components/layout/Stack/Stack.svelte';
+	import { page } from '$app/state';
+	import { Container, Stack } from '$lib/components/layout';
 
-	export let data: LayoutData;
+	interface Props {
+		data: LayoutData;
+		children: Snippet;
+	}
+
+	let { data, children }: Props = $props();
 
 	const navItems = [
 		{ href: '/admin', label: 'Dashboard', icon: '📊' },
@@ -13,7 +18,7 @@
 	];
 
 	function isActive(href: string): boolean {
-		return $page.url.pathname === href;
+		return page.url.pathname === href;
 	}
 </script>
 
@@ -32,7 +37,7 @@
 			</div>
 
 			<nav style="display: flex; gap: 1rem;">
-				{#each navItems as item}
+				{#each navItems as item (item.href)}
 					<a
 						href={item.href}
 						style="padding: 0.5rem 1rem; border-radius: var(--radius-md); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; {isActive(
@@ -52,6 +57,6 @@
 
 <Container>
 	<div style="margin-top: 2rem; margin-bottom: 3rem;">
-		<slot />
+		{@render children()}
 	</div>
 </Container>

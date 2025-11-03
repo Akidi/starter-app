@@ -70,7 +70,7 @@
 		id: string;
 		name: string;
 		label: string;
-		type?: 'text' | 'email' | 'password' | 'number' | 'tel' | 'url';
+		type?: 'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'search';
 		value?: string | null;
 		placeholder?: string;
 		required?: boolean;
@@ -90,6 +90,7 @@
 		oninput?: (e: Event) => void;
 		onblur?: (e: FocusEvent) => void;
 		onfocus?: (e: FocusEvent) => void;
+		onchange?: (e: Event) => void;
 		onvalid?: (isValid: boolean) => void;
 	}
 
@@ -117,6 +118,7 @@
 		oninput,
 		onblur,
 		onfocus,
+		onchange,
 		onvalid
 	}: Props = $props();
 
@@ -189,6 +191,10 @@
 		onblur?.(e);
 	};
 
+	const handleChange = (e: Event) => {
+		onchange?.(e);
+	}
+
 	const handleFocus = (e: FocusEvent) => {
 		onfocus?.(e);
 	};
@@ -229,6 +235,7 @@
 			{pattern}
 			oninput={handleInput}
 			onblur={handleBlur}
+			onchange={handleChange}
 			onfocus={handleFocus}
 			class:has-error={displayError}
 			class:is-valid={showValid}

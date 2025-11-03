@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Container, Stack } from '$lib/components/layout';
-	import { Card, Button, Form } from '$lib/components/ui';
+	import { Card, Button } from '$lib/components/ui';
 	import { toasts } from '$lib/stores/toasts';
 
 	let fileInput = $state<HTMLInputElement | null>(null);
@@ -8,7 +8,7 @@
 	let selectedFile = $state<File | null>(null);
 	let previewUrl = $state<string | null>(null);
 	let isUploading = $state(false);
-	let uploadedFile = $state<any>(null);
+	let uploadedFile = $state<File | null>(null);
 
 	const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 	const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];

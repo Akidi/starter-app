@@ -1,7 +1,6 @@
 <script lang="ts">
-	import Button from '$lib/components/ui/Button/Button.svelte';
-	import Stack from '$lib/components/layout/Stack/Stack.svelte';
-	import Card from '$lib/components/ui/Card/Card.svelte';
+	import { Stack } from '$lib/components/layout';
+	import { Button, Card } from '$lib/components/ui';
 
 	// Simple redirect to CRUD demo (admins see all posts there)
 </script>

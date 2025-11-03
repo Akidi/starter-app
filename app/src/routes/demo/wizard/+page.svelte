@@ -182,7 +182,7 @@
 
 					<!-- Step Indicators -->
 					<div style="display: flex; justify-content: space-between;">
-						{#each [1, 2, 3] as step}
+						{#each [1, 2, 3] as step (index)}
 							<div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
 								<div
 									style="width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; {currentStep ===
@@ -351,7 +351,7 @@
 							<div
 								style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;"
 							>
-								{#each ['free', 'starter', 'professional', 'enterprise'] as planOption}
+								{#each ['free', 'starter', 'professional', 'enterprise'] as planOption (index)}
 									<label
 										style="border: 2px solid {plan === planOption
 											? 'var(--color-primary)'

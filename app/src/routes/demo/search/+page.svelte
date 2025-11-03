@@ -1,10 +1,7 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import Container from '$lib/components/layout/Container/Container.svelte';
-	import Stack from '$lib/components/layout/Stack/Stack.svelte';
-	import Card from '$lib/components/ui/Card/Card.svelte';
-	import Badge from '$lib/components/ui/Badge/Badge.svelte';
-	import Loading from '$lib/components/ui/Loading/Loading.svelte';
+	import { Container, Stack } from '$lib/components/layout';
+	import { Card, Badge, Loading } from '$lib/components/ui';
 
 	export let data: PageData;
 
@@ -210,9 +207,11 @@
 												style="font-weight: 600; display: flex; justify-content: space-between; align-items: center; gap: 0.5rem;"
 											>
 												<span>{@html highlightMatch(result.title, searchQuery)}</span>
-												<Badge variant={getStatusVariant(result.status)} size="sm">
-													{result.status}
-												</Badge>
+												<Badge
+													variant={getStatusVariant(result.status)}
+													size="sm"
+													text={result.status}
+												/>
 											</div>
 											{#if result.excerpt}
 												<div

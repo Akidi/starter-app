@@ -1,12 +1,11 @@
 <script lang="ts">
-	import { page } from '$app/stores';
-	import Button from '$lib/components/ui/Button/Button.svelte';
-	import Container from '$lib/components/layout/Container/Container.svelte';
-	import Stack from '$lib/components/layout/Stack/Stack.svelte';
+	import { page } from '$app/state';
+	import { Button } from '$lib/components/ui';
+	import { Container, Stack } from '$lib/components/layout';
 
 	// Get error details
-	const status = $page.status;
-	const message = $page.error?.message || 'An unexpected error occurred';
+	const status = page.status;
+	const message = page.error?.message || 'An unexpected error occurred';
 
 	// Error-specific content
 	const errorContent: Record<number, { title: string; description: string; emoji: string }> = {
@@ -66,10 +65,10 @@
 
 		<Stack gap="sm" style="margin-top: 1rem;">
 			<div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-				<Button variant="primary" href="/">Go Home</Button>
+				<a href="/">Go Home</a>
 
 				{#if status === 401}
-					<Button variant="secondary" href="/demo/lucia/login">Log In</Button>
+					<a href="/demo/lucia/login">Log In</a>
 				{/if}
 
 				<Button
@@ -106,8 +105,8 @@
 							{
 								status,
 								message,
-								url: $page.url.pathname,
-								error: $page.error
+								url: page.url.pathname,
+								error: page.error
 							},
 							null,
 							2
