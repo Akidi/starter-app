@@ -1,10 +1,6 @@
 <script lang="ts">
-	import type { PageData } from './$types';
 	import { Container, Stack } from '$lib/components/layout';
 	import { Card, Badge, Loading } from '$lib/components/ui';
-
-	export let data: PageData;
-
 	let searchQuery = $state('');
 	let results = $state<any[]>([]);
 	let isLoading = $state(false);
@@ -207,11 +203,9 @@
 												style="font-weight: 600; display: flex; justify-content: space-between; align-items: center; gap: 0.5rem;"
 											>
 												<span>{@html highlightMatch(result.title, searchQuery)}</span>
-												<Badge
-													variant={getStatusVariant(result.status)}
-													size="sm"
-													text={result.status}
-												/>
+												<Badge variant={getStatusVariant(result.status)} ="sm">
+													{result.status}
+												</Badge>
 											</div>
 											{#if result.excerpt}
 												<div
