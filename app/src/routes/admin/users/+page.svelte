@@ -184,7 +184,7 @@
 								</Stack>
 							</td>
 							<td>
-								<Badge variant={getRoleBadgeVariant(user.role)} text={user.role} />
+								<Badge variant={getRoleBadgeVariant(user.role)}>{user.role}</Badge>
 							</td>
 							<td>{formatDate(user.createdAt)}</td>
 							<td>{formatDate(user.updatedAt)}</td>
