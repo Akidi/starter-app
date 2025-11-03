@@ -85,17 +85,6 @@
 				return true;
 
 			default:
-				return false;
-		}
-	}
-
-	function isValidUrl(url: string): boolean {
-		try {
-			new URL(url);
-			return true;
-		} catch {
-			return false;
-		}
 	}
 
 	function isValidEmail(email: string): boolean {
