@@ -4,7 +4,16 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
 	import { Stack } from '$lib/components/layout';
-	import { Card, Button, TextInput, Select, Badge, Modal, Table, Pagination } from '$lib/components/ui';
+	import {
+		Card,
+		Button,
+		TextInput,
+		Select,
+		Badge,
+		Modal,
+		Table,
+		Pagination
+	} from '$lib/components/ui';
 	import { toasts } from '$lib/stores/toasts';
 
 	let { data }: PageData = $props();
@@ -99,7 +108,13 @@
 					/>
 				</div>
 				<div style="min-width: 150px;">
-					<Select id="role" label="Role" name="role" bind:value={roleValue} onchange={updateFilters}>
+					<Select
+						id="role"
+						name="role"
+						label="Role"
+						bind:value={roleValue}
+						onchange={updateFilters}
+					>
 						<option value="all">All Roles</option>
 						<option value="admin">Admin</option>
 						<option value="moderator">Moderator</option>
@@ -187,7 +202,12 @@
 </Stack>
 
 <!-- Edit Role Modal -->
-<Modal isOpen={isEditRoleModalOpen} onClose={() => isEditRoleModalOpen = false} title="Edit User Role" maxWidth="sm">
+<Modal
+	isOpen={isEditRoleModalOpen}
+	onClose={() => (isEditRoleModalOpen = false)}
+	title="Edit User Role"
+	maxWidth="sm"
+>
 	{#if selectedUser}
 		<form
 			method="post"
@@ -253,7 +273,12 @@
 </Modal>
 
 <!-- Delete User Modal -->
-<Modal isOpen={isDeleteModalOpen} onClose={() => isDeleteModalOpen = false} title="Delete User" maxWidth="sm">
+<Modal
+	isOpen={isDeleteModalOpen}
+	onClose={() => (isDeleteModalOpen = false)}
+	title="Delete User"
+	maxWidth="sm"
+>
 	{#if selectedUser}
 		<form
 			method="post"

@@ -26,7 +26,9 @@
 				</p>
 			</div>
 			<div>
-				<Button variant="primary" href="/demo/crud">Go to CRUD Demo</Button>
+				<a href="/demo/crud" style="text-decoration: none;">
+					<Button variant="primary">Go to CRUD Demo</Button>
+				</a>
 			</div>
 		</Stack>
 	</Card>

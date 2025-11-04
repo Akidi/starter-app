@@ -65,10 +65,14 @@
 
 		<Stack gap="sm" style="margin-top: 1rem;">
 			<div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-				<a href="/">Go Home</a>
+				<a href="/" style="text-decoration: none;">
+					<Button variant="primary">Go Home</Button>
+				</a>
 
 				{#if status === 401}
-					<a href="/demo/lucia/login">Log In</a>
+					<a href="/demo/lucia/login" style="text-decoration: none;">
+						<Button variant="secondary">Log In</Button>
+					</a>
 				{/if}
 
 				<Button
