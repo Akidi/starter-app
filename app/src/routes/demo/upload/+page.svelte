@@ -137,10 +137,10 @@
 							ondragover={handleDragOver}
 							ondragleave={handleDragLeave}
 							ondrop={handleDrop}
-							onclick={() => fileInput && fileInput.click()}
+							onclick={() => fileInput?.click()}
 							onkeydown={(e) => {
-								if ((e.key === 'Enter' || e.key === ' ') && fileInput) {
-									fileInput.click();
+								if (e.key === 'Enter' || e.key === ' ') {
+									fileInput?.click();
 								}
 							}}
 							style="border: 2px dashed {isDragOver
