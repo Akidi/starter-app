@@ -1,5 +1,4 @@
 <script lang="ts">
-	import type { PageData } from './$types';
 	import { enhance } from '$app/forms';
 	import { goto, invalidateAll } from '$app/navigation';
 	import { page } from '$app/stores';
@@ -17,13 +16,56 @@
 	} from '$lib/components/ui';
 	import { toasts } from '$lib/stores/toasts';
 
-	export let data: PageData;
+	interface Post {
+		id: string;
+		title: string;
+		slug: string;
+		content: string;
+		excerpt?: string;
+		status: string;
+		createdAt: Date | null;
+	}
+
+	interface Author {
+		name: string;
+	}
+
+	interface PostWithAuthor {
+		post: Post;
+		author: Author | null;
+	}
+
+	interface Props {
+		data: {
+			posts: PostWithAuthor[];
+			filters: {
+				search: string;
+				status: string;
+				sortBy: string;
+				sortOrder: string;
+			};
+			stats: {
+				total: number;
+				published: number;
+				drafts: number;
+				archived: number;
+			};
+			pagination: {
+				page: number;
+				limit: number;
+				total: number;
+				totalPages: number;
+			};
+		};
+	}
+
+	let { data }: Props = $props();
 
 	// Modal state
 	let isCreateModalOpen = $state(false);
 	let isEditModalOpen = $state(false);
 	let isDeleteModalOpen = $state(false);
-	let selectedPost = $state<(typeof data.posts)[0] | null>(null);
+	let selectedPost = $state<PostWithAuthor | null>(null);
 
 	// Form state
 	let isSubmitting = $state(false);
@@ -92,13 +134,13 @@
 	}
 
 	// Open edit modal
-	function openEditModal(post: (typeof data.posts)[0]) {
+	function openEditModal(post: PostWithAuthor) {
 		selectedPost = post;
 		isEditModalOpen = true;
 	}
 
 	// Open delete modal
-	function openDeleteModal(post: (typeof data.posts)[0]) {
+	function openDeleteModal(post: PostWithAuthor) {
 		selectedPost = post;
 		isDeleteModalOpen = true;
 	}
@@ -193,7 +235,6 @@
 					</div>
 					<div style="min-width: 150px;">
 						<Select
-							label="Status"
 							id="status"
 							name="status"
 							label="Status"
