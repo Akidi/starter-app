@@ -184,6 +184,7 @@
 						<Select
 							id="status"
 							name="status"
+							label="Status"
 							bind:value={statusValue}
 							onchange={updateFilters}
 						>
