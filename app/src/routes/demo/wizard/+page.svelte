@@ -7,9 +7,10 @@
 
 	interface Props {
 		data: PageData;
+		form?: any;
 	}
 
-	let { data }: Props = $props();
+	let { data, form }: Props = $props();
 
 	// Form state
 	let currentStep = $state(1);
