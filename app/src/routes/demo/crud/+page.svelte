@@ -346,7 +346,7 @@
 				onblur={(e) => {
 					if (!(e.currentTarget instanceof HTMLInputElement)) return;
 					const slugInput = document.getElementById('create-slug') as HTMLInputElement;
-					if (slugInput && !slugInput.value) {
+					if (e.currentTarget instanceof HTMLInputElement && slugInput && !slugInput.value) {
 						slugInput.value = generateSlug(e.currentTarget.value);
 					}
 				}}

@@ -429,7 +429,7 @@
 						successfully.
 					</p>
 
-					{#if form?.data}
+					{#if data}
 						<div
 							style="background: var(--bg-secondary); border-radius: var(--radius-md); padding: 1.5rem; text-align: left; max-width: 500px; margin: 1.5rem auto 0 auto;"
 						>
