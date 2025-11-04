@@ -1,7 +1,7 @@
 <script module lang="ts">
 	import { defineMeta } from '@storybook/addon-svelte-csf';
 	import { fn } from 'storybook/test';
-	import { Form } from '../Form/Form.svelte';
+	import { Form } from '../Form';
 
 	const onSubmitFn = fn().mockName('onSubmit');
 	const onResetFn = fn().mockName('onReset');
@@ -78,13 +78,13 @@
 
 <Story name="With Enhanced">
 	{#snippet template()}
-		<Form 
+		<Form
 			action="#"
 			enhance={() => {
 				isSubmitting = true;
 				enhancedFormResult = 'Submitting...';
-				
-				return async ({ result }) => {
+
+				return async ({ result }: { result: any }) => {
 					isSubmitting = false;
 					enhancedFormResult = 'Form submitted successfully!';
 					setTimeout(() => enhancedFormResult = '', 3000);
@@ -131,13 +131,13 @@
 </Story>
 
 <Story name="File Upload" args={{ enctype: 'multipart/form-data' }}>
-	{#snippet template(args)}
-		<Form 
+	{#snippet template(args: any)}
+		<Form
 			{...args}
-			onsubmit={(e) => {
+			onsubmit={(e: SubmitEvent) => {
 				e.preventDefault();
 				onSubmitFn(e);
-				const formData = new FormData(e.currentTarget);
+				const formData = new FormData(e.currentTarget as HTMLFormElement);
 				const file = formData.get('file') as File;
 				fileUploadResult = file ? `File selected: ${file.name} (${file.size} bytes)` : 'No file selected';
 			}}
@@ -173,10 +173,10 @@
 </Story>
 
 <Story name="With Validation" args={{ novalidate: false }}>
-	{#snippet template(args)}
-		<Form 
+	{#snippet template(args: any)}
+		<Form
 			{...args}
-			onsubmit={(e) => {
+			onsubmit={(e: SubmitEvent) => {
 				e.preventDefault();
 				onSubmitFn(e);
 				validationResult = 'Validation passed! Form submitted.';
@@ -226,13 +226,13 @@
 
 <Story name="With Reset">
 	{#snippet template()}
-		<Form 
-			onsubmit={(e) => {
+		<Form
+			onsubmit={(e: SubmitEvent) => {
 				e.preventDefault();
 				onSubmitFn(e);
 				resetResult = 'Form submitted!';
 			}}
-			onreset={(e) => {
+			onreset={(e: Event) => {
 				onResetFn(e);
 				resetResult = 'Form reset!';
 				setTimeout(() => resetResult = '', 2000);
@@ -272,14 +272,14 @@
 </Story>
 
 <Story name="GET Method" args={{ method: 'get' }}>
-	{#snippet template(args)}
-		<Form 
+	{#snippet template(args: any)}
+		<Form
 			{...args}
 			action="#"
-			onsubmit={(e) => {
+			onsubmit={(e: SubmitEvent) => {
 				e.preventDefault();
 				onSubmitFn(e);
-				const formData = new FormData(e.currentTarget);
+				const formData = new FormData(e.currentTarget as HTMLFormElement);
 				const params = new URLSearchParams(formData as any);
 				getMethodResult = `Would navigate to: ?${params.toString()}`;
 			}}
@@ -325,10 +325,10 @@
 </Story>
 
 <Story name="No Validation" args={{ novalidate: true }}>
-	{#snippet template(args)}
-		<Form 
+	{#snippet template(args: any)}
+		<Form
 			{...args}
-			onsubmit={(e) => {
+			onsubmit={(e: SubmitEvent) => {
 				e.preventDefault();
 				onSubmitFn(e);
 				noValidateResult = 'Form submitted (validation skipped)';
