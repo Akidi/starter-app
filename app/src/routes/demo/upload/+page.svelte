@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { PageData, ActionData } from './$types';
+	import type { PageData } from './$types';
 	import { enhance } from '$app/forms';
 	import { Container, Stack } from '$lib/components/layout';
 	import { Card, Button } from '$lib/components/ui';
@@ -7,12 +7,11 @@
 
 	interface Props {
 		data: PageData;
-		form: ActionData;
 	}
 
-	let { data, form }: Props = $props();
+	let { data }: Props = $props();
 
-	let fileInput: HTMLInputElement;
+	let fileInput = $state<HTMLInputElement>();
 	let isDragOver = $state(false);
 	let selectedFile = $state<File | null>(null);
 	let previewUrl = $state<string | null>(null);
@@ -131,7 +130,7 @@
 							} else if (result.type === 'failure') {
 								toasts.add({
 									type: 'error',
-									message: result.data?.message || 'Failed to upload file'
+									message: (result.data?.message as string) || 'Failed to upload file'
 								});
 							}
 							await update();
