@@ -323,12 +323,3 @@
 		</Card>
 	</Stack>
 </Container>
-
-<style>
-	mark {
-		background: var(--color-warning);
-		color: var(--text-primary);
-		padding: 0 0.125rem;
-		border-radius: 2px;
-	}
-</style>
