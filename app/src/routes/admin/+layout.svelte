@@ -1,11 +1,14 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
-	import type { LayoutData } from './$types';
 	import { page } from '$app/stores';
 	import { Container, Stack } from '$lib/components/layout';
 
 	interface Props {
-		data: LayoutData;
+		data: {
+			user: {
+				name: string;
+			};
+		};
 		children: Snippet;
 	}
 
