@@ -132,7 +132,6 @@
 
 <Story name="File Upload" args={{ enctype: 'multipart/form-data' }}>
 	{#snippet template(args)}
-	{args.children}
 		<Form 
 			enctype={args.enctype}
 			onsubmit={(e) => {
