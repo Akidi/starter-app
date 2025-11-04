@@ -224,7 +224,7 @@
 					} else if (result.type === 'failure') {
 						toasts.add({
 							type: 'error',
-							message: result.data?.message || 'Failed to update role'
+							message: (result.data?.message as string) || 'Failed to update role'
 						});
 					}
 				};
@@ -295,7 +295,7 @@
 					} else if (result.type === 'failure') {
 						toasts.add({
 							type: 'error',
-							message: result.data?.message || 'Failed to delete user'
+							message: (result.data?.message as string) || 'Failed to delete user'
 						});
 					}
 				};
