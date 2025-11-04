@@ -39,7 +39,7 @@
 	@param {string} id - Unique identifier for the input element
 	@param {string} name - Name attribute for form submission
 	@param {string} label - Label text displayed above the input
-	@param {'text'|'email'|'password'|'number'|'tel'|'url'} [type='text'] - HTML input type
+	@param {'text'|'email'|'password'|'number'|'tel'|'url'|'search'} [type='text'] - HTML input type
 	@param {string|null} [value=''] - Bindable input value
 	@param {string} [placeholder=''] - Placeholder text
 	@param {boolean} [required=false] - Whether the field is required
@@ -70,7 +70,7 @@
 		id: string;
 		name: string;
 		label: string;
-		type?: 'text' | 'email' | 'password' | 'number' | 'tel' | 'url';
+		type?: 'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'search';
 		value?: string | null;
 		placeholder?: string;
 		required?: boolean;

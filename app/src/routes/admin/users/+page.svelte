@@ -105,7 +105,7 @@
 					/>
 				</div>
 				<div style="min-width: 150px;">
-					<Select id="role" name="role" bind:value={roleValue} onchange={updateFilters}>
+					<Select id="role" name="role" label="Role" bind:value={roleValue} onchange={updateFilters}>
 						<option value="all">All Roles</option>
 						<option value="admin">Admin</option>
 						<option value="moderator">Moderator</option>
