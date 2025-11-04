@@ -7,10 +7,9 @@
 
 	interface Props {
 		data: PageData;
-		form?: any;
 	}
 
-	let { data, form }: Props = $props();
+	let { data }: Props = $props();
 
 	// Form state
 	let currentStep = $state(1);
@@ -186,6 +185,7 @@
 								totalSteps) *
 								100}%;"
 						></div>
+						></div>
 					</div>
 
 					<!-- Step Indicators -->
@@ -235,6 +235,7 @@
 							} else if (result.type === 'failure') {
 								toasts.add({
 									type: 'error',
+									message: (result.data?.message as string) || 'Failed to submit form'
 									message: (result.data?.message as string) || 'Failed to submit form'
 								});
 							}
@@ -395,6 +396,7 @@
 								name="agreeToTerms"
 								bind:checked={agreeToTerms}
 								label="I agree to the terms and conditions"
+								helpText="By checking this box, you agree to our Terms of Service and Privacy Policy"
 								helpText="By checking this box, you agree to our Terms of Service and Privacy Policy"
 							/>
 						</Stack>
