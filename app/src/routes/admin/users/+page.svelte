@@ -1,5 +1,4 @@
 <script lang="ts">
-	import type { PageData } from './$types';
 	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
@@ -7,8 +6,29 @@
 	import { Card, Button, TextInput, Select, Badge, Modal, Table, Pagination } from '$lib/components/ui';
 	import { toasts } from '$lib/stores/toasts';
 
+	interface User {
+		id: string;
+		name: string;
+		email: string;
+		role: string;
+		createdAt: Date | null;
+		updatedAt: Date | null;
+	}
+
 	interface Props {
-		data: PageData;
+		data: {
+			users: User[];
+			filters: {
+				search: string;
+				role: string;
+			};
+			pagination: {
+				page: number;
+				limit: number;
+				total: number;
+				totalPages: number;
+			};
+		};
 	}
 
 	let { data }: Props = $props();
@@ -16,7 +36,7 @@
 	// Modal state
 	let isEditRoleModalOpen = $state(false);
 	let isDeleteModalOpen = $state(false);
-	let selectedUser = $state<(typeof data.users)[0] | null>(null);
+	let selectedUser = $state<User | null>(null);
 	let isSubmitting = $state(false);
 
 	// Filter state
@@ -64,13 +84,13 @@
 	}
 
 	// Open edit role modal
-	function openEditRoleModal(user: (typeof data.users)[0]) {
+	function openEditRoleModal(user: User) {
 		selectedUser = user;
 		isEditRoleModalOpen = true;
 	}
 
 	// Open delete modal
-	function openDeleteModal(user: (typeof data.users)[0]) {
+	function openDeleteModal(user: User) {
 		selectedUser = user;
 		isDeleteModalOpen = true;
 	}
