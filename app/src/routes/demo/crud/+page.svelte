@@ -227,6 +227,7 @@
 							label="Search"
 							id="search"
 							name="search"
+							label="Search"
 							type="search"
 							placeholder="Search posts..."
 							bind:value={searchValue}

@@ -125,6 +125,7 @@
 					<TextInput
 						id="search"
 						name="search"
+						label="Search"
 						type="search"
 						placeholder="Search by name or email..."
 						bind:value={searchValue}
