@@ -2,6 +2,7 @@
 	import { defineMeta } from '@storybook/addon-svelte-csf';
 	import { fn } from 'storybook/test';
 	import { Form } from '../Form';
+	import { Form } from '../Form';
 
 	const onSubmitFn = fn().mockName('onSubmit');
 	const onResetFn = fn().mockName('onReset');
