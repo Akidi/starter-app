@@ -128,7 +128,7 @@
 						type="search"
 						placeholder="Search by name or email..."
 						bind:value={searchValue}
-						onchange={updateFilters}
+						oninput={updateFilters}
 					/>
 				</div>
 				<div style="min-width: 150px;">
