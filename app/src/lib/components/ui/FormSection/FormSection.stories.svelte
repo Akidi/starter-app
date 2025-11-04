@@ -78,7 +78,7 @@
 
 <Story name="With Enhanced">
 	{#snippet template()}
-		<Form 
+		<Form
 			action="#"
 			enhance={() => {
 				isSubmitting = true;
@@ -138,7 +138,7 @@
 			onsubmit={(e) => {
 				e.preventDefault();
 				onSubmitFn(e);
-				const formData = new FormData(e.currentTarget);
+				const formData = new FormData(e.currentTarget as HTMLFormElement);
 				const file = formData.get('file') as File;
 				fileUploadResult = file ? `File selected: ${file.name} (${file.size} bytes)` : 'No file selected';
 			}}
@@ -227,13 +227,13 @@
 
 <Story name="With Reset">
 	{#snippet template()}
-		<Form 
-			onsubmit={(e) => {
+		<Form
+			onsubmit={(e: SubmitEvent) => {
 				e.preventDefault();
 				onSubmitFn(e);
 				resetResult = 'Form submitted!';
 			}}
-			onreset={(e) => {
+			onreset={(e: Event) => {
 				onResetFn(e);
 				resetResult = 'Form reset!';
 				setTimeout(() => resetResult = '', 2000);
@@ -277,10 +277,10 @@
 		<Form 
 			method={args.method}
 			action="#"
-			onsubmit={(e) => {
+			onsubmit={(e: SubmitEvent) => {
 				e.preventDefault();
 				onSubmitFn(e);
-				const formData = new FormData(e.currentTarget);
+				const formData = new FormData(e.currentTarget as HTMLFormElement);
 				const params = new URLSearchParams(formData as any);
 				getMethodResult = `Would navigate to: ?${params.toString()}`;
 			}}
