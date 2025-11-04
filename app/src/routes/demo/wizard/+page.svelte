@@ -2,7 +2,12 @@
 	import { Container, Stack } from '$lib/components/layout';
 	import { Card, Button, TextInput, Select, Checkbox, Form } from '$lib/components/ui';
 	import { toasts } from '$lib/stores/toasts';
-	let { form } = $props();
+
+	interface Props {
+		data: PageData;
+	}
+
+	let { data }: Props = $props();
 
 	// Form state
 	let currentStep = $state(1);
@@ -227,6 +232,7 @@
 							} else if (result.type === 'failure') {
 								toasts.add({
 									type: 'error',
+									message: (result.data?.message as string) || 'Failed to submit form'
 									message: (result.data?.message as string) || 'Failed to submit form'
 								});
 							}
