@@ -215,7 +215,7 @@
 							type="search"
 							placeholder="Search posts..."
 							bind:value={searchValue}
-							onchange={updateFilters}
+							oninput={updateFilters}
 						/>
 					</div>
 					<div style="min-width: 150px;">
