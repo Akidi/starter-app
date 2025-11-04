@@ -1,10 +1,40 @@
 <script lang="ts">
-	import type { PageData } from './$types';
 	import { Stack } from '$lib/components/layout';
 	import { Card, Badge, Table } from '$lib/components/ui';
 
 	interface Props {
-		data: PageData;
+		data: {
+			stats: {
+				users: {
+					total: number;
+					admins: number;
+					moderators: number;
+					users: number;
+				};
+				posts: {
+					total: number;
+					published: number;
+					drafts: number;
+					archived: number;
+				};
+				sessions: {
+					active: number;
+					total: number;
+				};
+			};
+			recentUsers: Array<{
+				name: string;
+				email: string;
+				role: string;
+				createdAt: Date | null;
+			}>;
+			recentPosts: Array<{
+				title: string;
+				status: string;
+				authorName?: string;
+				createdAt: Date | null;
+			}>;
+		};
 	}
 
 	let { data }: Props = $props();
