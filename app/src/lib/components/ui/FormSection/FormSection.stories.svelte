@@ -2,6 +2,7 @@
 	import { defineMeta } from '@storybook/addon-svelte-csf';
 	import { fn } from 'storybook/test';
 	import { Form } from '../Form';
+	import { Form } from '../Form';
 
 	const onSubmitFn = fn().mockName('onSubmit');
 	const onResetFn = fn().mockName('onReset');
@@ -83,8 +84,8 @@
 			enhance={() => {
 				isSubmitting = true;
 				enhancedFormResult = 'Submitting...';
-
-				return async ({ result }: { result: any }) => {
+				
+				return async () => {
 					isSubmitting = false;
 					enhancedFormResult = 'Form submitted successfully!';
 					setTimeout(() => enhancedFormResult = '', 3000);
@@ -131,10 +132,11 @@
 </Story>
 
 <Story name="File Upload" args={{ enctype: 'multipart/form-data' }}>
-	{#snippet template(args: any)}
-		<Form
-			{...args}
-			onsubmit={(e: SubmitEvent) => {
+	{#snippet template(args)}
+	{args.children}
+		<Form 
+			enctype={args.enctype}
+			onsubmit={(e) => {
 				e.preventDefault();
 				onSubmitFn(e);
 				const formData = new FormData(e.currentTarget as HTMLFormElement);
@@ -173,10 +175,10 @@
 </Story>
 
 <Story name="With Validation" args={{ novalidate: false }}>
-	{#snippet template(args: any)}
-		<Form
-			{...args}
-			onsubmit={(e: SubmitEvent) => {
+	{#snippet template(args)}
+		<Form 
+			novalidate={args.novalidate}
+			onsubmit={(e) => {
 				e.preventDefault();
 				onSubmitFn(e);
 				validationResult = 'Validation passed! Form submitted.';
@@ -272,9 +274,9 @@
 </Story>
 
 <Story name="GET Method" args={{ method: 'get' }}>
-	{#snippet template(args: any)}
-		<Form
-			{...args}
+	{#snippet template(args)}
+		<Form 
+			method={args.method}
 			action="#"
 			onsubmit={(e: SubmitEvent) => {
 				e.preventDefault();
@@ -325,10 +327,10 @@
 </Story>
 
 <Story name="No Validation" args={{ novalidate: true }}>
-	{#snippet template(args: any)}
-		<Form
-			{...args}
-			onsubmit={(e: SubmitEvent) => {
+	{#snippet template(args)}
+		<Form 
+			novalidate={args.novalidate}
+			onsubmit={(e) => {
 				e.preventDefault();
 				onSubmitFn(e);
 				noValidateResult = 'Form submitted (validation skipped)';
