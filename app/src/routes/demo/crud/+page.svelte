@@ -316,7 +316,7 @@
 					toasts.add({ type: 'success', message: 'Post created successfully!' });
 					await update();
 				} else if (result.type === 'failure') {
-					toasts.add({ type: 'error', message: result.data?.message || 'Failed to create post' });
+					toasts.add({ type: 'error', message: (result.data?.message as string) || 'Failed to create post' });
 				}
 			};
 		}}
@@ -330,7 +330,7 @@
 				placeholder="Enter post title"
 				onblur={(e) => {
 					const slugInput = document.getElementById('create-slug') as HTMLInputElement;
-					if (slugInput && !slugInput.value) {
+					if (e.currentTarget instanceof HTMLInputElement && slugInput && !slugInput.value) {
 						slugInput.value = generateSlug(e.currentTarget.value);
 					}
 				}}
@@ -406,7 +406,7 @@
 					} else if (result.type === 'failure') {
 						toasts.add({
 							type: 'error',
-							message: result.data?.message || 'Failed to update post'
+							message: (result.data?.message as string) || 'Failed to update post'
 						});
 					}
 				};
@@ -494,7 +494,7 @@
 					} else if (result.type === 'failure') {
 						toasts.add({
 							type: 'error',
-							message: result.data?.message || 'Failed to delete post'
+							message: (result.data?.message as string) || 'Failed to delete post'
 						});
 					}
 				};
