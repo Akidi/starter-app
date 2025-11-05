@@ -1,23 +1,16 @@
 <script lang="ts">
-	import type { PageData, ActionData } from './$types';
-	import { enhance } from '$app/forms';
-	import Container from '$lib/components/layout/Container/Container.svelte';
-	import Stack from '$lib/components/layout/Stack/Stack.svelte';
-	import Card from '$lib/components/ui/Card/Card.svelte';
-	import Button from '$lib/components/ui/Button/Button.svelte';
-	import { addToast } from '$lib/stores/toasts';
+	import {Container, Stack} from '$lib/components/layout';
+	import { Card, Button, Form} from '$lib/components/ui';
+	import { toasts } from '$lib/stores/toasts';
 
-	export let data: PageData;
-	export let form: ActionData;
-
-	let fileInput: HTMLInputElement;
+	let fileInput = $state<HTMLInputElement | null>(null);
 	let isDragOver = $state(false);
 	let selectedFile = $state<File | null>(null);
 	let previewUrl = $state<string | null>(null);
 	let isUploading = $state(false);
 	let uploadedFile = $state<any>(null);
 
-	const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+	const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 	const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
 
 	function handleDragOver(event: DragEvent) {
@@ -51,7 +44,7 @@
 	function handleFileSelect(file: File) {
 		// Validate file type
 		if (!ALLOWED_TYPES.includes(file.type)) {
-			addToast({
+			toasts.add({
 				type: 'error',
 				message: `Invalid file type. Please select an image file (JPEG, PNG, GIF, or WebP).`
 			});
@@ -60,7 +53,7 @@
 
 		// Validate file size
 		if (file.size > MAX_FILE_SIZE) {
-			addToast({
+			toasts.add({
 				type: 'error',
 				message: `File too large. Maximum size is ${MAX_FILE_SIZE / 1024 / 1024}MB.`
 			});
@@ -114,22 +107,22 @@
 			<Stack gap="md">
 				<h2 style="font-size: 1.25rem; font-weight: 600; margin: 0;">Upload Image</h2>
 
-				<form
+				<Form
 					method="post"
 					action="?/upload"
 					enctype="multipart/form-data"
-					use:enhance={() => {
+					enhance={() => {
 						isUploading = true;
 						return async ({ result, update }) => {
 							isUploading = false;
 							if (result.type === 'success' && result.data?.success) {
 								uploadedFile = result.data.file;
-								addToast({ type: 'success', message: 'File uploaded successfully!' });
+								toasts.add({ type: 'success', message: 'File uploaded successfully!' });
 								clearSelection();
 							} else if (result.type === 'failure') {
-								addToast({
+								toasts.add({
 									type: 'error',
-									message: result.data?.message || 'Failed to upload file'
+									message: (result.data?.message as string) || 'Failed to upload file'
 								});
 							}
 							await update();
@@ -144,9 +137,9 @@
 							ondragover={handleDragOver}
 							ondragleave={handleDragLeave}
 							ondrop={handleDrop}
-							onclick={() => fileInput.click()}
+							onclick={() => fileInput && fileInput.click()}
 							onkeydown={(e) => {
-								if (e.key === 'Enter' || e.key === ' ') {
+								if ((e.key === 'Enter' || e.key === ' ') && fileInput) {
 									fileInput.click();
 								}
 							}}
@@ -265,7 +258,7 @@
 							</Stack>
 						</div>
 					{/if}
-				</form>
+				</Form>
 			</Stack>
 		</Card>
 
