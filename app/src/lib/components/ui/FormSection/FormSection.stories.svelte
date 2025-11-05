@@ -1,7 +1,7 @@
 <script module lang="ts">
 	import { defineMeta } from '@storybook/addon-svelte-csf';
 	import { fn } from 'storybook/test';
-	import { Form } from '../Form/Form.svelte';
+	import Form from '../Form/Form.svelte';
 
 	const onSubmitFn = fn().mockName('onSubmit');
 	const onResetFn = fn().mockName('onReset');
@@ -133,7 +133,7 @@
 <Story name="File Upload" args={{ enctype: 'multipart/form-data' }}>
 	{#snippet template(args)}
 		<Form 
-			{...args}
+			enctype={args.enctype}
 			onsubmit={(e) => {
 				e.preventDefault();
 				onSubmitFn(e);
@@ -175,7 +175,7 @@
 <Story name="With Validation" args={{ novalidate: false }}>
 	{#snippet template(args)}
 		<Form 
-			{...args}
+			novalidate={args.novalidate}
 			onsubmit={(e) => {
 				e.preventDefault();
 				onSubmitFn(e);
@@ -274,7 +274,7 @@
 <Story name="GET Method" args={{ method: 'get' }}>
 	{#snippet template(args)}
 		<Form 
-			{...args}
+			method={args.method}
 			action="#"
 			onsubmit={(e) => {
 				e.preventDefault();
@@ -327,7 +327,7 @@
 <Story name="No Validation" args={{ novalidate: true }}>
 	{#snippet template(args)}
 		<Form 
-			{...args}
+			novalidate={args.novalidate}
 			onsubmit={(e) => {
 				e.preventDefault();
 				onSubmitFn(e);

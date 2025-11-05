@@ -3,7 +3,7 @@ import postgres from 'postgres';
 import { createClient } from 'redis';
 import * as schema from './auth';
 import { env } from '$env/dynamic/private';
-import { logger } from './logger';
+import { logger } from '../logger';
 
 let writeDb: ReturnType<typeof drizzle> | null = null;
 let readDb: ReturnType<typeof drizzle> | null = null;
