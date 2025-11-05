@@ -36,5 +36,3 @@ const handleAuth: Handle = async ({ event, resolve }) => {
 };
 
 export const handle: Handle = sequence(handleParaglide, handleAuth);
-
-// Update the types to match your CachedUser interface from the Redis-enhanced auth
