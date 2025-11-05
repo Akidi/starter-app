@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Container, Stack } from '$lib/components/layout';
-	import { Card, Button } from '$lib/components/ui';
+	import { Card, Button, Form } from '$lib/components/ui';
 	import { toasts } from '$lib/stores/toasts';
 
 	let fileInput = $state<HTMLInputElement | null>(null);
@@ -137,10 +137,10 @@
 							ondragover={handleDragOver}
 							ondragleave={handleDragLeave}
 							ondrop={handleDrop}
-							onclick={() => fileInput?.click()}
+							onclick={() => fileInput && fileInput.click()}
 							onkeydown={(e) => {
-								if (e.key === 'Enter' || e.key === ' ') {
-									fileInput?.click();
+								if ((e.key === 'Enter' || e.key === ' ') && fileInput) {
+									fileInput.click();
 								}
 							}}
 							style="border: 2px dashed {isDragOver

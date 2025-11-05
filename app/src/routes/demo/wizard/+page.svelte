@@ -1,14 +1,8 @@
 <script lang="ts">
-	import { Container, Stack } from '$lib/components/layout';
-	import { Card, Button, TextInput, Select, Checkbox, Form } from '$lib/components/ui';
+	import {Container, Stack} from '$lib/components/layout';
+	import {Card, Button, TextInput, Select, Checkbox, Form} from '$lib/components/ui';
 	import { toasts } from '$lib/stores/toasts';
-
-	interface Props {
-		data: PageData;
-		form?: any;
-	}
-
-	let { data, form }: Props = $props();
+	let { form } = $props();
 
 	// Form state
 	let currentStep = $state(1);
