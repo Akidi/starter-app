@@ -1,3 +1,36 @@
+<!--
+@component
+A badge component for displaying status, labels, categories, and tags with multiple color variants and sizes.
+
+@example
+```svelte
+<Badge
+  text="New Feature"
+  variant="success"
+  size="md"
+  dot
+  removable
+  onRemove={() => console.log('removed')}
+  class="custom-class"
+/>
+```
+
+See Storybook for additional examples and visual documentation.
+
+@param {string} text - The text content to display in the badge
+@param {Variant} [variant='primary'] - Color variant: primary, secondary, success, warning, info, danger, error, neutral, blue, green, amber, red, gray, purple
+@param {'sm'|'md'|'lg'} [size='md'] - Badge size
+@param {boolean} [dot=false] - Show a status indicator dot before the text
+@param {boolean} [removable=false] - Show a remove button
+@param {() => void} [onRemove] - Callback function triggered when remove button is clicked
+@param {string} [class] - Additional CSS classes to apply to the badge
+
+@note Variant aliases are normalized: error→danger, neutral/gray→secondary, blue→primary, green→success, amber→warning, red→danger, purple→info
+
+@accessibility
+Uses role="status" for screen readers. Remove button includes descriptive aria-label. Status dot is hidden from assistive technology.
+-->
+
 <script lang="ts">
 	type Variant =
 		| 'primary'

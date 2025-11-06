@@ -1,3 +1,48 @@
+<!--
+@component
+A card container component with optional header, footer, title, and interactive states.
+
+@example
+```svelte
+<Card
+  title="Card Title"
+  subtitle="Optional subtitle"
+  padding="md"
+  style="max-width: 400px;"
+  hoverable
+  clickable
+  onclick={() => console.log('card clicked')}
+  class="custom-class"
+>
+  {#snippet header()}
+    Custom header content
+  {/snippet}
+
+  Card body content goes here
+
+  {#snippet footer()}
+    Custom footer content
+  {/snippet}
+</Card>
+```
+
+See Storybook for additional examples and visual documentation.
+
+@param {string} [title] - Card title displayed in the header
+@param {string} [subtitle] - Subtitle text displayed below the title
+@param {'none'|'sm'|'md'|'lg'} [padding='md'] - Internal padding size
+@param {string} [style] - Inline CSS styles
+@param {boolean} [hoverable=false] - Add hover effect styling
+@param {boolean} [clickable=false] - Make the entire card clickable
+@param {() => void} [onclick] - Click handler when card is clickable
+@param {string} [class] - Additional CSS classes
+@param {Snippet} [header] - Custom header content snippet
+@param {Snippet} children - Main card content
+@param {Snippet} [footer] - Custom footer content snippet
+
+@note When clickable or onclick is provided, the card becomes interactive with pointer cursor and keyboard support.
+-->
+
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 	import { Stack } from '$lib/components/layout';

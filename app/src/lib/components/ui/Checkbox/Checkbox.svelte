@@ -1,3 +1,42 @@
+<!--
+@component
+A checkbox input component with label, help text, error states, and indeterminate support.
+
+@example
+```svelte
+<Checkbox
+  id="terms"
+  name="terms"
+  label="Accept terms and conditions"
+  value="accepted"
+  bind:checked={isChecked}
+  disabled
+  required
+  error="You must accept the terms"
+  helpText="Please read our terms carefully"
+  indeterminate
+  onchange={(e) => console.log('changed')}
+/>
+```
+
+See Storybook for additional examples and visual documentation.
+
+@param {string} id - Unique identifier for the checkbox input
+@param {string} name - Name attribute for form submission
+@param {string} label - Label text displayed next to the checkbox
+@param {string} [value='on'] - Value submitted when checkbox is checked
+@param {boolean} [checked=false] - Checked state (bindable)
+@param {boolean} [disabled=false] - Disable the checkbox
+@param {boolean} [required=false] - Mark checkbox as required
+@param {string} [error] - Error message to display
+@param {string} [helpText] - Helper text displayed below the label
+@param {boolean} [indeterminate=false] - Show indeterminate state (mixed/partial selection)
+@param {(e: Event) => void} [onchange] - Change event handler
+
+@accessibility
+Uses native checkbox input with proper label association. Error messages use aria-describedby for screen reader announcement.
+-->
+
 <script lang="ts">
 	interface Props {
 		id: string;
