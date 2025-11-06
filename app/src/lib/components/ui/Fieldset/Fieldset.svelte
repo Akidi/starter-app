@@ -1,3 +1,40 @@
+<!--
+@component
+A semantic fieldset component for grouping related form controls with legend, description, validation, and help text.
+
+@example
+```svelte
+<Fieldset
+  legend="Personal Information"
+  description="Please provide your contact details"
+  error="Email is required"
+  helpText="We'll never share your information"
+  required={true}
+  disabled={false}
+  class="custom-fieldset"
+>
+  <TextInput id="name" label="Name" />
+  <TextInput id="email" label="Email" type="email" />
+</Fieldset>
+```
+
+See Storybook for additional examples and visual documentation.
+
+@param {string} legend - The fieldset legend text displayed as a heading
+@param {string} [description] - Optional description text displayed below the legend
+@param {string} [error] - Error message to display (takes precedence over helpText)
+@param {string} [helpText] - Help text displayed when no error is present
+@param {boolean} [required=false] - Shows required indicator (*) next to legend
+@param {boolean} [disabled=false] - Disables all form controls within the fieldset
+@param {string} [class] - Additional CSS classes to apply to the fieldset element
+@param {Snippet} children - Form controls to group within the fieldset
+
+@note Automatically generates unique IDs for aria-describedby linking. Error messages have role="alert" with aria-live="polite".
+
+@accessibility
+Uses semantic fieldset/legend elements. Error and help text are properly linked via aria-describedby for screen reader context.
+-->
+
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 	import { Stack } from '$lib/components/layout';

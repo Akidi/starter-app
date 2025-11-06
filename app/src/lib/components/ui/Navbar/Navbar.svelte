@@ -1,3 +1,37 @@
+<!--
+@component
+A responsive navigation bar with logo, links, dropdown menus, theme switcher, and mobile menu.
+
+@example
+```svelte
+<Navbar
+  logo="My App"
+  navLinks={[
+    { name: 'Home', href: '/' },
+    { name: 'About', href: '/about' },
+    {
+      name: 'Products',
+      children: [
+        { name: 'All Products', href: '/products', description: 'Browse catalog' },
+        { name: 'New Arrivals', href: '/products/new' }
+      ]
+    },
+    { name: 'Docs', href: 'https://docs.example.com', external: true }
+  ]}
+/>
+```
+
+See Storybook for additional examples and visual documentation.
+
+@param {string} [logo='App'] - Logo/brand text displayed in the navbar
+@param {NavItem[]} navLinks - Array of navigation items (can include nested children for dropdown menus)
+
+@note Navigation items with children prop render as dropdown menus. Active states are automatically determined based on current route. Mobile menu displays below 640px breakpoint.
+
+@accessibility
+Uses semantic nav element. Mobile menu button includes aria-controls, aria-expanded, and aria-label. Nested navigation items use proper details/summary structure in mobile view.
+-->
+
 <script lang="ts">
 	import { page } from '$app/state';
 	import type { NavItem } from '$lib/types/navigation';

@@ -1,3 +1,33 @@
+<!--
+@component
+A navigation link component with support for external links and click handlers.
+
+@example
+```svelte
+<NavLink
+  href="/products"
+  external={false}
+  onclick={() => console.log('clicked')}
+  class="custom-nav-link"
+>
+  Products
+</NavLink>
+```
+
+See Storybook for additional examples and visual documentation.
+
+@param {string} href - The URL for the navigation link
+@param {boolean} [external=false] - Whether the link points to an external site (adds target="_blank" and icon)
+@param {() => void} [onclick] - Optional click event handler
+@param {string} [class] - Additional CSS classes to apply to the anchor element
+@param {Snippet} children - The link content
+
+@note External links automatically include rel="noopener noreferrer" for security and display an external link icon.
+
+@accessibility
+External links include proper target and rel attributes. Icon is marked aria-hidden to avoid redundant screen reader announcements.
+-->
+
 <script lang="ts">
 	interface Props {
 		href: string;
