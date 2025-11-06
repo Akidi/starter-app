@@ -1,3 +1,35 @@
+<!--
+@component
+A two-panel layout component with configurable ratio and direction, ideal for split views and comparisons.
+
+@example
+```svelte
+<Split
+  ratio="2:1"
+  gap="md"
+  direction="horizontal"
+>
+  {#snippet left()}
+    <div>Larger left panel (2/3 width)</div>
+  {/snippet}
+
+  {#snippet right()}
+    <div>Smaller right panel (1/3 width)</div>
+  {/snippet}
+</Split>
+```
+
+See Storybook for additional examples and visual documentation.
+
+@param {'1:1'|'1:2'|'2:1'|'1:3'|'3:1'|string} [ratio='1:1'] - Proportion of left/right panels (or top/bottom for vertical)
+@param {'xs'|'sm'|'md'|'lg'|'xl'} [gap='md'] - Gap between panels
+@param {'horizontal'|'vertical'} [direction='horizontal'] - Split direction (side-by-side or stacked)
+@param {Snippet} left - First panel content (left for horizontal, top for vertical)
+@param {Snippet} right - Second panel content (right for horizontal, bottom for vertical)
+
+@note Ratio values are converted to CSS Grid fr units. Custom ratios like '3:2' are supported.
+-->
+
 <script lang="ts">
 	import type { Snippet } from "svelte";
 
