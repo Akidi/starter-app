@@ -1,3 +1,40 @@
+<!--
+@component
+A radio button group component for selecting a single option from multiple choices.
+
+@example
+```svelte
+<RadioGroup
+  id="plan"
+  name="plan"
+  label="Choose a plan"
+  bind:value={selectedPlan}
+  bind:checked={isPlanSelected}
+  disabled
+  required
+  onchange={(e) => console.log('selection changed')}
+  class="custom-class"
+/>
+```
+
+See Storybook for additional examples and visual documentation.
+
+@param {string} id - Unique identifier for the radio input
+@param {string} name - Name attribute shared by all radios in the group
+@param {string} label - Label text for this radio option
+@param {string} [value] - Value of this radio option (bindable)
+@param {boolean} [checked=false] - Whether this radio is selected
+@param {boolean} [disabled=false] - Disable this radio option
+@param {boolean} [required=false] - Mark radio group as required
+@param {(e: Event) => void} [onchange] - Change event handler
+@param {string} [class] - Additional CSS classes
+
+@note Use multiple RadioGroup components with the same name prop to create a radio button group.
+
+@accessibility
+Uses native radio input with proper label association. Keyboard navigation follows standard radio group behavior.
+-->
+
 <script lang="ts">
 	interface Props {
 		id: string;
