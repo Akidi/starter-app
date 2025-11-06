@@ -1,3 +1,60 @@
+<!--
+@component
+A textarea input component with auto-resize capability, validation, and character counting.
+
+@example
+```svelte
+<Textarea
+  id="description"
+  name="description"
+  label="Description"
+  bind:value={description}
+  placeholder="Enter a detailed description..."
+  rows={4}
+  minRows={3}
+  maxRows={10}
+  required
+  disabled
+  readonly
+  maxlength={500}
+  error="Description is required"
+  helpText="Provide as much detail as possible"
+  resize="auto"
+  autoResize
+  oninput={(e) => console.log('typing')}
+  onblur={(e) => console.log('blurred')}
+  onfocus={(e) => console.log('focused')}
+/>
+```
+
+See Storybook for additional examples and visual documentation.
+
+@param {string} id - Unique identifier for the textarea
+@param {string} name - Name attribute for form submission
+@param {string} label - Label text displayed above the textarea
+@param {string|null} [value] - Current textarea value (bindable)
+@param {string} [placeholder] - Placeholder text
+@param {number} [rows=4] - Initial number of visible rows
+@param {number} [minRows] - Minimum rows when auto-resizing
+@param {number} [maxRows] - Maximum rows when auto-resizing
+@param {boolean} [required=false] - Mark textarea as required
+@param {boolean} [disabled=false] - Disable the textarea
+@param {boolean} [readonly=false] - Make textarea read-only
+@param {number} [maxlength] - Maximum character length
+@param {string} [error] - Error message to display
+@param {string} [helpText] - Helper text displayed below the textarea
+@param {'none'|'vertical'|'both'|'auto'} [resize='vertical'] - Resize behavior
+@param {boolean} [autoResize=false] - Automatically adjust height based on content
+@param {(e: Event) => void} [oninput] - Input event handler
+@param {(e: FocusEvent) => void} [onblur] - Blur event handler
+@param {(e: FocusEvent) => void} [onfocus] - Focus event handler
+
+@note When autoResize is true, the textarea automatically adjusts its height to fit content between minRows and maxRows.
+
+@accessibility
+Uses native textarea element with proper label association. Character count and error messages are announced to screen readers.
+-->
+
 <script lang="ts">
 	import { Flex, Stack } from '$lib/components/layout';
 	import { getFormContext } from '$lib/contexts/form-context.svelte';
