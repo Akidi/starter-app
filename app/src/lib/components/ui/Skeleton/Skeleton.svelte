@@ -1,3 +1,31 @@
+<!--
+@component
+A skeleton loading placeholder component with multiple shapes and animations for content loading states.
+
+@example
+```svelte
+<Skeleton
+  variant="rect"
+  width="200px"
+  height="100px"
+  size="100px"
+  animation="pulse"
+  class="custom-class"
+/>
+```
+
+See Storybook for additional examples and visual documentation.
+
+@param {'text'|'circle'|'rect'} [variant='text'] - Shape of the skeleton
+@param {string} [width] - Width in CSS units (e.g., '200px', '50%')
+@param {string} [height] - Height in CSS units
+@param {string} [size] - For circle variant, sets both width and height
+@param {'pulse'|'wave'|'none'} [animation='pulse'] - Animation type
+@param {string} [class] - Additional CSS classes
+
+@note For circle variant, use the size prop to set dimensions. For text and rect variants, use width and height.
+-->
+
 <script lang="ts">
 	interface Props {
 		variant?: 'text' | 'circle' | 'rect';

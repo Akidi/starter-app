@@ -1,5 +1,57 @@
+<!--
+@component
+A table component with support for striped rows, hover effects, borders, and custom styling.
+
+@example
+```svelte
+<Table
+  striped
+  hover
+  bordered
+  compact
+  caption="User data table"
+  class="custom-table"
+>
+  {#snippet head()}
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+    </tr>
+  {/snippet}
+
+  <tbody>
+    <tr>
+      <td>John Doe</td>
+      <td>john@example.com</td>
+    </tr>
+  </tbody>
+
+  {#snippet foot()}
+    <tr>
+      <td colspan="2">Total: 1 user</td>
+    </tr>
+  {/snippet}
+</Table>
+```
+
+See Storybook for additional examples and visual documentation.
+
+@param {boolean} [striped=false] - Apply zebra-striping to rows
+@param {boolean} [hover=true] - Highlight rows on hover
+@param {boolean} [bordered=false] - Add borders to all cells
+@param {boolean} [compact=false] - Reduce cell padding for denser layout
+@param {string} [class] - Additional CSS classes
+@param {string} [caption] - Optional table caption for accessibility
+@param {Snippet} [head] - Table header content (thead)
+@param {Snippet} children - Table body content (tbody)
+@param {Snippet} [foot] - Table footer content (tfoot)
+
+@accessibility
+Uses semantic table elements. Caption is announced by screen readers. Proper th/td structure should be maintained in content.
+-->
+
 <script lang="ts">
-	import type { Snippet } from 'svelte';
+	import type { Snippet} from 'svelte';
 
 	interface Props {
 		striped?: boolean;
