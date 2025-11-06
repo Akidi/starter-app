@@ -1,3 +1,36 @@
+<!--
+@component
+A flexible flexbox layout component with comprehensive control over direction, alignment, spacing, and wrapping.
+
+@example
+```svelte
+<Flex
+  direction="row"
+  justify="between"
+  align="center"
+  gap="md"
+  wrap={false}
+  class="custom-flex"
+>
+  <Button>Item 1</Button>
+  <Button>Item 2</Button>
+  <Button>Item 3</Button>
+</Flex>
+```
+
+See Storybook for additional examples and visual documentation.
+
+@param {'row'|'column'} [direction='row'] - Flex direction
+@param {'start'|'center'|'between'|'around'|'end'} [justify='start'] - Main axis alignment (justify-content)
+@param {'start'|'center'|'end'|'stretch'} [align='center'] - Cross axis alignment (align-items)
+@param {'xs'|'sm'|'md'|'lg'|'xl'} [gap='md'] - Gap between items
+@param {boolean} [wrap=false] - Enable flex-wrap for multi-line layouts
+@param {string} [class] - Additional CSS classes to apply
+@param {Snippet} children - Content items to arrange with flexbox
+
+@note Similar to Cluster but without automatic wrapping by default. Use wrap prop to enable wrapping behavior.
+-->
+
 <script lang="ts">
 	import type { Snippet } from "svelte";
 

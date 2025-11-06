@@ -1,3 +1,28 @@
+<!--
+@component
+A responsive grid layout specifically designed for forms, automatically stacking to single column on mobile devices.
+
+@example
+```svelte
+<FormGrid
+  columns={2}
+  gap="md"
+>
+  <TextInput label="First Name" />
+  <TextInput label="Last Name" />
+  <TextInput label="Email" class="full-width" />
+</FormGrid>
+```
+
+See Storybook for additional examples and visual documentation.
+
+@param {number} [columns=2] - Number of columns in the grid (desktop only)
+@param {'xs'|'sm'|'md'|'lg'|'xl'} [gap='md'] - Gap between grid items
+@param {Snippet} children - Form fields to arrange in the grid
+
+@note Automatically collapses to single column below 768px. Add 'full-width' class to any child to span all columns.
+-->
+
 <script lang="ts">
 	import type { Snippet } from "svelte";
 
