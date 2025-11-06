@@ -1,3 +1,47 @@
+<!--
+@component
+A flexible button component with multiple variants, sizes, states, and loading indicators.
+
+@example
+```svelte
+<Button
+  type="submit"
+  variant="primary"
+  outline
+  size="md"
+  disabled
+  loading
+  fullWidth
+  onclick={(e) => console.log('clicked')}
+  ariaLabel="Submit form"
+  class="custom-class"
+  style="margin-top: 1rem;"
+>
+  Submit
+</Button>
+```
+
+See Storybook for additional examples and visual documentation.
+
+@param {'button'|'submit'|'reset'} [type='button'] - HTML button type attribute
+@param {'primary'|'secondary'|'success'|'warning'|'info'|'danger'|'ghost'|'link'} [variant='primary'] - Visual style variant
+@param {boolean} [outline=false] - Use outline style instead of solid
+@param {'sm'|'md'|'lg'} [size='md'] - Button size
+@param {string} [style] - Inline CSS styles
+@param {(e: MouseEvent) => void} [onclick] - Click event handler
+@param {boolean} [disabled=false] - Disable the button
+@param {boolean} [loading=false] - Show loading spinner and disable interaction
+@param {boolean} [fullWidth=false] - Make button take full width of container
+@param {string} [class] - Additional CSS classes
+@param {string} [ariaLabel] - Accessible label for screen readers
+@param {Snippet} children - Button content
+
+@note Automatically disabled when parent form is submitting (via form context). Loading state shows spinner and prevents interaction.
+
+@accessibility
+Uses native button element with proper type attribute. Loading state includes aria-busy and sr-only text. Disabled state uses aria-disabled.
+-->
+
 <script lang="ts">
 	import { getFormContext } from '$lib/contexts/form-context.svelte';
 	import type { Snippet } from 'svelte';
