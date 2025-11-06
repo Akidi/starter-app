@@ -1,3 +1,35 @@
+<!--
+@component
+An individual tab button component that must be used within a Tabs context.
+
+@example
+```svelte
+<Tabs>
+  <TabList>
+    <Tab
+      id="profile"
+      label="Profile"
+      disabled={false}
+      class="custom-tab"
+    />
+  </TabList>
+  <TabPanel id="profile">Content here</TabPanel>
+</Tabs>
+```
+
+See Storybook for additional examples and visual documentation.
+
+@param {string} id - Unique identifier for the tab (must match corresponding TabPanel id)
+@param {string} label - Text label displayed on the tab button
+@param {boolean} [disabled=false] - Whether the tab is disabled and cannot be selected
+@param {string} [class] - Additional CSS classes to apply to the tab button
+
+@note Must be used inside a Tabs component. Automatically determines active state from context.
+
+@accessibility
+Uses role="tab" with proper aria-selected state. Active tab has tabindex="0", inactive tabs have tabindex="-1" for keyboard navigation.
+-->
+
 <script lang="ts">
 	import { getContext } from 'svelte';
 
