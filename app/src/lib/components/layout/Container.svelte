@@ -1,3 +1,25 @@
+<!--
+@component
+A centered container with maximum width constraints for consistent page layouts and content width.
+
+@example
+```svelte
+<Container
+  size="default"
+>
+  <h1>Page Content</h1>
+  <p>Content constrained to max-width with centered alignment</p>
+</Container>
+```
+
+See Storybook for additional examples and visual documentation.
+
+@param {'sm'|'default'|'lg'|'xl'|'full'} [size='default'] - Maximum width (sm=640px, default=1024px, lg=1280px, xl=1536px, full=no limit)
+@param {Snippet} children - Page content to constrain
+
+@note Includes automatic horizontal centering and responsive padding. Use 'full' for edge-to-edge layouts.
+-->
+
 <script lang="ts">
 	import type { Snippet } from "svelte";
 
