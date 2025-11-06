@@ -1,3 +1,32 @@
+<!--
+@component
+A fixed-position container that renders toast notifications from the toasts store.
+
+@example
+```svelte
+<!-- Add to your root layout -->
+<ToastContainer />
+
+<!-- Trigger toasts from anywhere in your app -->
+<script>
+  import { toasts } from '$lib/stores/toasts';
+
+  toasts.add({
+    type: 'success',
+    message: 'Operation completed!',
+    duration: 5000
+  });
+</script>
+```
+
+See Storybook for additional examples and visual documentation.
+
+@note This component has no props. It automatically subscribes to the toasts store and renders all active toasts. Position is fixed at bottom-right of viewport. Place once in your root layout.
+
+@accessibility
+Uses role="region" with aria-label="Notifications" and aria-live="polite" for screen reader announcements without interrupting user workflow.
+-->
+
 <script lang="ts">
 	import { toasts } from '$lib/stores/toasts';
 	import Toast from './Toast.svelte';
