@@ -1,4 +1,51 @@
-<!-- Select.svelte -->
+<!--
+@component
+A select dropdown component with label, validation, help text, and optional action buttons.
+
+@example
+```svelte
+<Select
+  id="country"
+  name="country"
+  label="Country"
+  bind:value={selectedCountry}
+  placeholder="Select a country"
+  required
+  disabled
+  error="Please select a country"
+  helpText="Choose your country of residence"
+  actions={[
+    { label: 'Add New', onclick: () => console.log('add') }
+  ]}
+  onchange={(e) => console.log('changed')}
+  class="custom-class"
+>
+  <option value="">Choose...</option>
+  <option value="us">United States</option>
+  <option value="uk">United Kingdom</option>
+</Select>
+```
+
+See Storybook for additional examples and visual documentation.
+
+@param {string} id - Unique identifier for the select element
+@param {string} name - Name attribute for form submission
+@param {string} label - Label text displayed above the select
+@param {string|null} [value] - Selected value (bindable)
+@param {string} [placeholder] - Placeholder option text
+@param {boolean} [required=false] - Mark select as required
+@param {boolean} [disabled=false] - Disable the select
+@param {string} [error] - Error message to display
+@param {string} [helpText] - Helper text displayed below the select
+@param {SelectAction[]} [actions] - Optional action buttons displayed below select
+@param {(e: Event) => void} [onchange] - Change event handler
+@param {string} [class] - Additional CSS classes
+@param {Snippet} children - Option elements
+
+@accessibility
+Uses native select element with proper label association. Error messages use aria-describedby.
+-->
+
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 	import { Flex, Stack } from '$lib/components/layout';

@@ -1,3 +1,31 @@
+<!--
+@component
+A tooltip component that displays informational text on hover with configurable positioning and delay.
+
+@example
+```svelte
+<Tooltip
+  content="This is helpful information"
+  position="top"
+  delay={300}
+  class="custom-class"
+>
+  <button>Hover me</button>
+</Tooltip>
+```
+
+See Storybook for additional examples and visual documentation.
+
+@param {string} content - Tooltip text content to display
+@param {'top'|'bottom'|'left'|'right'} [position='top'] - Position of tooltip relative to trigger element
+@param {number} [delay=200] - Delay in milliseconds before showing tooltip
+@param {string} [class] - Additional CSS classes
+@param {Snippet} children - Trigger element that shows tooltip on hover
+
+@accessibility
+Uses role="tooltip" with aria-describedby for screen reader support. Tooltip is keyboard accessible.
+-->
+
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 

@@ -1,3 +1,32 @@
+<!--
+@component
+A pagination component for navigating through pages of content with configurable visibility and navigation controls.
+
+@example
+```svelte
+<Pagination
+  currentPage={3}
+  totalPages={10}
+  onPageChange={(page) => console.log(`Go to page ${page}`)}
+  showFirstLast
+  maxVisible={5}
+  class="custom-class"
+/>
+```
+
+See Storybook for additional examples and visual documentation.
+
+@param {number} currentPage - Current active page number (1-indexed)
+@param {number} totalPages - Total number of pages
+@param {(page: number) => void} onPageChange - Callback function when page is changed
+@param {boolean} [showFirstLast=true] - Show first and last page buttons
+@param {number} [maxVisible=7] - Maximum number of page buttons to display
+@param {string} [class] - Additional CSS classes
+
+@accessibility
+Uses semantic nav element with aria-label. Page buttons include aria-current for current page and proper aria-labels.
+-->
+
 <script lang="ts">
 	interface Props {
 		currentPage: number;
