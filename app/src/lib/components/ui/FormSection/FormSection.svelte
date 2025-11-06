@@ -1,3 +1,49 @@
+<!--
+@component
+A form section container with header, optional collapsibility, badges, error states, and action buttons.
+
+@example
+```svelte
+<FormSection
+  title="Account Settings"
+  description="Manage your account preferences"
+  required={true}
+  collapsible={true}
+  defaultOpen={true}
+  error="Please fix the errors below"
+  badge="Optional"
+  spacing="normal"
+  class="custom-section"
+>
+  {#snippet actions()}
+    <Button size="sm" variant="ghost">Reset</Button>
+  {/snippet}
+
+  <TextInput label="Username" />
+  <TextInput label="Email" type="email" />
+</FormSection>
+```
+
+See Storybook for additional examples and visual documentation.
+
+@param {string} title - Section heading text
+@param {string} [description] - Optional description displayed below the title
+@param {boolean} [required=false] - Shows required indicator (*) next to title
+@param {boolean} [collapsible=false] - Makes the section collapsible with expand/collapse chevron
+@param {boolean} [defaultOpen=true] - Initial open state for collapsible sections
+@param {string} [error] - Error message displayed below description (applies error styling to section)
+@param {string} [badge] - Badge text displayed next to the title
+@param {'tight'|'normal'|'relaxed'} [spacing='normal'] - Vertical spacing between child elements (md/lg/xl)
+@param {string} [class] - Additional CSS classes to apply to the section element
+@param {Snippet} children - Form fields and content within the section
+@param {Snippet} [actions] - Optional action buttons displayed in the header
+
+@note Collapsible sections use button element for proper keyboard/screen reader support. Spacing maps to Stack gap values: tight=md, normal=lg, relaxed=xl.
+
+@accessibility
+Collapsible header uses proper button semantics with aria-expanded state. Error messages have role="alert".
+-->
+
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 	import { Stack, Flex } from '$lib/components/layout';
