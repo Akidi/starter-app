@@ -1,3 +1,38 @@
+<!--
+@component
+An avatar component for displaying user profile images with fallback text, status indicators, and customizable shapes.
+
+@example
+```svelte
+<Avatar
+  src="/user.jpg"
+  alt="John Doe"
+  fallback="JD"
+  size="md"
+  shape="circle"
+  status="online"
+  statusPosition="bottom-right"
+  class="custom-class"
+/>
+```
+
+See Storybook for additional examples and visual documentation.
+
+@param {string} [src] - Image URL to display
+@param {string} [alt=''] - Alt text for the image
+@param {string} [fallback='?'] - Fallback text displayed when image is unavailable or loading
+@param {'xs'|'sm'|'md'|'lg'|'xl'|string} [size='md'] - Avatar size, accepts predefined sizes or custom CSS value
+@param {'circle'|'square'|'rounded'} [shape='circle'] - Shape of the avatar
+@param {'online'|'offline'|'busy'|'away'} [status] - Optional status indicator
+@param {'top-right'|'bottom-right'|'top-left'|'bottom-left'} [statusPosition='bottom-right'] - Position of the status indicator
+@param {string} [class] - Additional CSS classes to apply
+
+@note Fallback text generates a unique background color based on the text content for visual variety.
+
+@accessibility
+Uses img element with proper alt text. Fallback text is visible and readable with sufficient contrast.
+-->
+
 <script lang="ts">
 	import { Center } from '$lib/components/layout';
 

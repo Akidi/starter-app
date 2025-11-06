@@ -1,3 +1,32 @@
+<!--
+@component
+A loading spinner component with multiple sizes, variants, and optional text display.
+
+@example
+```svelte
+<Loading
+  size="md"
+  variant="primary"
+  text="Loading data..."
+  centered
+  fullscreen
+  class="custom-class"
+/>
+```
+
+See Storybook for additional examples and visual documentation.
+
+@param {'sm'|'md'|'lg'|'xl'} [size='md'] - Spinner size
+@param {'primary'|'secondary'|'white'} [variant='primary'] - Color variant
+@param {string} [text] - Optional loading text displayed below spinner
+@param {boolean} [centered=false] - Center the spinner in its container
+@param {boolean} [fullscreen=false] - Make spinner fullscreen with overlay
+@param {string} [class] - Additional CSS classes
+
+@accessibility
+Uses role="status" and aria-live="polite" for screen reader announcements. Includes sr-only loading text.
+-->
+
 <script lang="ts">
 	interface Props {
 		size?: 'sm' | 'md' | 'lg' | 'xl';

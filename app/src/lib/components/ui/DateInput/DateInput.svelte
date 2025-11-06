@@ -1,3 +1,52 @@
+<!--
+@component
+A date and time input component with validation, error handling, and support for various date/time formats.
+
+@example
+```svelte
+<DateInput
+  id="meeting-date"
+  name="meetingDate"
+  label="Meeting Date"
+  type="datetime-local"
+  value="2025-11-06T14:30"
+  min="2025-01-01"
+  max="2025-12-31"
+  required
+  disabled
+  readonly
+  error="Invalid date selected"
+  helpText="Select a date for your meeting"
+  oninput={(e) => console.log('changed')}
+  onblur={(e) => console.log('blurred')}
+  onfocus={(e) => console.log('focused')}
+  class="custom-class"
+/>
+```
+
+See Storybook for additional examples and visual documentation.
+
+@param {string} id - Unique identifier for the input
+@param {string} name - Name attribute for form submission
+@param {string} label - Label text displayed above the input
+@param {'date'|'datetime-local'|'time'|'month'|'week'} [type='date'] - Type of date/time input
+@param {string|null} [value] - Current input value in appropriate format
+@param {string} [min] - Minimum allowed date/time value
+@param {string} [max] - Maximum allowed date/time value
+@param {boolean} [required=false] - Mark input as required
+@param {boolean} [disabled=false] - Disable the input
+@param {boolean} [readonly=false] - Make input read-only
+@param {string} [error] - Error message to display
+@param {string} [helpText] - Helper text displayed below the input
+@param {(e: Event) => void} [oninput] - Input event handler
+@param {(e: FocusEvent) => void} [onblur] - Blur event handler
+@param {(e: FocusEvent) => void} [onfocus] - Focus event handler
+@param {string} [class] - Additional CSS classes
+
+@accessibility
+Uses native date inputs with proper label association and ARIA attributes for error states.
+-->
+
 <script lang="ts">
 	import { Flex, Stack } from '$lib/components/layout';
 	import { getFormContext } from '$lib/contexts/form-context.svelte';

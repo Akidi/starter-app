@@ -1,3 +1,35 @@
+<!--
+@component
+An alert component for displaying contextual feedback messages with support for different severity levels.
+
+@example
+```svelte
+<Alert
+  type="success"
+  title="Success!"
+  icon
+  dismissible
+  onDismiss={() => console.log('dismissed')}
+  class="custom-class"
+>
+  Your changes have been saved successfully.
+</Alert>
+```
+
+See Storybook for additional examples and visual documentation.
+
+@param {'info'|'success'|'warning'|'error'} type - The type of alert determining color and semantic meaning
+@param {string} [title] - Optional title displayed above the message content
+@param {boolean} [icon=true] - Whether to display an icon matching the alert type
+@param {boolean} [dismissible=false] - Whether to show a dismiss button
+@param {() => void} [onDismiss] - Callback function triggered when dismiss button is clicked
+@param {string} [class] - Additional CSS classes to apply to the alert
+@param {Snippet} children - The alert message content
+
+@accessibility
+Uses semantic ARIA roles (alert for errors/warnings, status for info/success). Includes aria-live regions with assertive priority for errors and polite for others. Dismiss button includes descriptive aria-label.
+-->
+
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 	import { Flex, Stack } from '$lib/components/layout';

@@ -1,3 +1,45 @@
+<!--
+@component
+A modal dialog component with backdrop, animations, keyboard controls, and focus management.
+
+@example
+```svelte
+<Modal
+  isOpen={showModal}
+  onClose={() => showModal = false}
+  title="Confirm Action"
+  description="Are you sure you want to proceed?"
+  maxWidth="lg"
+  closeOnEscape
+  closeOnBackdrop
+  showCloseButton
+>
+  Modal content goes here
+
+  {#snippet footer()}
+    <Button onclick={() => showModal = false}>Cancel</Button>
+    <Button variant="primary">Confirm</Button>
+  {/snippet}
+</Modal>
+```
+
+See Storybook for additional examples and visual documentation.
+
+@param {boolean} isOpen - Controls modal visibility
+@param {() => void} onClose - Callback function when modal is closed
+@param {string} title - Modal title displayed in header
+@param {string} [description] - Optional description text below title
+@param {'sm'|'md'|'lg'|'xl'|'2xl'|'full'} [maxWidth='lg'] - Maximum width of modal content
+@param {boolean} [closeOnEscape=true] - Allow closing with Escape key
+@param {boolean} [closeOnBackdrop=true] - Allow closing by clicking backdrop
+@param {boolean} [showCloseButton=true] - Show close button in header
+@param {Snippet} children - Main modal content
+@param {Snippet} [footer] - Optional footer content snippet
+
+@accessibility
+Uses dialog role with proper ARIA attributes. Implements focus trapping and returns focus on close. Announces title to screen readers.
+-->
+
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 	import { onMount } from 'svelte';
