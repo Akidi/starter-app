@@ -1,3 +1,36 @@
+<!--
+@component
+A toggle switch component with label, description, and multiple sizes.
+
+@example
+```svelte
+<Toggle
+  id="notifications"
+  label="Enable Notifications"
+  description="Receive email notifications for updates"
+  bind:checked={notificationsEnabled}
+  disabled
+  size="md"
+  onchange={(checked) => console.log('toggled:', checked)}
+  class="custom-class"
+/>
+```
+
+See Storybook for additional examples and visual documentation.
+
+@param {string} id - Unique identifier for the toggle input
+@param {string} label - Label text displayed next to the toggle
+@param {string} [description] - Optional description text below the label
+@param {boolean} [checked=false] - Checked state (bindable)
+@param {boolean} [disabled=false] - Disable the toggle
+@param {'sm'|'md'|'lg'} [size='md'] - Toggle switch size
+@param {(checked: boolean) => void} [onchange] - Change event handler with new checked state
+@param {string} [class] - Additional CSS classes
+
+@accessibility
+Uses checkbox input with role="switch" for proper switch semantics. Label association via htmlFor.
+-->
+
 <script lang="ts">
 	interface Props {
 		id: string;
