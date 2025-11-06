@@ -1,3 +1,25 @@
+<!--
+@component
+A visual divider component for separating content sections, with optional label text.
+
+@example
+```svelte
+<Divider
+  orientation="horizontal"
+  spacing="md"
+  label="OR"
+/>
+```
+
+See Storybook for additional examples and visual documentation.
+
+@param {'horizontal'|'vertical'} [orientation='horizontal'] - Divider orientation (currently only horizontal is styled)
+@param {'xs'|'sm'|'md'|'lg'|'xl'} [spacing='md'] - Vertical spacing around the divider
+@param {string} [label] - Optional label text displayed in the center of the divider
+
+@note When label is provided, renders as a flex layout with lines on both sides of the text. Without label, renders as a semantic hr element.
+-->
+
 <script lang="ts">
 	interface Props {
 		orientation?: 'horizontal' | 'vertical';
