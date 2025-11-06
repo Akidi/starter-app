@@ -1,3 +1,31 @@
+<!--
+@component
+A breadcrumb navigation component for displaying hierarchical page structure with customizable separators.
+
+@example
+```svelte
+<Breadcrumbs
+  separator="chevron"
+  maxItems={5}
+  class="custom-breadcrumbs"
+>
+  <BreadcrumbItem href="/">Home</BreadcrumbItem>
+  <BreadcrumbItem href="/products">Products</BreadcrumbItem>
+  <BreadcrumbItem current>Detail</BreadcrumbItem>
+</Breadcrumbs>
+```
+
+See Storybook for additional examples and visual documentation.
+
+@param {'slash'|'chevron'|'arrow'} [separator='chevron'] - Visual separator style between breadcrumb items
+@param {number} [maxItems] - Maximum number of items to display before truncating
+@param {string} [class] - Additional CSS classes to apply to the breadcrumb navigation
+@param {Snippet} children - Breadcrumb items (use BreadcrumbItem components)
+
+@accessibility
+Uses semantic nav element with aria-label="Breadcrumb". Implements proper list structure (ol/li) for screen reader navigation.
+-->
+
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 

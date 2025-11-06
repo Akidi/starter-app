@@ -1,3 +1,39 @@
+<!--
+@component
+A dropdown menu component with button trigger, automatic positioning, and click-outside/keyboard handling.
+
+@example
+```svelte
+<Dropdown
+  label="Actions"
+  align="right"
+  buttonVariant="secondary"
+  buttonSize="md"
+  disabled={false}
+  class="custom-dropdown"
+>
+  <DropdownItem onclick={() => console.log('edit')}>Edit</DropdownItem>
+  <DropdownDivider />
+  <DropdownItem danger onclick={() => console.log('delete')}>Delete</DropdownItem>
+</Dropdown>
+```
+
+See Storybook for additional examples and visual documentation.
+
+@param {string} label - Text displayed on the dropdown trigger button
+@param {'left'|'right'} [align='left'] - Horizontal alignment of the dropdown menu relative to the button
+@param {'primary'|'secondary'|'ghost'} [buttonVariant='secondary'] - Button style variant for the trigger
+@param {'sm'|'md'|'lg'} [buttonSize='md'] - Size of the trigger button
+@param {boolean} [disabled=false] - Whether the dropdown is disabled
+@param {string} [class] - Additional CSS classes to apply to the dropdown container
+@param {Snippet} children - Dropdown menu content (use DropdownItem and DropdownDivider components)
+
+@note Automatically closes on click outside, Escape key, or when an item is clicked. Uses Button component for trigger.
+
+@accessibility
+Dropdown menu uses role="menu" with aria-orientation="vertical". Trigger button includes aria-label for screen readers.
+-->
+
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 	import { onMount } from 'svelte';
