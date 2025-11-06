@@ -1,3 +1,30 @@
+<!--
+@component
+A flexible wrapping layout for grouping items with consistent spacing, perfect for tags, badges, or button groups.
+
+@example
+```svelte
+<Cluster
+  gap="md"
+  justify="start"
+  align="center"
+>
+  <Badge>Tag 1</Badge>
+  <Badge>Tag 2</Badge>
+  <Badge>Tag 3</Badge>
+</Cluster>
+```
+
+See Storybook for additional examples and visual documentation.
+
+@param {'xs'|'sm'|'md'|'lg'|'xl'} [gap='md'] - Gap size between items
+@param {'start'|'center'|'between'|'around'|'end'} [justify='start'] - Horizontal alignment (flex justify-content)
+@param {'start'|'center'|'end'|'stretch'} [align='center'] - Vertical alignment (flex align-items)
+@param {Snippet} children - Items to cluster together
+
+@note Uses flexbox with flex-wrap enabled, allowing items to wrap to multiple lines naturally.
+-->
+
 <script lang="ts">
 	import type { Snippet } from "svelte";
 

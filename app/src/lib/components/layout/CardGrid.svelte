@@ -1,3 +1,28 @@
+<!--
+@component
+A responsive grid layout that automatically fits cards based on minimum width, ideal for card-based interfaces.
+
+@example
+```svelte
+<CardGrid
+  minWidth="280px"
+  gap="md"
+>
+  <Card>Card 1</Card>
+  <Card>Card 2</Card>
+  <Card>Card 3</Card>
+</CardGrid>
+```
+
+See Storybook for additional examples and visual documentation.
+
+@param {string} [minWidth='280px'] - Minimum width for each grid column (in any CSS unit)
+@param {'xs'|'sm'|'md'|'lg'|'xl'} [gap='md'] - Gap size between grid items
+@param {Snippet} children - Card or content items to arrange in the grid
+
+@note Uses CSS Grid with auto-fit to automatically wrap items based on available space and minWidth constraint.
+-->
+
 <script lang="ts">
 	import type { Snippet } from "svelte";
 
