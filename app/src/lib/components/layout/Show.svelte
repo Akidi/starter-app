@@ -1,3 +1,27 @@
+<!--
+@component
+A responsive visibility component that conditionally shows or hides content based on viewport breakpoints.
+
+@example
+```svelte
+<Show above="md">
+  <p>Only visible on medium screens and above (≥768px)</p>
+</Show>
+
+<Show below="lg">
+  <MobileMenu />
+</Show>
+```
+
+See Storybook for additional examples and visual documentation.
+
+@param {'sm'|'md'|'lg'|'xl'} [above] - Show content above this breakpoint (sm=640px, md=768px, lg=1024px, xl=1280px)
+@param {'sm'|'md'|'lg'|'xl'} [below] - Show content below this breakpoint
+@param {Snippet} children - Content to conditionally display
+
+@note Uses display: contents when visible to avoid adding extra DOM elements. Only specify one of 'above' or 'below', not both.
+-->
+
 <script lang="ts">
 	import type { Snippet } from "svelte";
 
