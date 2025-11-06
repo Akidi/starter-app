@@ -1,3 +1,32 @@
+<!--
+@component
+A toast notification component with auto-dismiss, animations, and multiple types.
+
+@example
+```svelte
+<Toast
+  id="toast-1"
+  type="success"
+  message="Changes saved successfully!"
+  duration={5000}
+  onClose={(id) => console.log('Toast closed:', id)}
+/>
+```
+
+See Storybook for additional examples and visual documentation.
+
+@param {string} id - Unique identifier for the toast
+@param {ToastType} type - Toast type: 'success', 'error', 'warning', 'info'
+@param {string} message - Toast message text
+@param {number} [duration=5000] - Auto-dismiss duration in milliseconds (0 for no auto-dismiss)
+@param {(id: string) => void} onClose - Callback function when toast is closed
+
+@note Toast appears with fly-in animation and automatically dismisses after duration. Click to dismiss manually.
+
+@accessibility
+Uses role="alert" for screen reader announcements. Includes dismiss button with aria-label.
+-->
+
 <script lang="ts">
 	import { fly } from 'svelte/transition';
 	import { onMount } from 'svelte';
