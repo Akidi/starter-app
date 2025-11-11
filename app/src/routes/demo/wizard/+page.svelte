@@ -234,7 +234,6 @@
 								toasts.add({
 									type: 'error',
 									message: (result.data?.message as string) || 'Failed to submit form'
-									message: (result.data?.message as string) || 'Failed to submit form'
 								});
 							}
 						};
