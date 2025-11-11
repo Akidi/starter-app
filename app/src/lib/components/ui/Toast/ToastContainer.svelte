@@ -4,10 +4,10 @@ A fixed-position container that renders toast notifications from the toasts stor
 
 @example
 ```svelte
-<!-- Add to your root layout -->
+## Add to your root layout
 <ToastContainer />
 
-<!-- Trigger toasts from anywhere in your app -->
+## Trigger toasts from anywhere in your app
 <script>
   import { toasts } from '$lib/stores/toasts';
 
