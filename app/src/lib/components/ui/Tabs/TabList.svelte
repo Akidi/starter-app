@@ -34,17 +34,10 @@ Uses role="tablist" with aria-label for proper screen reader context. Wraps tabs
 		children: Snippet;
 	}
 
-	let {
-		class: className = '',
-		children
-	}: Props = $props();
+	let { class: className = '', children }: Props = $props();
 </script>
 
-<div 
-	class="tab-list {className}"
-	role="tablist"
-	aria-label="Tabs"
->
+<div class="tab-list {className}" role="tablist" aria-label="Tabs">
 	<nav class="tab-nav" aria-label="Tabs">
 		{@render children()}
 	</nav>

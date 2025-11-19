@@ -39,6 +39,7 @@ pnpm dev
 ```
 
 This automatically:
+
 - Generates secure secrets
 - Creates `.env.dev` file with database credentials
 - Starts Docker containers (PostgreSQL + Redis)
@@ -156,12 +157,12 @@ pnpm build-storybook     # Build static Storybook site
 
 ### Development Tools
 
-| Tool | URL | Purpose |
-|------|-----|---------|
-| **App** | http://localhost:5173 | Main application |
+| Tool               | URL                                      | Purpose                                |
+| ------------------ | ---------------------------------------- | -------------------------------------- |
+| **App**            | http://localhost:5173                    | Main application                       |
 | **Drizzle Studio** | `pnpm db:studio` → http://localhost:3001 | Database GUI for browsing/editing data |
-| **Storybook** | `pnpm storybook` → http://localhost:6006 | Component development & documentation |
-| **Health Check** | http://localhost:5173/health | API health endpoint |
+| **Storybook**      | `pnpm storybook` → http://localhost:6006 | Component development & documentation  |
+| **Health Check**   | http://localhost:5173/health             | API health endpoint                    |
 
 ## Database
 
@@ -169,11 +170,11 @@ pnpm build-storybook     # Build static Storybook site
 
 The app uses **separate read and write connections** for optimal performance:
 
-| Connection | User | Purpose | Pool Size |
-|------------|------|---------|-----------|
-| **Admin** | `archon` | Migrations, schema changes | Default |
-| **Write** | `tinkerer` | Application writes | 10 |
-| **Read** | `lorekeeper` | Application reads (queries) | 20 |
+| Connection | User         | Purpose                     | Pool Size |
+| ---------- | ------------ | --------------------------- | --------- |
+| **Admin**  | `archon`     | Migrations, schema changes  | Default   |
+| **Write**  | `tinkerer`   | Application writes          | 10        |
+| **Read**   | `lorekeeper` | Application reads (queries) | 20        |
 
 ### Database Roles
 
@@ -209,6 +210,7 @@ pnpm db:studio
 ```
 
 Opens Drizzle Studio at http://localhost:3001 for:
+
 - Browsing tables
 - Editing data inline
 - Running queries
@@ -218,10 +220,10 @@ Opens Drizzle Studio at http://localhost:3001 for:
 
 Default test users (seeded with `pnpm db:seed`):
 
-| Email | Password | Role |
-|-------|----------|------|
-| `admin@bp.local` | See `src/lib/server/db/seed.ts` | admin |
-| `developer@bp.local` | See `src/lib/server/db/seed.ts` | user |
+| Email                | Password                        | Role  |
+| -------------------- | ------------------------------- | ----- |
+| `admin@bp.local`     | See `src/lib/server/db/seed.ts` | admin |
+| `developer@bp.local` | See `src/lib/server/db/seed.ts` | user  |
 
 **Test login at**: http://localhost:5173/demo/lucia/login
 
@@ -271,10 +273,10 @@ import { describe, it, expect } from 'vitest';
 import { calculateTotal } from './math';
 
 describe('calculateTotal', () => {
-  it('sums item prices', () => {
-    const items = [{ price: 10 }, { price: 20 }];
-    expect(calculateTotal(items)).toBe(30);
-  });
+	it('sums item prices', () => {
+		const items = [{ price: 10 }, { price: 20 }];
+		expect(calculateTotal(items)).toBe(30);
+	});
 });
 ```
 
@@ -301,11 +303,11 @@ pnpm test:e2e --debug
 import { test, expect } from '@playwright/test';
 
 test('user can log in', async ({ page }) => {
-  await page.goto('/demo/lucia/login');
-  await page.fill('input[name="email"]', 'admin@bp.local');
-  await page.fill('input[name="password"]', 'password');
-  await page.click('button[type="submit"]');
-  await expect(page).toHaveURL(/lucia/);
+	await page.goto('/demo/lucia/login');
+	await page.fill('input[name="email"]', 'admin@bp.local');
+	await page.fill('input[name="password"]', 'password');
+	await page.click('button[type="submit"]');
+	await expect(page).toHaveURL(/lucia/);
 });
 ```
 
@@ -362,6 +364,7 @@ pnpm preview
 ```
 
 The production build:
+
 - Uses Node adapter (`@sveltejs/adapter-node`)
 - Optimizes and minifies assets
 - Generates server-side code for SSR
@@ -390,6 +393,7 @@ pnpm storybook
 **Access**: http://localhost:6006
 
 **Available Stories**:
+
 - `Modal` - Dialog component with backdrop
 - `TextInput` - Form input with validation
 - `Checkbox` - Accessible checkbox component
@@ -402,15 +406,15 @@ See `../.env.example` for complete list of required variables.
 
 **Key Variables**:
 
-| Variable | Purpose | Example |
-|----------|---------|---------|
-| `DATABASE_URL` | Admin database connection | `postgres://archon:pass@db:5432/myapp` |
-| `WRITE_DATABASE_URL` | Write connection (tinkerer) | `postgres://tinkerer:pass@db:5432/myapp` |
-| `READ_DATABASE_URL` | Read connection (lorekeeper) | `postgres://lorekeeper:pass@db:5432/myapp` |
-| `REDIS_URL` | Redis connection | `redis://tinkerer:pass@redis:6379` |
-| `ORIGIN` | Application URL | `http://localhost:5173` |
-| `NODE_ENV` | Environment mode | `development` or `production` |
-| `DEBUG` | Enable debug logs | `true` or `false` |
+| Variable             | Purpose                      | Example                                    |
+| -------------------- | ---------------------------- | ------------------------------------------ |
+| `DATABASE_URL`       | Admin database connection    | `postgres://archon:pass@db:5432/myapp`     |
+| `WRITE_DATABASE_URL` | Write connection (tinkerer)  | `postgres://tinkerer:pass@db:5432/myapp`   |
+| `READ_DATABASE_URL`  | Read connection (lorekeeper) | `postgres://lorekeeper:pass@db:5432/myapp` |
+| `REDIS_URL`          | Redis connection             | `redis://tinkerer:pass@redis:6379`         |
+| `ORIGIN`             | Application URL              | `http://localhost:5173`                    |
+| `NODE_ENV`           | Environment mode             | `development` or `production`              |
+| `DEBUG`              | Enable debug logs            | `true` or `false`                          |
 
 ## Troubleshooting
 

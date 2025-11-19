@@ -32,7 +32,7 @@ See Storybook for additional examples and visual documentation.
 -->
 
 <script lang="ts">
-	import type { Snippet } from "svelte";
+	import type { Snippet } from 'svelte';
 
 	interface Props {
 		direction?: 'row' | 'column';
@@ -44,19 +44,19 @@ See Storybook for additional examples and visual documentation.
 		children: Snippet;
 	}
 
-	let { 
+	let {
 		direction = 'row',
 		justify = 'start',
 		align = 'center',
 		gap = 'md',
 		wrap = false,
 		class: className = '',
-		children 
+		children
 	}: Props = $props();
 </script>
 
-<div 
-	class="flex {className}" 
+<div
+	class="flex {className}"
 	data-direction={direction}
 	data-justify={justify}
 	data-align={align}
@@ -70,26 +70,60 @@ See Storybook for additional examples and visual documentation.
 	.flex {
 		display: flex;
 	}
-	
-	.flex[data-direction="row"] { flex-direction: row; }
-	.flex[data-direction="column"] { flex-direction: column; }
-	
-	.flex[data-justify="start"] { justify-content: flex-start; }
-	.flex[data-justify="center"] { justify-content: center; }
-	.flex[data-justify="between"] { justify-content: space-between; }
-	.flex[data-justify="around"] { justify-content: space-around; }
-	.flex[data-justify="end"] { justify-content: flex-end; }
-	
-	.flex[data-align="start"] { align-items: flex-start; }
-	.flex[data-align="center"] { align-items: center; }
-	.flex[data-align="end"] { align-items: flex-end; }
-	.flex[data-align="stretch"] { align-items: stretch; }
-	
-	.flex[data-wrap="true"] { flex-wrap: wrap; }
-	
-	.flex[data-gap="xs"] { gap: var(--space-xs); }
-	.flex[data-gap="sm"] { gap: var(--space-sm); }
-	.flex[data-gap="md"] { gap: var(--space-md); }
-	.flex[data-gap="lg"] { gap: var(--space-lg); }
-	.flex[data-gap="xl"] { gap: var(--space-xl); }
+
+	.flex[data-direction='row'] {
+		flex-direction: row;
+	}
+	.flex[data-direction='column'] {
+		flex-direction: column;
+	}
+
+	.flex[data-justify='start'] {
+		justify-content: flex-start;
+	}
+	.flex[data-justify='center'] {
+		justify-content: center;
+	}
+	.flex[data-justify='between'] {
+		justify-content: space-between;
+	}
+	.flex[data-justify='around'] {
+		justify-content: space-around;
+	}
+	.flex[data-justify='end'] {
+		justify-content: flex-end;
+	}
+
+	.flex[data-align='start'] {
+		align-items: flex-start;
+	}
+	.flex[data-align='center'] {
+		align-items: center;
+	}
+	.flex[data-align='end'] {
+		align-items: flex-end;
+	}
+	.flex[data-align='stretch'] {
+		align-items: stretch;
+	}
+
+	.flex[data-wrap='true'] {
+		flex-wrap: wrap;
+	}
+
+	.flex[data-gap='xs'] {
+		gap: var(--space-xs);
+	}
+	.flex[data-gap='sm'] {
+		gap: var(--space-sm);
+	}
+	.flex[data-gap='md'] {
+		gap: var(--space-md);
+	}
+	.flex[data-gap='lg'] {
+		gap: var(--space-lg);
+	}
+	.flex[data-gap='xl'] {
+		gap: var(--space-xl);
+	}
 </style>

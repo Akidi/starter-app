@@ -36,12 +36,7 @@ Uses semantic nav element with aria-label="Breadcrumb". Implements proper list s
 		children: Snippet;
 	}
 
-	let {
-		separator = 'chevron',
-		maxItems,
-		class: className = '',
-    children
-	}: Props = $props();
+	let { separator = 'chevron', maxItems, class: className = '', children }: Props = $props();
 </script>
 
 <nav aria-label="Breadcrumb" class="breadcrumbs {className}">

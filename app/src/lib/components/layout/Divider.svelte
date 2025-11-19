@@ -27,11 +27,7 @@ See Storybook for additional examples and visual documentation.
 		label?: string;
 	}
 
-	let { 
-		orientation = 'horizontal',
-		spacing = 'md',
-		label 
-	}: Props = $props();
+	let { orientation = 'horizontal', spacing = 'md', label }: Props = $props();
 </script>
 
 {#if label}
@@ -49,25 +45,35 @@ See Storybook for additional examples and visual documentation.
 		border: none;
 		border-top: 1px solid var(--border-primary);
 	}
-	
-	.divider[data-spacing="xs"] { margin-block: var(--space-xs); }
-	.divider[data-spacing="sm"] { margin-block: var(--space-sm); }
-	.divider[data-spacing="md"] { margin-block: var(--space-md); }
-	.divider[data-spacing="lg"] { margin-block: var(--space-lg); }
-	.divider[data-spacing="xl"] { margin-block: var(--space-xl); }
-	
+
+	.divider[data-spacing='xs'] {
+		margin-block: var(--space-xs);
+	}
+	.divider[data-spacing='sm'] {
+		margin-block: var(--space-sm);
+	}
+	.divider[data-spacing='md'] {
+		margin-block: var(--space-md);
+	}
+	.divider[data-spacing='lg'] {
+		margin-block: var(--space-lg);
+	}
+	.divider[data-spacing='xl'] {
+		margin-block: var(--space-xl);
+	}
+
 	.divider-with-label {
 		display: flex;
 		align-items: center;
 		gap: var(--space-sm);
 	}
-	
+
 	.divider-line {
 		flex: 1;
 		height: 1px;
 		background-color: var(--border-primary);
 	}
-	
+
 	.divider-label {
 		font-size: var(--font-size-sm);
 		color: var(--text-secondary);

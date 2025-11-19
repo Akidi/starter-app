@@ -51,7 +51,7 @@ Uses semantic table elements. Caption is announced by screen readers. Proper th/
 -->
 
 <script lang="ts">
-	import type { Snippet} from 'svelte';
+	import type { Snippet } from 'svelte';
 
 	interface Props {
 		striped?: boolean;
@@ -79,28 +79,20 @@ Uses semantic table elements. Caption is announced by screen readers. Proper th/
 </script>
 
 <div class="table-wrapper {className}">
-	<table 
-		class="table"
-		data-compact={compact}
-		data-bordered={bordered}
-	>
+	<table class="table" data-compact={compact} data-bordered={bordered}>
 		{#if caption}
 			<caption class="table-caption">
 				{caption}
 			</caption>
 		{/if}
-		
+
 		{#if head}
 			<thead class="table-head">
 				{@render head()}
 			</thead>
 		{/if}
-		
-		<tbody 
-			class="table-body"
-			data-striped={striped}
-			data-hover={hover}
-		>
+
+		<tbody class="table-body" data-striped={striped} data-hover={hover}>
 			{@render children()}
 		</tbody>
 
@@ -124,7 +116,7 @@ Uses semantic table elements. Caption is announced by screen readers. Proper th/
 		border-collapse: collapse;
 	}
 
-	.table[data-bordered="true"] {
+	.table[data-bordered='true'] {
 		border-spacing: 0;
 	}
 
@@ -157,11 +149,11 @@ Uses semantic table elements. Caption is announced by screen readers. Proper th/
 		border-bottom: none;
 	}
 
-	.table-body[data-striped="true"] :global(tr:nth-child(even)) {
+	.table-body[data-striped='true'] :global(tr:nth-child(even)) {
 		background-color: var(--bg-secondary);
 	}
 
-	.table-body[data-hover="true"] :global(tr:hover) {
+	.table-body[data-hover='true'] :global(tr:hover) {
 		background-color: var(--bg-tertiary);
 	}
 
@@ -189,8 +181,8 @@ Uses semantic table elements. Caption is announced by screen readers. Proper th/
 		color: var(--text-primary);
 	}
 
-	.table[data-compact="true"] :global(th),
-	.table[data-compact="true"] :global(td) {
+	.table[data-compact='true'] :global(th),
+	.table[data-compact='true'] :global(td) {
 		padding: var(--space-sm) var(--space-md);
 	}
 </style>

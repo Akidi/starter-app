@@ -51,7 +51,7 @@ Uses role="alert" for screen reader announcements. Includes dismiss button with 
 	onMount(() => {
 		if (duration) {
 			startTime = Date.now();
-			
+
 			const animate = () => {
 				if (!isPaused) {
 					const now = Date.now();
@@ -59,7 +59,7 @@ Uses role="alert" for screen reader announcements. Includes dismiss button with 
 					const currentElapsed = totalElapsed + elapsed;
 					const remaining = Math.max(0, 100 - (currentElapsed / duration) * 100);
 					progress = remaining;
-					
+
 					if (remaining > 0) {
 						animationFrame = requestAnimationFrame(animate);
 					} else {
@@ -70,9 +70,9 @@ Uses role="alert" for screen reader announcements. Includes dismiss button with 
 					animationFrame = requestAnimationFrame(animate);
 				}
 			};
-			
+
 			animationFrame = requestAnimationFrame(animate);
-			
+
 			return () => {
 				if (animationFrame) {
 					cancelAnimationFrame(animationFrame);
@@ -86,7 +86,7 @@ Uses role="alert" for screen reader announcements. Includes dismiss button with 
 			isPaused = true;
 			// Accumulate the elapsed time before pausing
 			const now = Date.now();
-			totalElapsed += (now - startTime);
+			totalElapsed += now - startTime;
 		}
 	};
 
@@ -116,7 +116,6 @@ Uses role="alert" for screen reader announcements. Includes dismiss button with 
 			label: 'Information'
 		}
 	};
-
 </script>
 
 <div
@@ -139,25 +138,36 @@ Uses role="alert" for screen reader announcements. Includes dismiss button with 
 			aria-label="Time remaining"
 		></div>
 	{/if}
-	
+
 	<div class="toast-icon toast-icon-{type}" aria-hidden="true">
 		<svg class="toast-icon-svg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={icons[type].path} />
 		</svg>
 	</div>
-	
+
 	<div class="toast-message">
 		<p class="toast-text">{message}</p>
 	</div>
-	
+
 	<button
 		type="button"
 		onclick={() => onClose(id)}
 		class="toast-close"
 		aria-label="Close {icons[type].label.toLowerCase()} notification"
 	>
-		<svg class="toast-close-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+		<svg
+			class="toast-close-icon"
+			fill="none"
+			stroke="currentColor"
+			viewBox="0 0 24 24"
+			aria-hidden="true"
+		>
+			<path
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				stroke-width="2"
+				d="M6 18L18 6M6 6l12 12"
+			/>
 		</svg>
 	</button>
 </div>

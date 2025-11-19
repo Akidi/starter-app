@@ -24,7 +24,7 @@ See Storybook for additional examples and visual documentation.
 -->
 
 <script lang="ts">
-	import type { Snippet } from "svelte";
+	import type { Snippet } from 'svelte';
 
 	interface Props {
 		minWidth?: string;
@@ -32,11 +32,7 @@ See Storybook for additional examples and visual documentation.
 		children: Snippet;
 	}
 
-	let { 
-		minWidth = '280px',
-		gap = 'md',
-		children 
-	}: Props = $props();
+	let { minWidth = '280px', gap = 'md', children }: Props = $props();
 </script>
 
 <div class="card-grid" data-gap={gap} style="--min-width: {minWidth}">
@@ -48,10 +44,20 @@ See Storybook for additional examples and visual documentation.
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(var(--min-width), 1fr));
 	}
-	
-	.card-grid[data-gap="xs"] { gap: var(--space-xs); }
-	.card-grid[data-gap="sm"] { gap: var(--space-sm); }
-	.card-grid[data-gap="md"] { gap: var(--space-md); }
-	.card-grid[data-gap="lg"] { gap: var(--space-lg); }
-	.card-grid[data-gap="xl"] { gap: var(--space-xl); }
+
+	.card-grid[data-gap='xs'] {
+		gap: var(--space-xs);
+	}
+	.card-grid[data-gap='sm'] {
+		gap: var(--space-sm);
+	}
+	.card-grid[data-gap='md'] {
+		gap: var(--space-md);
+	}
+	.card-grid[data-gap='lg'] {
+		gap: var(--space-lg);
+	}
+	.card-grid[data-gap='xl'] {
+		gap: var(--space-xl);
+	}
 </style>

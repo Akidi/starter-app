@@ -31,7 +31,7 @@ See Storybook for additional examples and visual documentation.
 -->
 
 <script lang="ts">
-	import type { Snippet } from "svelte";
+	import type { Snippet } from 'svelte';
 
 	interface Props {
 		ratio?: '1:1' | '1:2' | '2:1' | '1:3' | '3:1' | string;
@@ -41,14 +41,8 @@ See Storybook for additional examples and visual documentation.
 		right: Snippet;
 	}
 
-	let { 
-		ratio = '1:1',
-		gap = 'md',
-		direction = 'horizontal',
-		left,
-		right 
-	}: Props = $props();
-	
+	let { ratio = '1:1', gap = 'md', direction = 'horizontal', left, right }: Props = $props();
+
 	// Convert ratio string to CSS grid format
 	let gridRatio = $derived(ratio.replace(':', 'fr ') + 'fr');
 </script>
@@ -66,18 +60,28 @@ See Storybook for additional examples and visual documentation.
 	.split {
 		display: grid;
 	}
-	
-	.split[data-direction="horizontal"] {
+
+	.split[data-direction='horizontal'] {
 		grid-template-columns: var(--ratio);
 	}
-	
-	.split[data-direction="vertical"] {
+
+	.split[data-direction='vertical'] {
 		grid-template-rows: var(--ratio);
 	}
-	
-	.split[data-gap="xs"] { gap: var(--space-xs); }
-	.split[data-gap="sm"] { gap: var(--space-sm); }
-	.split[data-gap="md"] { gap: var(--space-md); }
-	.split[data-gap="lg"] { gap: var(--space-lg); }
-	.split[data-gap="xl"] { gap: var(--space-xl); }
+
+	.split[data-gap='xs'] {
+		gap: var(--space-xs);
+	}
+	.split[data-gap='sm'] {
+		gap: var(--space-sm);
+	}
+	.split[data-gap='md'] {
+		gap: var(--space-md);
+	}
+	.split[data-gap='lg'] {
+		gap: var(--space-lg);
+	}
+	.split[data-gap='xl'] {
+		gap: var(--space-xl);
+	}
 </style>

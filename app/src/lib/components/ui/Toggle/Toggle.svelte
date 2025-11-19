@@ -60,7 +60,6 @@ Uses checkbox input with role="switch" for proper switch semantics. Label associ
 			onchange?.(checked);
 		}
 	};
-
 </script>
 
 <div class="toggle-wrapper {className}">
@@ -72,7 +71,7 @@ Uses checkbox input with role="switch" for proper switch semantics. Label associ
 		aria-labelledby="{id}-label"
 		aria-describedby={description ? `${id}-description` : undefined}
 		onclick={toggle}
-		disabled={disabled}
+		{disabled}
 		class="toggle-switch"
 		data-size={size}
 		data-checked={checked}
@@ -81,12 +80,7 @@ Uses checkbox input with role="switch" for proper switch semantics. Label associ
 		<span class="toggle-handle" aria-hidden="true"></span>
 	</button>
 
-	<label
-		for={id}
-		id="{id}-label"
-		class="toggle-label"
-		class:disabled={disabled}
-	>
+	<label for={id} id="{id}-label" class="toggle-label" class:disabled>
 		<span class="toggle-label-text">
 			{label}
 		</span>
@@ -170,7 +164,11 @@ Uses checkbox input with role="switch" for proper switch semantics. Label associ
 	}
 
 	.toggle-switch[data-checked='true'] .toggle-handle {
-		transform: translateX(calc(var(--toggle-track-width) - var(--toggle-handle-size) - (var(--toggle-track-padding) * 2)));
+		transform: translateX(
+			calc(
+				var(--toggle-track-width) - var(--toggle-handle-size) - (var(--toggle-track-padding) * 2)
+			)
+		);
 	}
 
 	.toggle-switch:disabled .toggle-handle {

@@ -58,12 +58,12 @@ Uses dialog role with proper ARIA attributes. Implements focus trapping and retu
 		footer?: Snippet;
 	}
 
-	let { 
-		isOpen, 
-		onClose, 
-		title, 
+	let {
+		isOpen,
+		onClose,
+		title,
 		description,
-		maxWidth = 'lg', 
+		maxWidth = 'lg',
 		closeOnEscape = true,
 		closeOnBackdrop = true,
 		showCloseButton = true,
@@ -71,13 +71,14 @@ Uses dialog role with proper ARIA attributes. Implements focus trapping and retu
 		footer
 	}: Props = $props();
 
-
 	let modalElement = $state<HTMLDivElement>();
 	let previousActiveElement: HTMLElement | null = null;
 
 	// Generate unique IDs for ARIA
 	const titleId = `modal-title-${Math.random().toString(36).substr(2, 9)}`;
-	const descriptionId = description ? `modal-description-${Math.random().toString(36).substr(2, 9)}` : undefined;
+	const descriptionId = description
+		? `modal-description-${Math.random().toString(36).substr(2, 9)}`
+		: undefined;
 
 	// Handle escape key
 	const handleKeydown = (e: KeyboardEvent) => {
@@ -99,10 +100,10 @@ Uses dialog role with proper ARIA attributes. Implements focus trapping and retu
 		if (isOpen) {
 			// Store the element that had focus before opening modal
 			previousActiveElement = document.activeElement as HTMLElement;
-			
+
 			// Prevent body scroll
 			document.body.style.overflow = 'hidden';
-			
+
 			// Focus the modal
 			setTimeout(() => {
 				modalElement?.focus();
@@ -114,10 +115,10 @@ Uses dialog role with proper ARIA attributes. Implements focus trapping and retu
 			return () => {
 				// Restore body scroll
 				document.body.style.overflow = '';
-				
+
 				// Remove escape key listener
 				document.removeEventListener('keydown', handleKeydown);
-				
+
 				// Restore focus to previous element
 				if (previousActiveElement) {
 					previousActiveElement.focus();
@@ -128,7 +129,7 @@ Uses dialog role with proper ARIA attributes. Implements focus trapping and retu
 </script>
 
 {#if isOpen}
-	<div 
+	<div
 		class="modal-overlay"
 		role="dialog"
 		aria-modal="true"
@@ -136,18 +137,9 @@ Uses dialog role with proper ARIA attributes. Implements focus trapping and retu
 		aria-describedby={descriptionId}
 	>
 		<div class="modal-container">
-			<div
-				class="modal-backdrop"
-				onclick={handleBackdropClick}
-				aria-hidden="true"
-			></div>
+			<div class="modal-backdrop" onclick={handleBackdropClick} aria-hidden="true"></div>
 
-			<div
-				bind:this={modalElement}
-				class="modal-panel"
-				data-max-width={maxWidth}
-				tabindex="-1"
-			>
+			<div bind:this={modalElement} class="modal-panel" data-max-width={maxWidth} tabindex="-1">
 				<div class="modal-header">
 					<div class="modal-header-content">
 						<Stack gap="xs">
@@ -169,7 +161,12 @@ Uses dialog role with proper ARIA attributes. Implements focus trapping and retu
 							aria-label="Close dialog"
 						>
 							<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M6 18L18 6M6 6l12 12"
+								/>
 							</svg>
 						</button>
 					{/if}
@@ -224,27 +221,27 @@ Uses dialog role with proper ARIA attributes. Implements focus trapping and retu
 		transition: all var(--transition-base);
 	}
 
-	.modal-panel[data-max-width="sm"] {
+	.modal-panel[data-max-width='sm'] {
 		max-width: 24rem;
 	}
 
-	.modal-panel[data-max-width="md"] {
+	.modal-panel[data-max-width='md'] {
 		max-width: 28rem;
 	}
 
-	.modal-panel[data-max-width="lg"] {
+	.modal-panel[data-max-width='lg'] {
 		max-width: 32rem;
 	}
 
-	.modal-panel[data-max-width="xl"] {
+	.modal-panel[data-max-width='xl'] {
 		max-width: 36rem;
 	}
 
-	.modal-panel[data-max-width="2xl"] {
+	.modal-panel[data-max-width='2xl'] {
 		max-width: 42rem;
 	}
 
-	.modal-panel[data-max-width="full"] {
+	.modal-panel[data-max-width='full'] {
 		max-width: calc(100% - 2rem);
 	}
 

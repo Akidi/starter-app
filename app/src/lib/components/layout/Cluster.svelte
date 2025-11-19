@@ -26,7 +26,7 @@ See Storybook for additional examples and visual documentation.
 -->
 
 <script lang="ts">
-	import type { Snippet } from "svelte";
+	import type { Snippet } from 'svelte';
 
 	interface Props {
 		gap?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
@@ -35,12 +35,7 @@ See Storybook for additional examples and visual documentation.
 		children: Snippet;
 	}
 
-	let { 
-		gap = 'md',
-		justify = 'start',
-		align = 'center',
-		children 
-	}: Props = $props();
+	let { gap = 'md', justify = 'start', align = 'center', children }: Props = $props();
 </script>
 
 <div class="cluster" data-gap={gap} data-justify={justify} data-align={align}>
@@ -52,21 +47,49 @@ See Storybook for additional examples and visual documentation.
 		display: flex;
 		flex-wrap: wrap;
 	}
-	
-	.cluster[data-justify="start"] { justify-content: flex-start; }
-	.cluster[data-justify="center"] { justify-content: center; }
-	.cluster[data-justify="between"] { justify-content: space-between; }
-	.cluster[data-justify="around"] { justify-content: space-around; }
-	.cluster[data-justify="end"] { justify-content: flex-end; }
-	
-	.cluster[data-align="start"] { align-items: flex-start; }
-	.cluster[data-align="center"] { align-items: center; }
-	.cluster[data-align="end"] { align-items: flex-end; }
-	.cluster[data-align="stretch"] { align-items: stretch; }
-	
-	.cluster[data-gap="xs"] { gap: var(--space-xs); }
-	.cluster[data-gap="sm"] { gap: var(--space-sm); }
-	.cluster[data-gap="md"] { gap: var(--space-md); }
-	.cluster[data-gap="lg"] { gap: var(--space-lg); }
-	.cluster[data-gap="xl"] { gap: var(--space-xl); }
+
+	.cluster[data-justify='start'] {
+		justify-content: flex-start;
+	}
+	.cluster[data-justify='center'] {
+		justify-content: center;
+	}
+	.cluster[data-justify='between'] {
+		justify-content: space-between;
+	}
+	.cluster[data-justify='around'] {
+		justify-content: space-around;
+	}
+	.cluster[data-justify='end'] {
+		justify-content: flex-end;
+	}
+
+	.cluster[data-align='start'] {
+		align-items: flex-start;
+	}
+	.cluster[data-align='center'] {
+		align-items: center;
+	}
+	.cluster[data-align='end'] {
+		align-items: flex-end;
+	}
+	.cluster[data-align='stretch'] {
+		align-items: stretch;
+	}
+
+	.cluster[data-gap='xs'] {
+		gap: var(--space-xs);
+	}
+	.cluster[data-gap='sm'] {
+		gap: var(--space-sm);
+	}
+	.cluster[data-gap='md'] {
+		gap: var(--space-md);
+	}
+	.cluster[data-gap='lg'] {
+		gap: var(--space-lg);
+	}
+	.cluster[data-gap='xl'] {
+		gap: var(--space-xl);
+	}
 </style>

@@ -39,16 +39,23 @@ External links include proper target and rel attributes. Icon is marked aria-hid
 
 	let { href, external = false, onclick, class: className = '', children }: Props = $props();
 </script>
+
 <a
 	{href}
 	target={external ? '_blank' : undefined}
 	rel={external ? 'noopener noreferrer' : undefined}
-	onclick={onclick}
+	{onclick}
 	class={className}
 >
 	{@render children()}
 	{#if external}
-		<svg class="external-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+		<svg
+			class="external-icon"
+			fill="none"
+			stroke="currentColor"
+			viewBox="0 0 24 24"
+			aria-hidden="true"
+		>
 			<path
 				stroke-linecap="round"
 				stroke-linejoin="round"

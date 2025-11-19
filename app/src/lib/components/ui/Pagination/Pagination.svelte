@@ -66,7 +66,7 @@ Uses semantic nav element with aria-label. Page buttons include aria-current for
 		}
 
 		const pages: (number | string)[] = [];
-		
+
 		if (start > 1) {
 			pages.push(1);
 			if (start > 2) pages.push('...');
@@ -88,10 +88,7 @@ Uses semantic nav element with aria-label. Page buttons include aria-current for
 	const canGoNext = $derived(currentPage < totalPages);
 </script>
 
-<nav 
-	class="pagination {className}"
-	aria-label="Pagination"
->
+<nav class="pagination {className}" aria-label="Pagination">
 	{#if showFirstLast}
 		<button
 			type="button"
@@ -101,8 +98,19 @@ Uses semantic nav element with aria-label. Page buttons include aria-current for
 			class:disabled={!canGoPrevious}
 			aria-label="Go to first page"
 		>
-			<svg class="pagination-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
+			<svg
+				class="pagination-icon"
+				fill="none"
+				viewBox="0 0 24 24"
+				stroke="currentColor"
+				aria-hidden="true"
+			>
+				<path
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					stroke-width="2"
+					d="M11 19l-7-7 7-7m8 14l-7-7 7-7"
+				/>
 			</svg>
 		</button>
 	{/if}
@@ -115,7 +123,13 @@ Uses semantic nav element with aria-label. Page buttons include aria-current for
 		class:disabled={!canGoPrevious}
 		aria-label="Go to previous page"
 	>
-		<svg class="pagination-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+		<svg
+			class="pagination-icon"
+			fill="none"
+			viewBox="0 0 24 24"
+			stroke="currentColor"
+			aria-hidden="true"
+		>
 			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
 		</svg>
 	</button>
@@ -147,7 +161,13 @@ Uses semantic nav element with aria-label. Page buttons include aria-current for
 		class:disabled={!canGoNext}
 		aria-label="Go to next page"
 	>
-		<svg class="pagination-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+		<svg
+			class="pagination-icon"
+			fill="none"
+			viewBox="0 0 24 24"
+			stroke="currentColor"
+			aria-hidden="true"
+		>
 			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
 		</svg>
 	</button>
@@ -161,8 +181,19 @@ Uses semantic nav element with aria-label. Page buttons include aria-current for
 			class:disabled={!canGoNext}
 			aria-label="Go to last page"
 		>
-			<svg class="pagination-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+			<svg
+				class="pagination-icon"
+				fill="none"
+				viewBox="0 0 24 24"
+				stroke="currentColor"
+				aria-hidden="true"
+			>
+				<path
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					stroke-width="2"
+					d="M13 5l7 7-7 7M5 5l7 7-7 7"
+				/>
 			</svg>
 		</button>
 	{/if}

@@ -44,9 +44,7 @@
 
 <Story name="Default" args={{ onsubmit: onSubmitFn }}>
 	<div>
-		<label for="name" class="block text-sm font-medium text-gray-700 mb-1">
-			Name
-		</label>
+		<label for="name" class="mb-1 block text-sm font-medium text-gray-700"> Name </label>
 		<input
 			type="text"
 			id="name"
@@ -55,9 +53,7 @@
 		/>
 	</div>
 	<div>
-		<label for="email" class="block text-sm font-medium text-gray-700 mb-1">
-			Email
-		</label>
+		<label for="email" class="mb-1 block text-sm font-medium text-gray-700"> Email </label>
 		<input
 			type="email"
 			id="email"
@@ -65,10 +61,7 @@
 			class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
 		/>
 	</div>
-	<button
-		type="submit"
-		class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-	>
+	<button type="submit" class="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700">
 		Submit
 	</button>
 	{#if formResult}
@@ -83,19 +76,17 @@
 			enhance={() => {
 				isSubmitting = true;
 				enhancedFormResult = 'Submitting...';
-				
+
 				return async () => {
 					isSubmitting = false;
 					enhancedFormResult = 'Form submitted successfully!';
-					setTimeout(() => enhancedFormResult = '', 3000);
+					setTimeout(() => (enhancedFormResult = ''), 3000);
 				};
 			}}
 			class="max-w-md space-y-4"
 		>
 			<div>
-				<label for="title" class="block text-sm font-medium text-gray-700 mb-1">
-					Title
-				</label>
+				<label for="title" class="mb-1 block text-sm font-medium text-gray-700"> Title </label>
 				<input
 					type="text"
 					id="title"
@@ -105,7 +96,7 @@
 				/>
 			</div>
 			<div>
-				<label for="description" class="block text-sm font-medium text-gray-700 mb-1">
+				<label for="description" class="mb-1 block text-sm font-medium text-gray-700">
 					Description
 				</label>
 				<textarea
@@ -119,7 +110,7 @@
 			<button
 				type="submit"
 				disabled={isSubmitting}
-				class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+				class="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
 			>
 				{isSubmitting ? 'Saving...' : 'Save'}
 			</button>
@@ -132,38 +123,35 @@
 
 <Story name="File Upload" args={{ enctype: 'multipart/form-data' }}>
 	{#snippet template(args)}
-	{args.children}
-		<Form 
+		{args.children}
+		<Form
 			enctype={args.enctype}
 			onsubmit={(e) => {
 				e.preventDefault();
 				onSubmitFn(e);
 				const formData = new FormData(e.currentTarget as HTMLFormElement);
 				const file = formData.get('file') as File;
-				fileUploadResult = file ? `File selected: ${file.name} (${file.size} bytes)` : 'No file selected';
+				fileUploadResult = file
+					? `File selected: ${file.name} (${file.size} bytes)`
+					: 'No file selected';
 			}}
 			class="max-w-md space-y-4"
 		>
 			<div>
-				<label for="file" class="block text-sm font-medium text-gray-700 mb-1">
-					Choose file
-				</label>
+				<label for="file" class="mb-1 block text-sm font-medium text-gray-700"> Choose file </label>
 				<input
 					type="file"
 					id="file"
 					name="file"
 					class="w-full text-sm text-gray-500
-						file:mr-4 file:py-2 file:px-4
-						file:rounded-md file:border-0
-						file:text-sm file:font-semibold
-						file:bg-blue-50 file:text-blue-700
+						file:mr-4 file:rounded-md file:border-0
+						file:bg-blue-50 file:px-4
+						file:py-2 file:text-sm
+						file:font-semibold file:text-blue-700
 						hover:file:bg-blue-100"
 				/>
 			</div>
-			<button
-				type="submit"
-				class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-			>
+			<button type="submit" class="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700">
 				Upload
 			</button>
 			{#if fileUploadResult}
@@ -175,7 +163,7 @@
 
 <Story name="With Validation" args={{ novalidate: false }}>
 	{#snippet template(args)}
-		<Form 
+		<Form
 			novalidate={args.novalidate}
 			onsubmit={(e) => {
 				e.preventDefault();
@@ -185,7 +173,7 @@
 			class="max-w-md space-y-4"
 		>
 			<div>
-				<label for="username" class="block text-sm font-medium text-gray-700 mb-1">
+				<label for="username" class="mb-1 block text-sm font-medium text-gray-700">
 					Username <span class="text-red-500">*</span>
 				</label>
 				<input
@@ -199,7 +187,7 @@
 				<p class="mt-1 text-sm text-gray-500">Minimum 3 characters</p>
 			</div>
 			<div>
-				<label for="password" class="block text-sm font-medium text-gray-700 mb-1">
+				<label for="password" class="mb-1 block text-sm font-medium text-gray-700">
 					Password <span class="text-red-500">*</span>
 				</label>
 				<input
@@ -212,10 +200,7 @@
 				/>
 				<p class="mt-1 text-sm text-gray-500">Minimum 8 characters</p>
 			</div>
-			<button
-				type="submit"
-				class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-			>
+			<button type="submit" class="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700">
 				Register
 			</button>
 			{#if validationResult}
@@ -236,14 +221,12 @@
 			onreset={(e: Event) => {
 				onResetFn(e);
 				resetResult = 'Form reset!';
-				setTimeout(() => resetResult = '', 2000);
+				setTimeout(() => (resetResult = ''), 2000);
 			}}
 			class="max-w-md space-y-4"
 		>
 			<div>
-				<label for="message" class="block text-sm font-medium text-gray-700 mb-1">
-					Message
-				</label>
+				<label for="message" class="mb-1 block text-sm font-medium text-gray-700"> Message </label>
 				<textarea
 					id="message"
 					name="message"
@@ -252,15 +235,12 @@
 				></textarea>
 			</div>
 			<div class="flex gap-2">
-				<button
-					type="submit"
-					class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-				>
+				<button type="submit" class="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700">
 					Submit
 				</button>
 				<button
 					type="reset"
-					class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+					class="rounded-md bg-gray-200 px-4 py-2 text-gray-700 hover:bg-gray-300"
 				>
 					Reset
 				</button>
@@ -274,7 +254,7 @@
 
 <Story name="GET Method" args={{ method: 'get' }}>
 	{#snippet template(args)}
-		<Form 
+		<Form
 			method={args.method}
 			action="#"
 			onsubmit={(e: SubmitEvent) => {
@@ -287,9 +267,7 @@
 			class="max-w-md space-y-4"
 		>
 			<div>
-				<label for="search" class="block text-sm font-medium text-gray-700 mb-1">
-					Search
-				</label>
+				<label for="search" class="mb-1 block text-sm font-medium text-gray-700"> Search </label>
 				<input
 					type="text"
 					id="search"
@@ -299,9 +277,7 @@
 				/>
 			</div>
 			<div>
-				<label for="filter" class="block text-sm font-medium text-gray-700 mb-1">
-					Filter
-				</label>
+				<label for="filter" class="mb-1 block text-sm font-medium text-gray-700"> Filter </label>
 				<select
 					id="filter"
 					name="filter"
@@ -312,14 +288,11 @@
 					<option value="inactive">Inactive</option>
 				</select>
 			</div>
-			<button
-				type="submit"
-				class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-			>
+			<button type="submit" class="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700">
 				Search
 			</button>
 			{#if getMethodResult}
-				<p class="text-sm text-gray-600 break-all">{getMethodResult}</p>
+				<p class="text-sm break-all text-gray-600">{getMethodResult}</p>
 			{/if}
 		</Form>
 	{/snippet}
@@ -327,7 +300,7 @@
 
 <Story name="No Validation" args={{ novalidate: true }}>
 	{#snippet template(args)}
-		<Form 
+		<Form
 			novalidate={args.novalidate}
 			onsubmit={(e) => {
 				e.preventDefault();
@@ -337,7 +310,7 @@
 			class="max-w-md space-y-4"
 		>
 			<div>
-				<label for="emailNoValidate" class="block text-sm font-medium text-gray-700 mb-1">
+				<label for="emailNoValidate" class="mb-1 block text-sm font-medium text-gray-700">
 					Email (validation disabled)
 				</label>
 				<input
@@ -347,12 +320,11 @@
 					required
 					class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
 				/>
-				<p class="mt-1 text-sm text-gray-500">Try entering invalid email - form will still submit</p>
+				<p class="mt-1 text-sm text-gray-500">
+					Try entering invalid email - form will still submit
+				</p>
 			</div>
-			<button
-				type="submit"
-				class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-			>
+			<button type="submit" class="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700">
 				Submit
 			</button>
 			{#if noValidateResult}
@@ -364,9 +336,7 @@
 
 <Story name="Autocomplete Off" args={{ autocomplete: 'off' }}>
 	<div>
-		<label for="secret" class="block text-sm font-medium text-gray-700 mb-1">
-			Secret Code
-		</label>
+		<label for="secret" class="mb-1 block text-sm font-medium text-gray-700"> Secret Code </label>
 		<input
 			type="text"
 			id="secret"
@@ -375,10 +345,7 @@
 		/>
 		<p class="mt-1 text-sm text-gray-500">Browser autocomplete is disabled</p>
 	</div>
-	<button
-		type="submit"
-		class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-	>
+	<button type="submit" class="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700">
 		Submit
 	</button>
 </Story>

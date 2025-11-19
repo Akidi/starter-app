@@ -53,10 +53,10 @@ Uses role="menuitem" with proper tabindex management. Disabled items have tabind
 <button
 	type="button"
 	onclick={handleClick}
-	disabled={disabled}
+	{disabled}
 	class="dropdown-item {className}"
-	class:danger={danger}
-	class:disabled={disabled}
+	class:danger
+	class:disabled
 	role="menuitem"
 	tabindex={disabled ? -1 : 0}
 >

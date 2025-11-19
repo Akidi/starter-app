@@ -100,11 +100,7 @@
 	}
 
 	.hero-highlight[data-gradient='true'] {
-		background: linear-gradient(
-			135deg,
-			var(--color-primary) 0%,
-			var(--color-primary-400) 100%
-		);
+		background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-400) 100%);
 		-webkit-background-clip: text;
 		-webkit-text-fill-color: transparent;
 		background-clip: text;

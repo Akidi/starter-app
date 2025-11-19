@@ -24,7 +24,7 @@ See Storybook for additional examples and visual documentation.
 -->
 
 <script lang="ts">
-	import type { Snippet } from "svelte";
+	import type { Snippet } from 'svelte';
 
 	interface Props {
 		top?: string | number;
@@ -33,12 +33,7 @@ See Storybook for additional examples and visual documentation.
 		children: Snippet;
 	}
 
-	let { 
-		top = 0,
-		bottom,
-		zIndex = 10,
-		children 
-	}: Props = $props();
+	let { top = 0, bottom, zIndex = 10, children }: Props = $props();
 </script>
 
 <div class="sticky" style:top style:bottom style:z-index={zIndex}>

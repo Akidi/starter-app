@@ -86,7 +86,7 @@
 	description="A modern, production-ready SvelteKit template with TypeScript, authentication, database setup, and containerized development environment."
 >
 	{#snippet actions()}
-		<Button size="lg" onclick={() => window.location.href = '/demo/lucia'}>
+		<Button size="lg" onclick={() => (window.location.href = '/demo/lucia')}>
 			Try Authentication Demo
 			<svg class="button-icon" fill="currentColor" viewBox="0 0 20 20">
 				<path
@@ -96,9 +96,9 @@
 				/>
 			</svg>
 		</Button>
-		<Button 
-			size="lg" 
-			variant="secondary" 
+		<Button
+			size="lg"
+			variant="secondary"
 			onclick={() => window.open('https://svelte.dev/docs/kit', '_blank')}
 		>
 			View Documentation
@@ -119,9 +119,7 @@
 	<Container size="lg">
 		<Stack gap="xl">
 			<Stack gap="md" align="center" class="section-header">
-				<h2 class="section-title">
-					Built with Modern Technologies
-				</h2>
+				<h2 class="section-title">Built with Modern Technologies</h2>
 				<p class="section-description">
 					Everything you need to build a production-ready web application.
 				</p>
@@ -158,20 +156,17 @@
 	<Container size="lg">
 		<Stack gap="xl">
 			<Stack gap="md" align="center" class="section-header">
-				<h2 class="section-title">
-					Quick Links
-				</h2>
-				<p class="section-description">
-					Explore the features and get started with development.
-				</p>
+				<h2 class="section-title">Quick Links</h2>
+				<p class="section-description">Explore the features and get started with development.</p>
 			</Stack>
 
 			<Grid columns={3} gap="lg">
 				{#each quickLinks as link (link.title)}
-					<Card 
-						hoverable 
-						clickable 
-						onclick={() => link.external ? window.open(link.href, '_blank') : window.location.href = link.href}
+					<Card
+						hoverable
+						clickable
+						onclick={() =>
+							link.external ? window.open(link.href, '_blank') : (window.location.href = link.href)}
 						padding="lg"
 					>
 						<Stack gap="sm">
@@ -206,16 +201,13 @@
 	<Container size="default">
 		<Stack gap="xl">
 			<Stack gap="md" align="center" class="section-header">
-				<h2 class="section-title">
-					Getting Started
-				</h2>
-				<p class="section-description">
-					Start building your next application in minutes.
-				</p>
+				<h2 class="section-title">Getting Started</h2>
+				<p class="section-description">Start building your next application in minutes.</p>
 			</Stack>
 
 			<div class="code-block">
-				<pre class="code-pre"><code># Clone the repository
+				<pre class="code-pre"><code
+						># Clone the repository
 git clone https://github.com/Akidi/starter-app.git
 
 # Install dependencies
@@ -226,7 +218,8 @@ pnpm install
 ./setup.ps1 -AppName myapp -Env dev
 
 # Start development
-docker-compose -f docker-compose.dev.yml up -d</code></pre>
+docker-compose -f docker-compose.dev.yml up -d</code
+					></pre>
 			</div>
 
 			<Alert type="info" title="Development Ready">

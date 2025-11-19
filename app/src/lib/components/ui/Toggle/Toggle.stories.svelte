@@ -43,7 +43,10 @@
 
 <Story name="Disabled" args={{ id: 'disabled', label: 'Disabled toggle', disabled: true }} />
 
-<Story name="Disabled Checked" args={{ id: 'disabled-checked', label: 'Disabled toggle', checked: true, disabled: true }} />
+<Story
+	name="Disabled Checked"
+	args={{ id: 'disabled-checked', label: 'Disabled toggle', checked: true, disabled: true }}
+/>
 
 <Story name="Small" args={{ id: 'small', label: 'Small toggle', size: 'sm' }} />
 
@@ -64,27 +67,20 @@
 <Story name="Interactive">
 	{#snippet template()}
 		<div style="display: flex; flex-direction: column; gap: 1rem;">
-			<Toggle 
-				id="interactive-1" 
-				label="Enable notifications" 
+			<Toggle
+				id="interactive-1"
+				label="Enable notifications"
 				bind:checked={notifications}
 				onchange={onChangeFn}
 			/>
-			<Toggle 
-				id="interactive-2" 
-				label="Dark mode" 
-				bind:checked={darkMode}
-				onchange={onChangeFn}
-			/>
-			<Toggle 
-				id="interactive-3" 
-				label="Auto-save" 
-				bind:checked={enabled}
-				onchange={onChangeFn}
-			/>
+			<Toggle id="interactive-2" label="Dark mode" bind:checked={darkMode} onchange={onChangeFn} />
+			<Toggle id="interactive-3" label="Auto-save" bind:checked={enabled} onchange={onChangeFn} />
 		</div>
 		<div style="margin-top: 1rem; padding: 1rem; background: #f9fafb; border-radius: 0.5rem;">
-			<p style="font-size: 0.875rem;"><strong>Notifications:</strong> {notifications ? 'On' : 'Off'}</p>
+			<p style="font-size: 0.875rem;">
+				<strong>Notifications:</strong>
+				{notifications ? 'On' : 'Off'}
+			</p>
 			<p style="font-size: 0.875rem;"><strong>Dark Mode:</strong> {darkMode ? 'On' : 'Off'}</p>
 			<p style="font-size: 0.875rem;"><strong>Auto-save:</strong> {enabled ? 'On' : 'Off'}</p>
 		</div>
@@ -93,9 +89,11 @@
 
 <Story name="Settings Panel">
 	{#snippet template()}
-		<div style="max-width: 600px; padding: 1.5rem; border: 1px solid #e5e7eb; border-radius: 0.5rem;">
+		<div
+			style="max-width: 600px; padding: 1.5rem; border: 1px solid #e5e7eb; border-radius: 0.5rem;"
+		>
 			<h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 1rem;">Preferences</h3>
-			
+
 			<div style="display: flex; flex-direction: column; gap: 1.5rem;">
 				<div>
 					<Toggle id="email-notif" label="Email notifications" bind:checked={notifications} />
@@ -133,7 +131,9 @@
 	{#snippet template()}
 		<div style="display: flex; flex-direction: column; gap: 2rem;">
 			<div>
-				<h3 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 0.75rem;">Feature Flags</h3>
+				<h3 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 0.75rem;">
+					Feature Flags
+				</h3>
 				<div style="display: flex; flex-direction: column; gap: 1rem;">
 					<Toggle id="feature-1" label="Enable new dashboard" />
 					<Toggle id="feature-2" label="Beta features" />
@@ -142,7 +142,9 @@
 			</div>
 
 			<div>
-				<h3 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 0.75rem;">Privacy Settings</h3>
+				<h3 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 0.75rem;">
+					Privacy Settings
+				</h3>
 				<div style="display: flex; flex-direction: column; gap: 1rem;">
 					<Toggle id="privacy-1" label="Profile visibility" checked />
 					<Toggle id="privacy-2" label="Show online status" checked />
@@ -151,7 +153,9 @@
 			</div>
 
 			<div>
-				<h3 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 0.75rem;">Product Settings</h3>
+				<h3 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 0.75rem;">
+					Product Settings
+				</h3>
 				<div style="display: flex; flex-direction: column; gap: 1rem;">
 					<Toggle id="product-1" label="Publish to e-commerce" checked />
 					<Toggle id="product-2" label="Track inventory" checked />

@@ -5,7 +5,7 @@
 	import TabList from './TabList.svelte';
 	import Tab from './Tab.svelte';
 	import TabPanel from './TabPanel.svelte';
-	import {Card} from '$lib/components/ui';
+	import { Card } from '$lib/components/ui';
 
 	const onTabChangeFn = fn().mockName('onTabChange');
 
@@ -175,18 +175,38 @@
 
 			<TabPanel id="general">
 				<div style="max-width: 600px;">
-					<h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 1rem;">General Settings</h3>
+					<h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 1rem;">
+						General Settings
+					</h3>
 					<p style="font-size: 0.875rem; color: #6b7280; margin-bottom: 1.5rem;">
 						Manage your account preferences and personal information.
 					</p>
 					<div style="display: flex; flex-direction: column; gap: 1rem;">
 						<div>
-							<label for="name" style="display: block; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.25rem;">Display Name</label>
-							<input id="name" type="text" value="John Doe" style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 0.375rem;" />
+							<label
+								for="name"
+								style="display: block; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.25rem;"
+								>Display Name</label
+							>
+							<input
+								id="name"
+								type="text"
+								value="John Doe"
+								style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 0.375rem;"
+							/>
 						</div>
 						<div>
-							<label for="email" style="display: block; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.25rem;">Email</label>
-							<input id="email" type="email" value="john@example.com" style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 0.375rem;" />
+							<label
+								for="email"
+								style="display: block; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.25rem;"
+								>Email</label
+							>
+							<input
+								id="email"
+								type="email"
+								value="john@example.com"
+								style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 0.375rem;"
+							/>
 						</div>
 					</div>
 				</div>
@@ -194,21 +214,29 @@
 
 			<TabPanel id="security">
 				<div style="max-width: 600px;">
-					<h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 1rem;">Security Settings</h3>
+					<h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 1rem;">
+						Security Settings
+					</h3>
 					<p style="font-size: 0.875rem; color: #6b7280; margin-bottom: 1.5rem;">
 						Manage your password and security preferences.
 					</p>
 					<div style="display: flex; flex-direction: column; gap: 1.5rem;">
 						<div>
 							<h4 style="font-weight: 600; margin-bottom: 0.5rem;">Change Password</h4>
-							<button type="button" style="padding: 0.5rem 1rem; background: #3b82f6; color: white; border-radius: 0.375rem; font-size: 0.875rem;">
+							<button
+								type="button"
+								style="padding: 0.5rem 1rem; background: #3b82f6; color: white; border-radius: 0.375rem; font-size: 0.875rem;"
+							>
 								Update Password
 							</button>
 						</div>
 						<div>
 							<h4 style="font-weight: 600; margin-bottom: 0.5rem;">Two-Factor Authentication</h4>
 							<p style="font-size: 0.875rem; color: #6b7280; margin-bottom: 0.5rem;">Not enabled</p>
-							<button type="button" style="padding: 0.5rem 1rem; border: 1px solid #d1d5db; border-radius: 0.375rem; font-size: 0.875rem;">
+							<button
+								type="button"
+								style="padding: 0.5rem 1rem; border: 1px solid #d1d5db; border-radius: 0.375rem; font-size: 0.875rem;"
+							>
 								Enable 2FA
 							</button>
 						</div>
@@ -218,7 +246,9 @@
 
 			<TabPanel id="notifications">
 				<div style="max-width: 600px;">
-					<h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 1rem;">Notification Preferences</h3>
+					<h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 1rem;">
+						Notification Preferences
+					</h3>
 					<p style="font-size: 0.875rem; color: #6b7280; margin-bottom: 1.5rem;">
 						Choose how you want to receive notifications.
 					</p>
@@ -241,13 +271,19 @@
 
 			<TabPanel id="billing">
 				<div style="max-width: 600px;">
-					<h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 1rem;">Billing Information</h3>
+					<h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 1rem;">
+						Billing Information
+					</h3>
 					<p style="font-size: 0.875rem; color: #6b7280; margin-bottom: 1.5rem;">
 						Manage your subscription and payment methods.
 					</p>
-					<div style="padding: 1rem; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 0.5rem;">
+					<div
+						style="padding: 1rem; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 0.5rem;"
+					>
 						<p style="font-size: 0.875rem; font-weight: 600;">Current Plan: Pro</p>
-						<p style="font-size: 0.875rem; color: #6b7280; margin-top: 0.25rem;">$29/month • Renews on Jan 15, 2025</p>
+						<p style="font-size: 0.875rem; color: #6b7280; margin-top: 0.25rem;">
+							$29/month • Renews on Jan 15, 2025
+						</p>
 					</div>
 				</div>
 			</TabPanel>

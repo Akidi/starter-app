@@ -138,7 +138,9 @@
 	{#snippet template()}
 		<div style="display: flex; flex-direction: column; gap: 2rem;">
 			<div>
-				<h3 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 0.75rem;">Table Row Actions</h3>
+				<h3 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 0.75rem;">
+					Table Row Actions
+				</h3>
 				<Dropdown label="⋮" buttonVariant="ghost" buttonSize="sm">
 					<DropdownItem onclick={() => onActionFn('view')}>View Details</DropdownItem>
 					<DropdownItem onclick={() => onActionFn('edit')}>Edit</DropdownItem>
@@ -165,7 +167,9 @@
 			</div>
 
 			<div>
-				<h3 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 0.75rem;">Export Options</h3>
+				<h3 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 0.75rem;">
+					Export Options
+				</h3>
 				<Dropdown label="Export" buttonVariant="primary">
 					<DropdownItem onclick={() => onActionFn('csv')}>Export as CSV</DropdownItem>
 					<DropdownItem onclick={() => onActionFn('excel')}>Export as Excel</DropdownItem>

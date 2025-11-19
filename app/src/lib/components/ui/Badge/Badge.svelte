@@ -58,6 +58,7 @@ Uses role="status" for screen readers. Remove button includes descriptive aria-l
 		removable?: boolean;
 		onRemove?: () => void;
 		class?: string;
+		style?: string;
 	}
 
 	let {
@@ -67,7 +68,8 @@ Uses role="status" for screen readers. Remove button includes descriptive aria-l
 		dot = false,
 		removable = false,
 		onRemove,
-		class: className = ''
+		class: className = '',
+		style
 	}: Props = $props();
 
 	const normalizeVariant = (value: Variant): ResolvedVariant => {
@@ -107,6 +109,7 @@ Uses role="status" for screen readers. Remove button includes descriptive aria-l
 	data-size={size}
 	class={className}
 	aria-label={text}
+	{style}
 >
 	{#if dot}
 		<span data-dot aria-hidden="true"></span>
@@ -115,7 +118,12 @@ Uses role="status" for screen readers. Remove button includes descriptive aria-l
 	{#if removable && onRemove}
 		<button type="button" onclick={handleRemove} aria-label={`Remove ${text}`}>
 			<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+				<path
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					stroke-width="2"
+					d="M6 18L18 6M6 6l12 12"
+				/>
 			</svg>
 		</button>
 	{/if}

@@ -32,37 +32,21 @@
 	});
 </script>
 
-<Story name="Primary">
-	Primary Button
-</Story>
+<Story name="Primary">Primary Button</Story>
 
-<Story name="Secondary" args={{ variant: 'secondary' }}>
-	Secondary Button
-</Story>
+<Story name="Secondary" args={{ variant: 'secondary' }}>Secondary Button</Story>
 
-<Story name="Success" args={{ variant: 'success' }}>
-	Success Button
-</Story>
+<Story name="Success" args={{ variant: 'success' }}>Success Button</Story>
 
-<Story name="Warning" args={{ variant: 'warning' }}>
-	Warning Button
-</Story>
+<Story name="Warning" args={{ variant: 'warning' }}>Warning Button</Story>
 
-<Story name="Info" args={{ variant: 'info' }}>
-	Info Button
-</Story>
+<Story name="Info" args={{ variant: 'info' }}>Info Button</Story>
 
-<Story name="Danger" args={{ variant: 'danger' }}>
-	Danger Button
-</Story>
+<Story name="Danger" args={{ variant: 'danger' }}>Danger Button</Story>
 
-<Story name="Ghost" args={{ variant: 'ghost' }}>
-	Ghost Button
-</Story>
+<Story name="Ghost" args={{ variant: 'ghost' }}>Ghost Button</Story>
 
-<Story name="Link" args={{ variant: 'link' }}>
-	Link Button
-</Story>
+<Story name="Link" args={{ variant: 'link' }}>Link Button</Story>
 
 <Story name="All Solid Variants">
 	{#snippet template()}
@@ -149,20 +133,50 @@
 	{#snippet template()}
 		<div style="display: flex; gap: 1rem; flex-wrap: wrap;">
 			<Button>
-				<svg style="width: 1rem; height: 1rem; margin-right: 0.5rem;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+				<svg
+					style="width: 1rem; height: 1rem; margin-right: 0.5rem;"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke="currentColor"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						d="M12 4v16m8-8H4"
+					/>
 				</svg>
 				Add Item
 			</Button>
 			<Button variant="danger">
-				<svg style="width: 1rem; height: 1rem; margin-right: 0.5rem;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+				<svg
+					style="width: 1rem; height: 1rem; margin-right: 0.5rem;"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke="currentColor"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+					/>
 				</svg>
 				Delete
 			</Button>
 			<Button variant="success" outline>
-				<svg style="width: 1rem; height: 1rem; margin-right: 0.5rem;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+				<svg
+					style="width: 1rem; height: 1rem; margin-right: 0.5rem;"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke="currentColor"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						d="M5 13l4 4L19 7"
+					/>
 				</svg>
 				Approve
 			</Button>

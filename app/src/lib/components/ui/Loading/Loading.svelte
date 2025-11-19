@@ -45,7 +45,6 @@ Uses role="status" and aria-live="polite" for screen reader announcements. Inclu
 		fullscreen = false,
 		class: className = ''
 	}: Props = $props();
-
 </script>
 
 {#if fullscreen}
@@ -59,7 +58,14 @@ Uses role="status" and aria-live="polite" for screen reader announcements. Inclu
 				role="status"
 				aria-label="Loading"
 			>
-				<circle class="loading-spinner-track" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+				<circle
+					class="loading-spinner-track"
+					cx="12"
+					cy="12"
+					r="10"
+					stroke="currentColor"
+					stroke-width="4"
+				></circle>
 				<path
 					class="loading-spinner-fill"
 					fill="currentColor"
@@ -72,19 +78,21 @@ Uses role="status" and aria-live="polite" for screen reader announcements. Inclu
 		</div>
 	</div>
 {:else}
-	<div
-		class="loading {className}"
-		class:centered={centered}
-		role="status"
-		aria-label="Loading"
-	>
+	<div class="loading {className}" class:centered role="status" aria-label="Loading">
 		<svg
 			class="loading-spinner loading-spinner-{size} loading-spinner-{variant}"
 			xmlns="http://www.w3.org/2000/svg"
 			fill="none"
 			viewBox="0 0 24 24"
 		>
-			<circle class="loading-spinner-track" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+			<circle
+				class="loading-spinner-track"
+				cx="12"
+				cy="12"
+				r="10"
+				stroke="currentColor"
+				stroke-width="4"
+			></circle>
 			<path
 				class="loading-spinner-fill"
 				fill="currentColor"

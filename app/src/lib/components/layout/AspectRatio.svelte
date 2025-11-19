@@ -20,17 +20,14 @@ See Storybook for additional examples and visual documentation.
 -->
 
 <script lang="ts">
-	import type { Snippet } from "svelte";
+	import type { Snippet } from 'svelte';
 
 	interface Props {
 		ratio?: '16/9' | '4/3' | '1/1' | '21/9' | '3/2' | string;
 		children: Snippet;
 	}
 
-	let { 
-		ratio = '16/9',
-		children 
-	}: Props = $props();
+	let { ratio = '16/9', children }: Props = $props();
 </script>
 
 <div class="aspect-ratio" style="--ratio: {ratio}">
@@ -42,7 +39,7 @@ See Storybook for additional examples and visual documentation.
 		position: relative;
 		aspect-ratio: var(--ratio);
 	}
-	
+
 	.aspect-ratio > :global(*) {
 		position: absolute;
 		inset: 0;

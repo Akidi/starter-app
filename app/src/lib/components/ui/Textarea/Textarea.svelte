@@ -115,34 +115,34 @@ Uses native textarea element with proper label association. Character count and 
 
 		// Reset height to auto to get the correct scrollHeight
 		textareaElement.style.height = 'auto';
-		
+
 		// Calculate new height
 		let newHeight = textareaElement.scrollHeight;
-		
+
 		// Apply min/max constraints if provided
 		if (minRows) {
 			const lineHeight = parseInt(getComputedStyle(textareaElement).lineHeight);
 			const minHeight = lineHeight * minRows;
 			newHeight = Math.max(newHeight, minHeight);
 		}
-		
+
 		if (maxRows) {
 			const lineHeight = parseInt(getComputedStyle(textareaElement).lineHeight);
 			const maxHeight = lineHeight * maxRows;
 			newHeight = Math.min(newHeight, maxHeight);
 		}
-		
+
 		textareaElement.style.height = `${newHeight}px`;
 	};
 
 	const handleInput = (e: Event) => {
 		if (!(e.currentTarget instanceof HTMLTextAreaElement)) return;
 		value = e.currentTarget.value || null;
-		
+
 		if (autoResize) {
 			handleAutoResize();
 		}
-		
+
 		oninput?.(e);
 	};
 

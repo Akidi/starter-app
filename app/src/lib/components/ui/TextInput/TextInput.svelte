@@ -63,8 +63,8 @@
 	@param {(isValid: boolean) => void} [onvalid] - Callback fired when validation state changes
 -->
 <script lang="ts">
-	import { Flex, Stack } from "$lib/components/layout";
-	import { getFormContext } from "$lib/contexts/form-context.svelte";
+	import { Flex, Stack } from '$lib/components/layout';
+	import { getFormContext } from '$lib/contexts/form-context.svelte';
 
 	interface Props {
 		id: string;
@@ -145,7 +145,7 @@
 		}
 
 		const valid = target.validity.valid && target.checkValidity();
-		
+
 		if (!valid) {
 			validationError = patternError;
 			isValid = false;

@@ -9,14 +9,18 @@
 	// Navigation items using the NavItem type
 	const navLinks: NavItem[] = [
 		{ name: 'Home', href: '/' },
-		{ name: 'Demos', children: [
-			{ name: 'Lucia', href: '/demo/lucia' },
-			{ name: 'Paraglide', href: '/demo/paraglide' },
-			{ name: 'Toasts', href: '/demo/toasts' },
-		]},
+		{
+			name: 'Demos',
+			children: [
+				{ name: 'Lucia', href: '/demo/lucia' },
+				{ name: 'Paraglide', href: '/demo/paraglide' },
+				{ name: 'Toasts', href: '/demo/toasts' }
+			]
+		},
 		{ name: 'Documentation', href: 'https://svelte.dev/docs/kit', external: true }
 	];
 </script>
+
 <ToastContainer />
 <Stack class="app-layout" gap="md">
 	<!-- Navigation -->

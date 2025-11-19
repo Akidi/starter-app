@@ -1,7 +1,7 @@
 <script module lang="ts">
 	import { defineMeta } from '@storybook/addon-svelte-csf';
 	import Loading from './Loading.svelte';
-	import {Button} from '$lib/components/ui';
+	import { Button } from '$lib/components/ui';
 
 	/**
 	 * Loading component for showing loading states.
@@ -101,13 +101,11 @@
 <Story name="Fullscreen Demo">
 	{#snippet template()}
 		<div>
-			<Button onclick={() => showFullscreen = true}>
-				Show Fullscreen Loading
-			</Button>
+			<Button onclick={() => (showFullscreen = true)}>Show Fullscreen Loading</Button>
 			{#if showFullscreen}
 				<Loading fullscreen size="xl" text="Loading your data..." />
-				<Button 
-					onclick={() => showFullscreen = false}
+				<Button
+					onclick={() => (showFullscreen = false)}
 					style="position: fixed; bottom: 2rem; right: 2rem; z-index: 60;"
 				>
 					Hide (Demo Only)
@@ -121,7 +119,9 @@
 	{#snippet template()}
 		<div style="display: flex; flex-direction: column; gap: 2rem;">
 			<div>
-				<h3 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 0.75rem;">Inline Loading</h3>
+				<h3 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 0.75rem;">
+					Inline Loading
+				</h3>
 				<div style="padding: 1rem; border: 1px solid #e5e7eb; border-radius: 0.5rem;">
 					<Loading size="sm" text="Fetching data..." />
 				</div>
@@ -135,8 +135,12 @@
 			</div>
 
 			<div>
-				<h3 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 0.75rem;">Table Loading</h3>
-				<div style="padding: 3rem; border: 1px solid #e5e7eb; border-radius: 0.5rem; text-align: center;">
+				<h3 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 0.75rem;">
+					Table Loading
+				</h3>
+				<div
+					style="padding: 3rem; border: 1px solid #e5e7eb; border-radius: 0.5rem; text-align: center;"
+				>
 					<Loading size="xl" text="Loading table data..." centered />
 				</div>
 			</div>

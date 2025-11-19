@@ -77,16 +77,16 @@ Uses img element with proper alt text. Fallback text is visible and readable wit
 	// Generate a simple color from the fallback text
 	const generateColor = (text: string): string => {
 		if (!text) return 'var(--color-primary)';
-		
+
 		const colors = [
 			'var(--color-primary)',
 			'oklch(65% 0.18 155)', // green
-			'oklch(70% 0.15 70)',  // amber
-			'oklch(60% 0.22 25)',  // red
+			'oklch(70% 0.15 70)', // amber
+			'oklch(60% 0.22 25)', // red
 			'oklch(65% 0.18 270)', // purple
-			'oklch(65% 0.18 200)', // cyan
+			'oklch(65% 0.18 200)' // cyan
 		];
-		
+
 		const index = text.charCodeAt(0) % colors.length;
 		return colors[index];
 	};
@@ -94,9 +94,11 @@ Uses img element with proper alt text. Fallback text is visible and readable wit
 	const fallbackColor = $derived(generateColor(fallback));
 </script>
 
-<div 
+<div
 	class="avatar {className}"
-	data-size={typeof size === 'string' && ['xs', 'sm', 'md', 'lg', 'xl'].includes(size) ? size : undefined}
+	data-size={typeof size === 'string' && ['xs', 'sm', 'md', 'lg', 'xl'].includes(size)
+		? size
+		: undefined}
 	data-shape={shape}
 	style:width={!['xs', 'sm', 'md', 'lg', 'xl'].includes(size as string) ? size : undefined}
 	style:height={!['xs', 'sm', 'md', 'lg', 'xl'].includes(size as string) ? size : undefined}
@@ -104,15 +106,9 @@ Uses img element with proper alt text. Fallback text is visible and readable wit
 	aria-label={alt || 'Avatar'}
 >
 	{#if showImage}
-		<img
-			{src}
-			{alt}
-			class="avatar-image"
-			onload={handleImageLoad}
-			onerror={handleImageError}
-		/>
+		<img {src} {alt} class="avatar-image" onload={handleImageLoad} onerror={handleImageError} />
 	{/if}
-	
+
 	{#if showFallback}
 		<Center class="avatar-fallback" style="background-color: {fallbackColor}">
 			<span class="avatar-fallback-text">{fallback}</span>
@@ -120,7 +116,7 @@ Uses img element with proper alt text. Fallback text is visible and readable wit
 	{/if}
 
 	{#if status}
-		<span 
+		<span
 			class="avatar-status"
 			data-status={status}
 			data-position={statusPosition}
@@ -141,11 +137,21 @@ Uses img element with proper alt text. Fallback text is visible and readable wit
 	}
 
 	/* Size variants */
-	.avatar[data-size='xs'] { --avatar-size: 1.5rem; }
-	.avatar[data-size='sm'] { --avatar-size: 2rem; }
-	.avatar[data-size='md'] { --avatar-size: 2.5rem; }
-	.avatar[data-size='lg'] { --avatar-size: 3rem; }
-	.avatar[data-size='xl'] { --avatar-size: 4rem; }
+	.avatar[data-size='xs'] {
+		--avatar-size: 1.5rem;
+	}
+	.avatar[data-size='sm'] {
+		--avatar-size: 2rem;
+	}
+	.avatar[data-size='md'] {
+		--avatar-size: 2.5rem;
+	}
+	.avatar[data-size='lg'] {
+		--avatar-size: 3rem;
+	}
+	.avatar[data-size='xl'] {
+		--avatar-size: 4rem;
+	}
 
 	/* Shape variants */
 	.avatar[data-shape='circle'] {

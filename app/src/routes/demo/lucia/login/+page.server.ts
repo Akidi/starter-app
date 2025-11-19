@@ -44,10 +44,7 @@ export const actions: Actions = {
 			logger.debug('Validation passed, querying database', { email });
 
 			// Query the users table using email
-			const results = await getReadDb()
-				.select()
-				.from(user)
-				.where(eq(user.email, email));
+			const results = await getReadDb().select().from(user).where(eq(user.email, email));
 
 			logger.debug('Database query completed', { resultsCount: results.length });
 
@@ -121,10 +118,7 @@ export const actions: Actions = {
 			logger.debug('Validation passed, checking for existing user');
 
 			// Check if user already exists
-			const existingUsers = await getReadDb()
-				.select()
-				.from(user)
-				.where(eq(user.email, email));
+			const existingUsers = await getReadDb().select().from(user).where(eq(user.email, email));
 
 			logger.debug('Existing user check completed', { count: existingUsers.length });
 

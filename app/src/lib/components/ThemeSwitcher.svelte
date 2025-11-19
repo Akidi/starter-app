@@ -32,7 +32,7 @@
 	const applyTheme = (theme: 'light' | 'dark') => {
 		if (typeof document !== 'undefined') {
 			document.documentElement.setAttribute('data-theme', theme);
-			
+
 			// Also add class for additional CSS targeting if needed
 			if (theme === 'dark') {
 				document.documentElement.classList.add('dark');
@@ -56,21 +56,20 @@
 
 	let isInitialRender = $state(true);
 
-// Watch for theme changes and apply them with transition
-$effect(() => {
-	if (isInitialRender) {
-		// Don't transition on initial load
-		isInitialRender = false;
-		applyTheme(themeStore.value);
-	} else {
-		// Transition when user changes theme
-		applyThemeWithTransition(themeStore.value);
-	}
-});
+	// Watch for theme changes and apply them with transition
+	$effect(() => {
+		if (isInitialRender) {
+			// Don't transition on initial load
+			isInitialRender = false;
+			applyTheme(themeStore.value);
+		} else {
+			// Transition when user changes theme
+			applyThemeWithTransition(themeStore.value);
+		}
+	});
 
 	const supportsViewTransitions = $derived(
-		typeof document !== 'undefined' && 
-		'startViewTransition' in document
+		typeof document !== 'undefined' && 'startViewTransition' in document
 	);
 
 	const applyThemeWithTransition = (theme: 'light' | 'dark') => {
@@ -83,11 +82,11 @@ $effect(() => {
 		} else if (transition !== 'none') {
 			// Use CSS transition fallback
 			document.documentElement.classList.add('theme-transitioning');
-			
+
 			// Apply theme after a brief delay to ensure transition
 			requestAnimationFrame(() => {
 				applyTheme(theme);
-				
+
 				// Remove transition class after animation completes
 				setTimeout(() => {
 					document.documentElement.classList.remove('theme-transitioning');

@@ -92,7 +92,7 @@
 		const k = 1024;
 		const sizes = ['Bytes', 'KB', 'MB', 'GB'];
 		const i = Math.floor(Math.log(bytes) / Math.log(k));
-		return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+		return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + ' ' + sizes[i];
 	}
 </script>
 
@@ -169,9 +169,7 @@
 									</p>
 									<p style="color: var(--text-secondary); margin: 0;">or click to browse</p>
 								</div>
-								<div
-									style="font-size: 0.875rem; color: var(--text-secondary); max-width: 400px;"
-								>
+								<div style="font-size: 0.875rem; color: var(--text-secondary); max-width: 400px;">
 									<p style="margin: 0;">Supported formats: JPEG, PNG, GIF, WebP</p>
 									<p style="margin: 0.25rem 0 0 0;">Maximum size: 5MB</p>
 								</div>
@@ -218,9 +216,7 @@
 											>
 												Remove
 											</Button>
-											<Button type="submit" variant="primary" loading={isUploading}>
-												Upload
-											</Button>
+											<Button type="submit" variant="primary" loading={isUploading}>Upload</Button>
 										</div>
 									</div>
 								</Stack>
@@ -297,9 +293,9 @@
 					<div>
 						<strong>Server-side:</strong>
 						<p style="margin: 0.25rem 0 0 0; color: var(--text-secondary); font-size: 0.875rem;">
-							Files are saved to <code>/uploads</code> directory with unique timestamped names. The
-							server validates file type and size, then converts the file to a buffer before writing
-							to disk using Node.js fs/promises API.
+							Files are saved to <code>/uploads</code> directory with unique timestamped names. The server
+							validates file type and size, then converts the file to a buffer before writing to disk
+							using Node.js fs/promises API.
 						</p>
 					</div>
 					<div>

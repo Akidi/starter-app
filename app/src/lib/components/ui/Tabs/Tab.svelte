@@ -40,12 +40,7 @@ Uses role="tab" with proper aria-selected state. Active tab has tabindex="0", in
 		class?: string;
 	}
 
-	let {
-		id,
-		label,
-		disabled = false,
-		class: className = ''
-	}: Props = $props();
+	let { id, label, disabled = false, class: className = '' }: Props = $props();
 
 	const tabsContext = getContext<{
 		activeTab: () => string;
@@ -64,14 +59,14 @@ Uses role="tab" with proper aria-selected state. Active tab has tabindex="0", in
 <button
 	type="button"
 	onclick={handleClick}
-	disabled={disabled}
+	{disabled}
 	role="tab"
 	aria-selected={isActive}
 	aria-controls="{id}-panel"
 	tabindex={isActive ? 0 : -1}
 	class="tab {className}"
 	class:active={isActive}
-	class:disabled={disabled}
+	class:disabled
 >
 	{label}
 </button>

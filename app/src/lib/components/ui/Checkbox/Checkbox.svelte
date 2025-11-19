@@ -52,18 +52,18 @@ Uses native checkbox input with proper label association. Error messages use ari
 		onchange?: (e: Event) => void;
 	}
 
-	let { 
-		id, 
-		name, 
-		label, 
-		value = 'on', 
-		checked = $bindable(false), 
+	let {
+		id,
+		name,
+		label,
+		value = 'on',
+		checked = $bindable(false),
 		disabled = false,
 		required = false,
 		error,
 		helpText,
 		indeterminate = false,
-		onchange 
+		onchange
 	}: Props = $props();
 
 	let inputElement = $state<HTMLInputElement>();
@@ -100,11 +100,7 @@ Uses native checkbox input with proper label association. Error messages use ari
 		/>
 	</div>
 	<div class="checkbox-content">
-		<label 
-			for={id}
-			class:disabled={disabled}
-			class:has-error={error}
-		>
+		<label for={id} class:disabled class:has-error={error}>
 			{label}
 			{#if required}
 				<span class="required-indicator" aria-label="required">*</span>
@@ -135,7 +131,7 @@ Uses native checkbox input with proper label association. Error messages use ari
 		height: 1.25rem;
 	}
 
-	input[type="checkbox"] {
+	input[type='checkbox'] {
 		width: 1rem;
 		height: 1rem;
 		border-radius: var(--radius-sm);
@@ -145,17 +141,17 @@ Uses native checkbox input with proper label association. Error messages use ari
 		accent-color: var(--color-primary);
 	}
 
-	input[type="checkbox"]:focus {
+	input[type='checkbox']:focus {
 		outline: none;
 		box-shadow: 0 0 0 3px oklch(60% 0.18 250 / 0.1);
 	}
 
-	input[type="checkbox"]:disabled {
+	input[type='checkbox']:disabled {
 		cursor: not-allowed;
 		opacity: 0.5;
 	}
 
-	input[type="checkbox"].has-error {
+	input[type='checkbox'].has-error {
 		border-color: var(--color-error);
 	}
 

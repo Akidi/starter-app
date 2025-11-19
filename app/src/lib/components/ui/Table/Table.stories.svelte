@@ -1,7 +1,7 @@
 <script module lang="ts">
 	import { defineMeta } from '@storybook/addon-svelte-csf';
 	import Table from './Table.svelte';
-	import {Badge, Button} from '$lib/components/ui';
+	import { Badge, Button } from '$lib/components/ui';
 
 	/**
 	 * Table component for displaying tabular data.
@@ -36,7 +36,7 @@
 					<th>Role</th>
 				</tr>
 			{/snippet}
-			
+
 			<tr>
 				<td>John Doe</td>
 				<td>john@example.com</td>
@@ -67,7 +67,7 @@
 					<th>Stock</th>
 				</tr>
 			{/snippet}
-			
+
 			<tr>
 				<td>Wireless Mouse</td>
 				<td>WM-001</td>
@@ -106,7 +106,7 @@
 					<th>Status</th>
 				</tr>
 			{/snippet}
-			
+
 			<tr>
 				<td>Laptop</td>
 				<td>Electronics</td>
@@ -137,7 +137,7 @@
 					<th>Total</th>
 				</tr>
 			{/snippet}
-			
+
 			<tr>
 				<td>Product A</td>
 				<td>2</td>
@@ -177,7 +177,7 @@
 					<th>Status</th>
 				</tr>
 			{/snippet}
-			
+
 			<tr>
 				<td>001</td>
 				<td>Item 1</td>
@@ -208,7 +208,7 @@
 					<th>Actions</th>
 				</tr>
 			{/snippet}
-			
+
 			<tr>
 				<td>Wireless Mouse</td>
 				<td>WM-001</td>
@@ -259,7 +259,7 @@
 					<th>Actions</th>
 				</tr>
 			{/snippet}
-			
+
 			<tr>
 				<td>
 					<div style="font-weight: 600;">Wireless Mouse</div>
@@ -314,12 +314,22 @@
 					<th>Stock</th>
 				</tr>
 			{/snippet}
-			
+
 			<tr>
 				<td colspan="4" style="text-align: center; padding: 3rem; color: #6b7280;">
 					<div>
-						<svg style="margin: 0 auto 1rem; width: 3rem; height: 3rem; color: #d1d5db;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+						<svg
+							style="margin: 0 auto 1rem; width: 3rem; height: 3rem; color: #d1d5db;"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
+							/>
 						</svg>
 						<div style="font-weight: 600; margin-bottom: 0.25rem;">No products found</div>
 						<div style="font-size: 0.875rem;">Add your first product to get started</div>

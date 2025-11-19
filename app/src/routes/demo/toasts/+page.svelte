@@ -48,7 +48,8 @@
 	function showLongMessage() {
 		toasts.add({
 			type: 'success',
-			message: 'This is a much longer toast message to demonstrate how the component handles multi-line text. It should wrap nicely and remain readable.',
+			message:
+				'This is a much longer toast message to demonstrate how the component handles multi-line text. It should wrap nicely and remain readable.',
 			duration: 8000
 		});
 	}
@@ -59,7 +60,7 @@
 			message: 'First notification',
 			duration: 5000
 		});
-		
+
 		setTimeout(() => {
 			toasts.add({
 				type: 'success',
@@ -67,7 +68,7 @@
 				duration: 5000
 			});
 		}, 500);
-		
+
 		setTimeout(() => {
 			toasts.add({
 				type: 'warning',
@@ -79,7 +80,7 @@
 
 	function showCustom() {
 		const duration = customDuration ? parseInt(customDuration) : undefined;
-		
+
 		toasts.add({
 			type: customType,
 			message: customMessage,
@@ -123,56 +124,41 @@
 	<title>Toast Notifications Demo</title>
 </svelte:head>
 
-<div class="container mx-auto max-w-6xl p-6 space-y-8">
+<div class="container mx-auto max-w-6xl space-y-8 p-6">
 	<!-- Header -->
 	<div class="space-y-2">
 		<h1 class="text-3xl font-bold text-gray-900">Toast Notifications</h1>
 		<p class="text-gray-600">
-			A comprehensive demonstration of the toast notification system with various types, durations, and options.
+			A comprehensive demonstration of the toast notification system with various types, durations,
+			and options.
 		</p>
 	</div>
 
 	<!-- Quick Actions -->
 	<FormSection title="Quick Examples" description="Click any button to see different toast types">
-		<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-			<Button onclick={showSuccess} variant="primary" fullWidth>
-				Show Success
-			</Button>
-			<Button onclick={showError} variant="danger" fullWidth>
-				Show Error
-			</Button>
-			<Button onclick={showWarning} variant="secondary" fullWidth>
-				Show Warning
-			</Button>
-			<Button onclick={showInfo} variant="ghost" fullWidth>
-				Show Info
-			</Button>
+		<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+			<Button onclick={showSuccess} variant="primary" fullWidth>Show Success</Button>
+			<Button onclick={showError} variant="danger" fullWidth>Show Error</Button>
+			<Button onclick={showWarning} variant="secondary" fullWidth>Show Warning</Button>
+			<Button onclick={showInfo} variant="ghost" fullWidth>Show Info</Button>
 		</div>
 	</FormSection>
 
 	<!-- Special Cases -->
 	<FormSection title="Special Cases" description="Test edge cases and special behaviors">
-		<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-			<Button onclick={showPersistent} variant="secondary" fullWidth>
-				Persistent Toast
-			</Button>
-			<Button onclick={showLongMessage} variant="secondary" fullWidth>
-				Long Message
-			</Button>
-			<Button onclick={showMultiple} variant="secondary" fullWidth>
-				Multiple Toasts
-			</Button>
+		<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+			<Button onclick={showPersistent} variant="secondary" fullWidth>Persistent Toast</Button>
+			<Button onclick={showLongMessage} variant="secondary" fullWidth>Long Message</Button>
+			<Button onclick={showMultiple} variant="secondary" fullWidth>Multiple Toasts</Button>
 		</div>
 		<div class="mt-4">
-			<Button onclick={clearAll} variant="danger" size="sm">
-				Clear All Toasts
-			</Button>
+			<Button onclick={clearAll} variant="danger" size="sm">Clear All Toasts</Button>
 		</div>
 	</FormSection>
 
 	<!-- Custom Toast Builder -->
-	<FormSection 
-		title="Custom Toast Builder" 
+	<FormSection
+		title="Custom Toast Builder"
 		description="Create your own toast notification with custom settings"
 	>
 		<div class="space-y-4">
@@ -184,20 +170,15 @@
 				placeholder="Enter your toast message..."
 				required
 			/>
-			
-			<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-				<Select
-					id="custom-type"
-					name="customType"
-					label="Type"
-					bind:value={customType}
-				>
+
+			<div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+				<Select id="custom-type" name="customType" label="Type" bind:value={customType}>
 					<option value="success">Success</option>
 					<option value="error">Error</option>
 					<option value="warning">Warning</option>
 					<option value="info">Info</option>
 				</Select>
-				
+
 				<TextInput
 					id="custom-duration"
 					name="customDuration"
@@ -210,31 +191,33 @@
 					step="1000"
 				/>
 			</div>
-			
-			<Button onclick={showCustom} variant="primary">
-				Show Custom Toast
-			</Button>
+
+			<Button onclick={showCustom} variant="primary">Show Custom Toast</Button>
 		</div>
 	</FormSection>
 
 	<!-- Toast Types Reference -->
-	<FormSection title="Toast Types Reference" description="Overview of all available toast types and their use cases">
+	<FormSection
+		title="Toast Types Reference"
+		description="Overview of all available toast types and their use cases"
+	>
 		<div class="space-y-6">
 			{#each toastTypeExamples as toast}
-				<div class="rounded-lg border border-gray-200 p-4 space-y-2">
+				<div class="space-y-2 rounded-lg border border-gray-200 p-4">
 					<div class="flex items-center justify-between">
 						<h3 class="text-lg font-semibold text-gray-900">{toast.title}</h3>
-						<Button 
-							size="sm" 
+						<Button
+							size="sm"
 							variant="ghost"
-							onclick={() => toasts.add({ type: toast.type, message: toast.example, duration: 5000 })}
+							onclick={() =>
+								toasts.add({ type: toast.type, message: toast.example, duration: 5000 })}
 						>
 							Try it
 						</Button>
 					</div>
 					<p class="text-sm text-gray-600">{toast.description}</p>
-					<div class="rounded bg-gray-50 p-3 border border-gray-200">
-						<p class="text-sm font-mono text-gray-700">{toast.example}</p>
+					<div class="rounded border border-gray-200 bg-gray-50 p-3">
+						<p class="font-mono text-sm text-gray-700">{toast.example}</p>
 					</div>
 				</div>
 			{/each}
@@ -243,7 +226,7 @@
 
 	<!-- Features -->
 	<FormSection title="Features" description="Key features of the toast notification system">
-		<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+		<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
 			<div class="space-y-2">
 				<h4 class="font-semibold text-gray-900">✓ Auto-dismiss</h4>
 				<p class="text-sm text-gray-600">Toasts automatically close after a specified duration</p>
@@ -258,7 +241,9 @@
 			</div>
 			<div class="space-y-2">
 				<h4 class="font-semibold text-gray-900">✓ Persistent toasts</h4>
-				<p class="text-sm text-gray-600">Omit duration to create toasts that stay until dismissed</p>
+				<p class="text-sm text-gray-600">
+					Omit duration to create toasts that stay until dismissed
+				</p>
 			</div>
 			<div class="space-y-2">
 				<h4 class="font-semibold text-gray-900">✓ Progress indicator</h4>
@@ -283,8 +268,9 @@
 	<FormSection title="Usage Examples" description="How to use toasts in your application">
 		<div class="space-y-4">
 			<div>
-				<h4 class="text-sm font-semibold text-gray-900 mb-2">Basic Usage</h4>
-				<pre class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm"><code>{`import { toasts } from '$lib/stores/toasts';
+				<h4 class="mb-2 text-sm font-semibold text-gray-900">Basic Usage</h4>
+				<pre class="overflow-x-auto rounded-lg bg-gray-900 p-4 text-sm text-gray-100"><code
+						>{`import { toasts } from '$lib/stores/toasts';
 
 // Show a success toast
 toasts.add({
@@ -305,12 +291,14 @@ toasts.add({
   type: 'info',
   message: 'This will stay until closed'
   // No duration property
-});`}</code></pre>
+});`}</code
+					></pre>
 			</div>
 
 			<div>
-				<h4 class="text-sm font-semibold text-gray-900 mb-2">In a Form Submit Handler</h4>
-				<pre class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm"><code>{`async function handleSubmit() {
+				<h4 class="mb-2 text-sm font-semibold text-gray-900">In a Form Submit Handler</h4>
+				<pre class="overflow-x-auto rounded-lg bg-gray-900 p-4 text-sm text-gray-100"><code
+						>{`async function handleSubmit() {
   try {
     await saveProduct(product);
     toasts.add({
@@ -325,16 +313,19 @@ toasts.add({
       duration: 7000
     });
   }
-}`}</code></pre>
+}`}</code
+					></pre>
 			</div>
 
 			<div>
-				<h4 class="text-sm font-semibold text-gray-900 mb-2">Clear All Toasts</h4>
-				<pre class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm"><code>{`// Clear all active toasts
+				<h4 class="mb-2 text-sm font-semibold text-gray-900">Clear All Toasts</h4>
+				<pre class="overflow-x-auto rounded-lg bg-gray-900 p-4 text-sm text-gray-100"><code
+						>{`// Clear all active toasts
 toasts.clear();
 
 // Or remove a specific toast by ID
-toasts.remove('toast-id');`}</code></pre>
+toasts.remove('toast-id');`}</code
+					></pre>
 			</div>
 		</div>
 	</FormSection>

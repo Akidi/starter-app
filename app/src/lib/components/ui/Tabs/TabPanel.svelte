@@ -40,11 +40,7 @@ Uses role="tabpanel" with aria-labelledby linking to the tab button. Has tabinde
 		children: Snippet;
 	}
 
-	let {
-		id,
-		class: className = '',
-		children
-	}: Props = $props();
+	let { id, class: className = '', children }: Props = $props();
 
 	const tabsContext = getContext<{
 		activeTab: () => string;

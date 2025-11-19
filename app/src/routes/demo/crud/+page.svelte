@@ -3,7 +3,17 @@
 	import { goto, invalidateAll } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { Container, Stack } from '$lib/components/layout';
-	import { Card, Button, TextInput, Select, Textarea, Badge, Modal, Table, Pagination } from '$lib/components/ui';
+	import {
+		Card,
+		Button,
+		TextInput,
+		Select,
+		Textarea,
+		Badge,
+		Modal,
+		Table,
+		Pagination
+	} from '$lib/components/ui';
 	import { toasts } from '$lib/stores/toasts';
 
 	interface Post {
@@ -159,7 +169,9 @@
 		</div>
 
 		<!-- Stats Cards -->
-		<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+		<div
+			style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;"
+		>
 			<Card>
 				<Stack gap="xs">
 					<div style="color: var(--text-secondary); font-size: 0.875rem;">Total Posts</div>
@@ -195,7 +207,9 @@
 		<!-- Filters and Actions -->
 		<Card>
 			<Stack gap="md">
-				<div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+				<div
+					style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;"
+				>
 					<h2 style="font-size: 1.25rem; font-weight: 600; margin: 0;">All Posts</h2>
 					<Button
 						variant="primary"
@@ -340,7 +354,7 @@
 <!-- Create Post Modal -->
 <Modal
 	isOpen={isCreateModalOpen}
-	onClose={() => isCreateModalOpen = false}
+	onClose={() => (isCreateModalOpen = false)}
 	title="Create New Post"
 	maxWidth="lg"
 >
@@ -356,7 +370,10 @@
 					toasts.add({ type: 'success', message: 'Post created successfully!' });
 					await update();
 				} else if (result.type === 'failure') {
-					toasts.add({ type: 'error', message: (result.data?.message as string) || 'Failed to create post' });
+					toasts.add({
+						type: 'error',
+						message: (result.data?.message as string) || 'Failed to create post'
+					});
 				}
 			};
 		}}
@@ -420,16 +437,19 @@
 				>
 					Cancel
 				</Button>
-				<Button type="submit" variant="primary" loading={isSubmitting}>
-					Create Post
-				</Button>
+				<Button type="submit" variant="primary" loading={isSubmitting}>Create Post</Button>
 			</div>
 		</Stack>
 	</form>
 </Modal>
 
 <!-- Edit Post Modal -->
-<Modal isOpen={isEditModalOpen} onClose={() => isEditModalOpen = false} title="Edit Post" maxWidth="lg">
+<Modal
+	isOpen={isEditModalOpen}
+	onClose={() => (isEditModalOpen = false)}
+	title="Edit Post"
+	maxWidth="lg"
+>
 	{#if selectedPost}
 		<form
 			method="post"
@@ -507,9 +527,7 @@
 					>
 						Cancel
 					</Button>
-					<Button type="submit" variant="primary" loading={isSubmitting}>
-						Save Changes
-					</Button>
+					<Button type="submit" variant="primary" loading={isSubmitting}>Save Changes</Button>
 				</div>
 			</Stack>
 		</form>
@@ -517,7 +535,12 @@
 </Modal>
 
 <!-- Delete Confirmation Modal -->
-<Modal isOpen={isDeleteModalOpen} onClose={() => isDeleteModalOpen = false} title="Delete Post" maxWidth="sm">
+<Modal
+	isOpen={isDeleteModalOpen}
+	onClose={() => (isDeleteModalOpen = false)}
+	title="Delete Post"
+	maxWidth="sm"
+>
 	{#if selectedPost}
 		<form
 			method="post"
@@ -560,9 +583,7 @@
 					>
 						Cancel
 					</Button>
-					<Button type="submit" variant="danger" loading={isSubmitting}>
-						Delete Post
-					</Button>
+					<Button type="submit" variant="danger" loading={isSubmitting}>Delete Post</Button>
 				</div>
 			</Stack>
 		</form>

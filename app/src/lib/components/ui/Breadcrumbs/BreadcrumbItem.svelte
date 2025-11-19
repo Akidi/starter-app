@@ -34,12 +34,7 @@ Sets aria-current="page" on current page items for screen reader context.
 		children: any;
 	}
 
-	let {
-		href,
-		current = false,
-		class: className = '',
-		children
-	}: Props = $props();
+	let { href, current = false, class: className = '', children }: Props = $props();
 </script>
 
 <li class={className}>

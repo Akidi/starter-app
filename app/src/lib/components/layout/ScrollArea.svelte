@@ -24,7 +24,7 @@ See Storybook for additional examples and visual documentation.
 -->
 
 <script lang="ts">
-	import type { Snippet } from "svelte";
+	import type { Snippet } from 'svelte';
 
 	interface Props {
 		height?: string;
@@ -33,20 +33,10 @@ See Storybook for additional examples and visual documentation.
 		children: Snippet;
 	}
 
-	let { 
-		height,
-		maxHeight,
-		direction = 'vertical',
-		children 
-	}: Props = $props();
+	let { height, maxHeight, direction = 'vertical', children }: Props = $props();
 </script>
 
-<div 
-	class="scroll-area" 
-	data-direction={direction}
-	style:height
-	style:max-height={maxHeight}
->
+<div class="scroll-area" data-direction={direction} style:height style:max-height={maxHeight}>
 	{@render children()}
 </div>
 
@@ -54,13 +44,13 @@ See Storybook for additional examples and visual documentation.
 	.scroll-area {
 		overflow: auto;
 	}
-	
-	.scroll-area[data-direction="vertical"] {
+
+	.scroll-area[data-direction='vertical'] {
 		overflow-x: hidden;
 		overflow-y: auto;
 	}
-	
-	.scroll-area[data-direction="horizontal"] {
+
+	.scroll-area[data-direction='horizontal'] {
 		overflow-x: auto;
 		overflow-y: hidden;
 	}

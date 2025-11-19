@@ -33,7 +33,7 @@
 						<form method="post" action="?/login" use:enhance>
 							<Stack gap="lg">
 								<h3 class="form-title">Sign In</h3>
-								
+
 								<TextInput
 									id="login-email"
 									name="email"
@@ -55,9 +55,7 @@
 									bind:value={loginPassword}
 								/>
 
-								<Button type="submit" variant="primary" fullWidth size="lg">
-									Sign in
-								</Button>
+								<Button type="submit" variant="primary" fullWidth size="lg">Sign in</Button>
 							</Stack>
 						</form>
 
@@ -102,9 +100,7 @@
 									bind:value={registerPassword}
 								/>
 
-								<Button type="submit" variant="success" fullWidth size="lg">
-									Create account
-								</Button>
+								<Button type="submit" variant="success" fullWidth size="lg">Create account</Button>
 							</Stack>
 						</form>
 

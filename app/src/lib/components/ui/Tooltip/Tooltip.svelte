@@ -37,13 +37,7 @@ Uses role="tooltip" with aria-describedby for screen reader support. Tooltip is 
 		children: Snippet;
 	}
 
-	let {
-		content,
-		position = 'top',
-		delay = 200,
-		class: className = '',
-		children
-	}: Props = $props();
+	let { content, position = 'top', delay = 200, class: className = '', children }: Props = $props();
 
 	let isVisible = $state(false);
 	let timeoutId: number;
@@ -59,7 +53,6 @@ Uses role="tooltip" with aria-describedby for screen reader support. Tooltip is 
 		window.clearTimeout(timeoutId);
 		isVisible = false;
 	};
-
 </script>
 
 <span class="tooltip-wrapper {className}">
@@ -71,24 +64,17 @@ Uses role="tooltip" with aria-describedby for screen reader support. Tooltip is 
 		onfocus={show}
 		onblur={hide}
 		aria-describedby={isVisible ? `${wrapperId}-tooltip` : undefined}
-        role="tooltip"
+		role="tooltip"
 	>
 		{@render children()}
 	</span>
 
 	{#if isVisible}
-		<span
-			id="{wrapperId}-tooltip"
-			role="tooltip"
-			class="tooltip-container tooltip-{position}"
-		>
+		<span id="{wrapperId}-tooltip" role="tooltip" class="tooltip-container tooltip-{position}">
 			<span class="tooltip-content">
 				{content}
 			</span>
-			<span
-				class="tooltip-arrow tooltip-arrow-{position}"
-				aria-hidden="true"
-			></span>
+			<span class="tooltip-arrow tooltip-arrow-{position}" aria-hidden="true"></span>
 		</span>
 	{/if}
 </span>

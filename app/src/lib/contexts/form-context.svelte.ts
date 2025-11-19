@@ -4,7 +4,7 @@ const FORM_CONTEXT_KEY = Symbol('form-context');
 
 export class FormContext {
 	isSubmitting = $state(false);
-	
+
 	setSubmitting(value: boolean) {
 		this.isSubmitting = value;
 	}

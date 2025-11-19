@@ -73,17 +73,14 @@ Uses native radio input with proper label association. Keyboard navigation follo
 			{id}
 			{name}
 			type="radio"
-			value={value}
+			{value}
 			{checked}
 			{disabled}
 			{required}
 			onchange={handleChange}
 		/>
 	</div>
-	<label
-		for={id}
-		class:disabled={disabled}
-	>
+	<label for={id} class:disabled>
 		{label}
 	</label>
 </div>
@@ -101,7 +98,7 @@ Uses native radio input with proper label association. Keyboard navigation follo
 		height: 1.25rem;
 	}
 
-	input[type="radio"] {
+	input[type='radio'] {
 		width: 1rem;
 		height: 1rem;
 		border: 1px solid var(--border-secondary);
@@ -110,12 +107,12 @@ Uses native radio input with proper label association. Keyboard navigation follo
 		accent-color: var(--color-primary);
 	}
 
-	input[type="radio"]:focus {
+	input[type='radio']:focus {
 		outline: none;
 		box-shadow: 0 0 0 3px oklch(60% 0.18 250 / 0.1);
 	}
 
-	input[type="radio"]:disabled {
+	input[type='radio']:disabled {
 		cursor: not-allowed;
 		opacity: 0.5;
 	}

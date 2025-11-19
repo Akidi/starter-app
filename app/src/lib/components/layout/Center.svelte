@@ -24,7 +24,7 @@ See Storybook for additional examples and visual documentation.
 -->
 
 <script lang="ts">
-	import type { Snippet } from "svelte";
+	import type { Snippet } from 'svelte';
 
 	interface Props {
 		inline?: boolean;
@@ -33,12 +33,7 @@ See Storybook for additional examples and visual documentation.
 		children: Snippet;
 	}
 
-	let { 
-		inline = false,
-		class: className = '',
-		style,
-		children 
-	}: Props = $props();
+	let { inline = false, class: className = '', style, children }: Props = $props();
 </script>
 
 <div class="center {className}" {style} data-inline={inline}>
@@ -51,8 +46,8 @@ See Storybook for additional examples and visual documentation.
 		justify-content: center;
 		align-items: center;
 	}
-	
-	.center[data-inline="true"] {
+
+	.center[data-inline='true'] {
 		display: inline-flex;
 	}
 </style>

@@ -3,18 +3,8 @@
 	import { enhance } from '$app/forms';
 	import type { PageServerData } from './$types';
 	import type { User } from '$lib/server/db/auth';
-	import { 
-		Container, 
-		Stack, 
-		Flex, 
-		CardGrid 
-	} from '$lib/components/layout';
-	import { 
-		Alert,
-		Badge, 
-		Button, 
-		Card, 
-	} from '$lib/components/ui';
+	import { Container, Stack, Flex, CardGrid } from '$lib/components/layout';
+	import { Alert, Badge, Button, Card } from '$lib/components/ui';
 
 	// Extended user type with cache properties
 	interface ExtendedUser extends User {
@@ -44,14 +34,10 @@
 					</Stack>
 					<Flex gap="sm" wrap={true}>
 						<form method="post" action="?/clearCache" use:enhance>
-							<Button type="submit" variant="secondary" size="md">
-								Clear Cache
-							</Button>
+							<Button type="submit" variant="secondary" size="md">Clear Cache</Button>
 						</form>
 						<form method="post" action="?/logout" use:enhance>
-							<Button type="submit" variant="danger" size="md">
-								Sign out
-							</Button>
+							<Button type="submit" variant="danger" size="md">Sign out</Button>
 						</form>
 					</Flex>
 				</Flex>
@@ -89,7 +75,7 @@
 							<dt class="info-label">Cache Source</dt>
 							<dd class="info-value">
 								{#if data.user.cacheSource}
-									<Badge 
+									<Badge
 										text={data.user.cacheSource === 'redis' ? '🚀 Redis Cache' : '🗄️ Database'}
 										variant={data.user.cacheSource === 'redis' ? 'success' : 'warning'}
 									/>
@@ -105,9 +91,7 @@
 									<Flex gap="sm" align="center">
 										<span class="font-mono">{data.user.loginCount}/5</span>
 										{#if data.user.loginCount >= 4}
-											<span class="cache-warning">
-												(Cache will refresh next login)
-											</span>
+											<span class="cache-warning"> (Cache will refresh next login) </span>
 										{/if}
 									</Flex>
 								{:else}
@@ -140,27 +124,23 @@
 			<Alert type="info" title="Redis Cache Testing">
 				<Stack gap="md">
 					<p>
-						This demo shows Redis caching in action! Try refreshing the page multiple times to
-						see the login count increase. After 5 logins, the cache automatically refreshes from
-						the database. You can also manually clear the cache using the "Clear Cache" button.
+						This demo shows Redis caching in action! Try refreshing the page multiple times to see
+						the login count increase. After 5 logins, the cache automatically refreshes from the
+						database. You can also manually clear the cache using the "Clear Cache" button.
 					</p>
 					<Flex gap="sm" wrap={true}>
-						<Button 
-							variant="ghost" 
-							size="sm"
-							onclick={() => window.location.reload()}
-						>
+						<Button variant="ghost" size="sm" onclick={() => window.location.reload()}>
 							🔄 Refresh Page (Simulate Login)
 						</Button>
-						<Button 
-							variant="ghost" 
+						<Button
+							variant="ghost"
 							size="sm"
-							onclick={() => window.location.href = '/demo/lucia/login'}
+							onclick={() => (window.location.href = '/demo/lucia/login')}
 						>
 							🔑 Re-login
 						</Button>
-						<Button 
-							variant="ghost" 
+						<Button
+							variant="ghost"
 							size="sm"
 							onclick={() => console.log('User cache info:', JSON.stringify(data.user, null, 2))}
 						>
@@ -173,8 +153,10 @@
 			<!-- Original Lucia Demo Info -->
 			<Alert type="success" title="Lucia Authentication Demo Enhanced">
 				<p>
-					This demo shows Lucia authentication working with your PostgreSQL database schema,
-					now enhanced with Redis caching. The user data is stored in the <code class="inline-code">auth.users</code> 
+					This demo shows Lucia authentication working with your PostgreSQL database schema, now
+					enhanced with Redis caching. The user data is stored in the <code class="inline-code"
+						>auth.users</code
+					>
 					table and cached in Redis for performance.
 				</p>
 			</Alert>
@@ -214,7 +196,8 @@
 	}
 
 	.font-mono {
-		font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+		font-family:
+			ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
 	}
 
 	.cache-warning {
@@ -235,7 +218,8 @@
 
 	.inline-code {
 		padding: 0.125rem var(--space-xs);
-		font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+		font-family:
+			ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
 		font-size: var(--font-size-xs);
 		background-color: var(--bg-secondary);
 		border-radius: var(--radius-sm);

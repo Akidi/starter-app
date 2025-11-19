@@ -55,7 +55,10 @@
 
 <Story name="With Dot" args={{ text: 'Active', variant: 'green', dot: true }} />
 
-<Story name="Removable" args={{ text: 'Removable', variant: 'blue', removable: true, onRemove: onRemoveFn }} />
+<Story
+	name="Removable"
+	args={{ text: 'Removable', variant: 'blue', removable: true, onRemove: onRemoveFn }}
+/>
 
 <Story name="All Variants">
 	{#snippet template()}
@@ -128,14 +131,16 @@
 	{#snippet template()}
 		<div style="display: flex; flex-direction: column; gap: 1.5rem;">
 			<div>
-				<h3 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 0.5rem;">Product Status</h3>
+				<h3 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 0.5rem;">
+					Product Status
+				</h3>
 				<div style="display: flex; gap: 0.5rem;">
 					<Badge text="In Stock" variant="green" dot />
 					<Badge text="Low Stock" variant="amber" dot />
 					<Badge text="Out of Stock" variant="red" />
 				</div>
 			</div>
-			
+
 			<div>
 				<h3 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 0.5rem;">User Roles</h3>
 				<div style="display: flex; gap: 0.5rem;">
@@ -144,7 +149,7 @@
 					<Badge text="Viewer" variant="gray" />
 				</div>
 			</div>
-			
+
 			<div>
 				<h3 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 0.5rem;">Categories</h3>
 				<div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">

@@ -45,12 +45,7 @@ Implements proper ARIA tabs pattern with role="tab", role="tablist", and role="t
 		children: Snippet;
 	}
 
-	let {
-		activeTab = $bindable(''),
-		onTabChange,
-		class: className = '',
-		children
-	}: Props = $props();
+	let { activeTab = $bindable(''), onTabChange, class: className = '', children }: Props = $props();
 
 	const selectTab = (tabId: string) => {
 		activeTab = tabId;

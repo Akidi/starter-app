@@ -3,7 +3,16 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { Stack } from '$lib/components/layout';
-	import { Card, Button, TextInput, Select, Badge, Modal, Table, Pagination } from '$lib/components/ui';
+	import {
+		Card,
+		Button,
+		TextInput,
+		Select,
+		Badge,
+		Modal,
+		Table,
+		Pagination
+	} from '$lib/components/ui';
 	import { toasts } from '$lib/stores/toasts';
 
 	interface User {
@@ -103,9 +112,7 @@
 <Stack gap="lg">
 	<div>
 		<h2 style="font-size: 1.75rem; font-weight: 700; margin: 0 0 0.5rem 0;">User Management</h2>
-		<p style="color: var(--text-secondary); margin: 0;">
-			Manage user accounts and permissions
-		</p>
+		<p style="color: var(--text-secondary); margin: 0;">Manage user accounts and permissions</p>
 	</div>
 
 	<!-- Filters -->
@@ -126,7 +133,13 @@
 					/>
 				</div>
 				<div style="min-width: 150px;">
-					<Select id="role" name="role" label="Role" bind:value={roleValue} onchange={updateFilters}>
+					<Select
+						id="role"
+						name="role"
+						label="Role"
+						bind:value={roleValue}
+						onchange={updateFilters}
+					>
 						<option value="all">All Roles</option>
 						<option value="admin">Admin</option>
 						<option value="moderator">Moderator</option>
@@ -201,7 +214,9 @@
 				</div>
 			{/if}
 
-			<div style="margin-top: 1rem; font-size: 0.875rem; color: var(--text-secondary); text-align: center;">
+			<div
+				style="margin-top: 1rem; font-size: 0.875rem; color: var(--text-secondary); text-align: center;"
+			>
 				Showing {(data.pagination.page - 1) * data.pagination.limit + 1}-{Math.min(
 					data.pagination.page * data.pagination.limit,
 					data.pagination.total
@@ -212,7 +227,12 @@
 </Stack>
 
 <!-- Edit Role Modal -->
-<Modal isOpen={isEditRoleModalOpen} onClose={() => isEditRoleModalOpen = false} title="Edit User Role" maxWidth="sm">
+<Modal
+	isOpen={isEditRoleModalOpen}
+	onClose={() => (isEditRoleModalOpen = false)}
+	title="Edit User Role"
+	maxWidth="sm"
+>
 	{#if selectedUser}
 		<form
 			method="post"
@@ -270,9 +290,7 @@
 					>
 						Cancel
 					</Button>
-					<Button type="submit" variant="primary" loading={isSubmitting}>
-						Update Role
-					</Button>
+					<Button type="submit" variant="primary" loading={isSubmitting}>Update Role</Button>
 				</div>
 			</Stack>
 		</form>
@@ -280,7 +298,12 @@
 </Modal>
 
 <!-- Delete User Modal -->
-<Modal isOpen={isDeleteModalOpen} onClose={() => isDeleteModalOpen = false} title="Delete User" maxWidth="sm">
+<Modal
+	isOpen={isDeleteModalOpen}
+	onClose={() => (isDeleteModalOpen = false)}
+	title="Delete User"
+	maxWidth="sm"
+>
 	{#if selectedUser}
 		<form
 			method="post"
@@ -334,9 +357,7 @@
 					>
 						Cancel
 					</Button>
-					<Button type="submit" variant="danger" loading={isSubmitting}>
-						Delete User
-					</Button>
+					<Button type="submit" variant="danger" loading={isSubmitting}>Delete User</Button>
 				</div>
 			</Stack>
 		</form>

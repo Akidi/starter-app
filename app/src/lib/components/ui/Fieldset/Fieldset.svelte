@@ -66,7 +66,7 @@ Uses semantic fieldset/legend elements. Error and help text are properly linked 
 	const hasDescription = description || helpText || error;
 </script>
 
-<fieldset 
+<fieldset
 	class="fieldset {className}"
 	{disabled}
 	aria-describedby={hasDescription ? `${fieldsetId}-description` : undefined}
@@ -79,7 +79,7 @@ Uses semantic fieldset/legend elements. Error and help text are properly linked 
 					<span class="required-indicator" aria-label="required">*</span>
 				{/if}
 			</legend>
-			
+
 			{#if description}
 				<p class="fieldset-description">
 					{description}

@@ -214,7 +214,7 @@ Uses native select element with proper label association. Error messages use ari
 		margin: 0;
 	}
 
-		.link-button {
+	.link-button {
 		background: none;
 		border: none;
 		padding: 0;

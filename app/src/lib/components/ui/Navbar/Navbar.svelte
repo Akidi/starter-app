@@ -77,6 +77,7 @@ Uses semantic nav element. Mobile menu button includes aria-controls, aria-expan
 		mobileMenuOpen = false;
 	}
 </script>
+
 <nav class="navbar">
 	<div class="navbar-container">
 		<Flex justify="between" align="center" class="navbar-content">
@@ -123,7 +124,7 @@ Uses semantic nav element. Mobile menu button includes aria-controls, aria-expan
 
 			<!-- Theme Switcher & Mobile menu button -->
 			<Flex align="center" gap="md" class="navbar-end">
-				<ThemeSwitcher variant="icon" size="md"/>
+				<ThemeSwitcher variant="icon" size="md" />
 				<div class="navbar-mobile-toggle">
 					<button
 						type="button"
@@ -135,12 +136,34 @@ Uses semantic nav element. Mobile menu button includes aria-controls, aria-expan
 					>
 						<span class="sr-only">Open main menu</span>
 						{#if mobileMenuOpen}
-							<svg class="mobile-menu-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+							<svg
+								class="mobile-menu-icon"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+								aria-hidden="true"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M6 18L18 6M6 6l12 12"
+								/>
 							</svg>
 						{:else}
-							<svg class="mobile-menu-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+							<svg
+								class="mobile-menu-icon"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+								aria-hidden="true"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M4 6h16M4 12h16M4 18h16"
+								/>
 							</svg>
 						{/if}
 					</button>
@@ -155,12 +178,21 @@ Uses semantic nav element. Mobile menu button includes aria-controls, aria-expan
 				{#each navLinks as item (item.name)}
 					{#if item.children?.length}
 						<details class="mobile-nav-group">
-							<summary
-								class="mobile-nav-summary {isNavItemActive(item) ? 'active' : ''}"
-							>
+							<summary class="mobile-nav-summary {isNavItemActive(item) ? 'active' : ''}">
 								<span>{item.name}</span>
-								<svg class="mobile-nav-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+								<svg
+									class="mobile-nav-arrow"
+									fill="none"
+									stroke="currentColor"
+									viewBox="0 0 24 24"
+									aria-hidden="true"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="2"
+										d="M19 9l-7 7-7-7"
+									/>
 								</svg>
 							</summary>
 							<div class="mobile-nav-children">

@@ -62,9 +62,9 @@ Collapsible header uses proper button semantics with aria-expanded state. Error 
 		actions?: Snippet;
 	}
 
-	let { 
-		title, 
-		description, 
+	let {
+		title,
+		description,
 		required = false,
 		collapsible = false,
 		defaultOpen = true,
@@ -89,7 +89,7 @@ Collapsible header uses proper button semantics with aria-expanded state. Error 
 			toggleOpen();
 		}
 	};
-	
+
 	// Map spacing prop to gap values
 	const gapMap = {
 		tight: 'md' as const,
@@ -98,10 +98,7 @@ Collapsible header uses proper button semantics with aria-expanded state. Error 
 	};
 </script>
 
-<section 
-	class="form-section {className}"
-	class:error={error}
->
+<section class="form-section {className}" class:error>
 	{#if collapsible}
 		<button
 			type="button"
@@ -140,15 +137,20 @@ Collapsible header uses proper button semantics with aria-expanded state. Error 
 						{@render actions()}
 					</div>
 				{/if}
-				<svg 
+				<svg
 					class="form-section-chevron"
 					class:closed={!isOpen}
-					fill="none" 
-					viewBox="0 0 24 24" 
+					fill="none"
+					viewBox="0 0 24 24"
 					stroke="currentColor"
 					aria-hidden="true"
 				>
-					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						d="M19 9l-7 7-7-7"
+					/>
 				</svg>
 			</Flex>
 		</button>

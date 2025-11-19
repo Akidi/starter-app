@@ -33,9 +33,7 @@
 	This is an informational alert. It provides helpful context or tips.
 </Story>
 
-<Story name="Success" args={{ type: 'success' }}>
-	Your changes have been saved successfully!
-</Story>
+<Story name="Success" args={{ type: 'success' }}>Your changes have been saved successfully!</Story>
 
 <Story name="Warning" args={{ type: 'warning' }}>
 	Please review your changes before continuing.
@@ -60,18 +58,10 @@
 <Story name="All Types">
 	{#snippet template()}
 		<div style="display: flex; flex-direction: column; gap: 1rem;">
-			<Alert type="info">
-				This is an informational message.
-			</Alert>
-			<Alert type="success">
-				Operation completed successfully!
-			</Alert>
-			<Alert type="warning">
-				Please proceed with caution.
-			</Alert>
-			<Alert type="error">
-				An error occurred. Please try again.
-			</Alert>
+			<Alert type="info">This is an informational message.</Alert>
+			<Alert type="success">Operation completed successfully!</Alert>
+			<Alert type="warning">Please proceed with caution.</Alert>
+			<Alert type="error">An error occurred. Please try again.</Alert>
 		</div>
 	{/snippet}
 </Story>
@@ -82,15 +72,9 @@
 			<Alert type="info" title="Information">
 				Here's some helpful information you should know.
 			</Alert>
-			<Alert type="success" title="Success!">
-				Your profile has been updated successfully.
-			</Alert>
-			<Alert type="warning" title="Warning">
-				Your session will expire in 5 minutes.
-			</Alert>
-			<Alert type="error" title="Error">
-				Failed to connect to the server.
-			</Alert>
+			<Alert type="success" title="Success!">Your profile has been updated successfully.</Alert>
+			<Alert type="warning" title="Warning">Your session will expire in 5 minutes.</Alert>
+			<Alert type="error" title="Error">Failed to connect to the server.</Alert>
 		</div>
 	{/snippet}
 </Story>
@@ -115,10 +99,12 @@
 	{#snippet template()}
 		<Alert type="info" title="Privacy Policy Update">
 			<p style="margin-bottom: 0.5rem;">
-				We've updated our privacy policy to provide you with more transparency about how we collect, use, and share your data.
+				We've updated our privacy policy to provide you with more transparency about how we collect,
+				use, and share your data.
 			</p>
 			<p>
-				Please review the changes and contact us if you have any questions or concerns about your privacy.
+				Please review the changes and contact us if you have any questions or concerns about your
+				privacy.
 			</p>
 		</Alert>
 	{/snippet}
@@ -128,8 +114,10 @@
 	{#snippet template()}
 		<Alert type="warning" title="Action Required">
 			<p>
-				Your payment method will expire soon. 
-				<a href="#payment" style="font-weight: 600; text-decoration: underline;">Update payment method</a>
+				Your payment method will expire soon.
+				<a href="#payment" style="font-weight: 600; text-decoration: underline;"
+					>Update payment method</a
+				>
 			</p>
 		</Alert>
 	{/snippet}
@@ -139,7 +127,9 @@
 	{#snippet template()}
 		<div style="display: flex; flex-direction: column; gap: 1.5rem;">
 			<div>
-				<h3 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 0.5rem;">Form Validation</h3>
+				<h3 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 0.5rem;">
+					Form Validation
+				</h3>
 				<Alert type="error" title="Form Errors">
 					<ul style="list-style: disc; margin-left: 1.25rem; margin-top: 0.25rem;">
 						<li>Email address is required</li>
@@ -147,16 +137,20 @@
 					</ul>
 				</Alert>
 			</div>
-			
+
 			<div>
-				<h3 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 0.5rem;">Success Messages</h3>
+				<h3 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 0.5rem;">
+					Success Messages
+				</h3>
 				<Alert type="success" dismissible onDismiss={onDismissFn}>
 					Product "Wireless Mouse" has been added to your inventory.
 				</Alert>
 			</div>
-			
+
 			<div>
-				<h3 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 0.5rem;">System Notifications</h3>
+				<h3 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 0.5rem;">
+					System Notifications
+				</h3>
 				<Alert type="info" title="Scheduled Maintenance" dismissible onDismiss={onDismissFn}>
 					The system will be down for maintenance on Saturday from 2:00 AM to 4:00 AM EST.
 				</Alert>
@@ -175,12 +169,8 @@
 <Story name="Without Icons">
 	{#snippet template()}
 		<div style="display: flex; flex-direction: column; gap: 1rem;">
-			<Alert type="info" icon={false}>
-				Minimal info alert without an icon.
-			</Alert>
-			<Alert type="success" icon={false} title="Success">
-				Clean success message.
-			</Alert>
+			<Alert type="info" icon={false}>Minimal info alert without an icon.</Alert>
+			<Alert type="success" icon={false} title="Success">Clean success message.</Alert>
 		</div>
 	{/snippet}
 </Story>

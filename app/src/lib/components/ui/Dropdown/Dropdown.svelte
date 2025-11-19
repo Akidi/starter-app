@@ -93,7 +93,6 @@ Dropdown menu uses role="menu" with aria-orientation="vertical". Trigger button 
 			document.removeEventListener('keydown', handleEscape);
 		};
 	});
-
 </script>
 
 <div bind:this={dropdownElement} class="dropdown {className}">
@@ -119,11 +118,7 @@ Dropdown menu uses role="menu" with aria-orientation="vertical". Trigger button 
 	</Button>
 
 	{#if isOpen}
-		<div
-			class="dropdown-menu dropdown-menu-{align}"
-			role="menu"
-			aria-orientation="vertical"
-		>
+		<div class="dropdown-menu dropdown-menu-{align}" role="menu" aria-orientation="vertical">
 			<div class="dropdown-content">
 				{@render children()}
 			</div>

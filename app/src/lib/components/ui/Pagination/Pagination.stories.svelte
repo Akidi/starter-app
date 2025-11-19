@@ -53,11 +53,7 @@
 
 <Story name="Few Pages">
 	{#snippet template()}
-		<Pagination
-			currentPage={page3}
-			totalPages={5}
-			onPageChange={(p) => page3 = p}
-		/>
+		<Pagination currentPage={page3} totalPages={5} onPageChange={(p) => (page3 = p)} />
 		<p style="margin-top: 1rem; text-align: center; font-size: 0.875rem;">
 			Current Page: {page3} of 5
 		</p>
@@ -66,11 +62,7 @@
 
 <Story name="Many Pages">
 	{#snippet template()}
-		<Pagination
-			currentPage={page2}
-			totalPages={50}
-			onPageChange={(p) => page2 = p}
-		/>
+		<Pagination currentPage={page2} totalPages={50} onPageChange={(p) => (page2 = p)} />
 		<p style="margin-top: 1rem; text-align: center; font-size: 0.875rem;">
 			Current Page: {page2} of 50
 		</p>
@@ -83,7 +75,7 @@
 			currentPage={page4}
 			totalPages={20}
 			showFirstLast={false}
-			onPageChange={(p) => page4 = p}
+			onPageChange={(p) => (page4 = p)}
 		/>
 	{/snippet}
 </Story>
@@ -93,30 +85,17 @@
 		<div style="display: flex; flex-direction: column; gap: 2rem;">
 			<div>
 				<p style="margin-bottom: 0.5rem; font-size: 0.875rem; font-weight: 600;">Max 5 visible</p>
-				<Pagination
-					currentPage={5}
-					totalPages={20}
-					maxVisible={5}
-					onPageChange={onPageChangeFn}
-				/>
+				<Pagination currentPage={5} totalPages={20} maxVisible={5} onPageChange={onPageChangeFn} />
 			</div>
 			<div>
-				<p style="margin-bottom: 0.5rem; font-size: 0.875rem; font-weight: 600;">Max 7 visible (default)</p>
-				<Pagination
-					currentPage={5}
-					totalPages={20}
-					maxVisible={7}
-					onPageChange={onPageChangeFn}
-				/>
+				<p style="margin-bottom: 0.5rem; font-size: 0.875rem; font-weight: 600;">
+					Max 7 visible (default)
+				</p>
+				<Pagination currentPage={5} totalPages={20} maxVisible={7} onPageChange={onPageChangeFn} />
 			</div>
 			<div>
 				<p style="margin-bottom: 0.5rem; font-size: 0.875rem; font-weight: 600;">Max 9 visible</p>
-				<Pagination
-					currentPage={5}
-					totalPages={20}
-					maxVisible={9}
-					onPageChange={onPageChangeFn}
-				/>
+				<Pagination currentPage={5} totalPages={20} maxVisible={9} onPageChange={onPageChangeFn} />
 			</div>
 		</div>
 	{/snippet}
@@ -128,9 +107,18 @@
 			<table style="width: 100%; border-collapse: collapse;">
 				<thead style="background: #f9fafb;">
 					<tr>
-						<th style="padding: 0.75rem; text-align: left; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: #6b7280;">ID</th>
-						<th style="padding: 0.75rem; text-align: left; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: #6b7280;">Name</th>
-						<th style="padding: 0.75rem; text-align: left; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: #6b7280;">Status</th>
+						<th
+							style="padding: 0.75rem; text-align: left; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: #6b7280;"
+							>ID</th
+						>
+						<th
+							style="padding: 0.75rem; text-align: left; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: #6b7280;"
+							>Name</th
+						>
+						<th
+							style="padding: 0.75rem; text-align: left; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: #6b7280;"
+							>Status</th
+						>
 					</tr>
 				</thead>
 				<tbody>
@@ -144,11 +132,7 @@
 				</tbody>
 			</table>
 			<div style="padding: 1rem; border-top: 1px solid #e5e7eb; background: #f9fafb;">
-				<Pagination
-					currentPage={page1}
-					totalPages={10}
-					onPageChange={(p) => page1 = p}
-				/>
+				<Pagination currentPage={page1} totalPages={10} onPageChange={(p) => (page1 = p)} />
 			</div>
 		</div>
 	{/snippet}
